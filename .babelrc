@@ -1,0 +1,8 @@
+{
+    "presets": [
+        ["env", {
+            "modules": false
+        }], "react"
+    ],
+    "plugins": ["babel-plugin-styled-components", "transform-runtime", "transform-object-rest-spread"]
+}
