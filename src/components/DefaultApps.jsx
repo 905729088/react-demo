@@ -10,17 +10,38 @@ export default class DefaultApps extends React.Component {
     render() {
         const styles = DefaultApps.styles;
         return (<div style={styles.background}>
-            <div>选择默认应用</div>
-            <VLayout>
+            <div  style={styles.defaultAppsHeader}>选择默认应用</div>
+            <div style={styles.defaultAppsMain}>
                 <DefaultAppRow />
-            </VLayout>
+                <DefaultAppRow />
+                <DefaultAppRow />
+                <DefaultAppRow />
+                <DefaultAppRow />
+                <DefaultAppRow />
+                <DefaultAppRow />
+                <DefaultAppRow />
+                <DefaultAppRow />
+            </div>
         </div>)
     }
 }
 
 DefaultApps.styles = {
     background: {
+        padding:'10px 0 0 40px',
         width:'520px',
+        overflow: 'hidden',
         boxSizing: 'border-box',
-    }
+    },
+    defaultAppsHeader: {
+        fontSize: '24px',
+        fontWeight:'bold'
+    },
+    defaultAppsMain: {
+        marginTop: '30px',
+        paddingRight:'35px',
+        height: '670px',
+        overflowY:'auto',
+        fontWeight: 'bold',
+    },
 }

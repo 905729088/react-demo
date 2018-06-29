@@ -45,9 +45,10 @@ CreateModal.styles = {
         position: "absolute",
         width:'930px',
         background: "#fff",
-        top: 25,
-        left: "10%",
+        top:'130px',
+        left: "50%",
         right: "10%",
+        transform:'translateX(-50%)',
         padding: '15px 15px 100px 50px',
         border: "2px solid #444",
         borderRadius:'6px'
