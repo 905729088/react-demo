@@ -4,6 +4,7 @@ import Home from './Home.jsx'
 import Login from './Login.jsx'
 import CreateModal from './CreateModal.jsx'
 import AppContent from './AppContent.jsx'
+import CodeContent from './CodeContent.jsx'
 import Register from './Register.jsx'
 import {Route,Redirect,Switch} from 'react-router-dom'
 import AuthContext from '../auth-context.js'
@@ -22,6 +23,7 @@ export default class Container extends React.Component {
                         <PrivateRoute path="/home" component={Home} />
                         <PrivateRoute path="/create" component={CreateModal} />
                         <PrivateRoute path="/tree/:appName" component={AppContent} />
+                        <PrivateRoute path="/code" component={CodeContent} />
                     </Switch>
                 </div>)
             }}

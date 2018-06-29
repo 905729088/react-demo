@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Layout, VLayout } from './Layout.jsx'
+import AuthContext from '../auth-context.js'
 import MyApps from './MyApps.jsx'
 
 
@@ -8,21 +9,27 @@ export default class NewAppList extends React.Component {
     constructor(props) {
         super(props)
     }
-
+    componentDidMount() { 
+        console.log('123123123',G.api.login())
+    }
     render() {
         const styles = NewAppList.styles;
-        return (<VLayout  style={styles.background} >
-            <div >
-                <div style={styles.createHeader}>创建新应用</div>
-                <Link to="/create" >
-                    <div style={styles.createMain}>
-                        <span style={styles.createMainLeft}>+</span>
-                        <span>上传应用</span>
-                        </div>
-                </Link>
-            </div>
-            <MyApps></MyApps>
-        </VLayout>)
+        return (
+            <AuthContext.Consumer>
+                 <VLayout style={styles.background} >
+                    <div >
+                        <div style={styles.createHeader}>创建新应用</div>
+                        <Link to="/create" >
+                            <div style={styles.createMain}>
+                                <span style={styles.createMainLeft}>+</span>
+                                <span>上传应用</span>
+                                </div>
+                        </Link>
+                    </div>
+                    <MyApps></MyApps>
+                </VLayout>
+            </AuthContext.Consumer>
+           )
     }
 }
 NewAppList.styles = {
