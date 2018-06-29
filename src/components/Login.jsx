@@ -12,14 +12,22 @@ export default class Login extends React.Component{
             name: '',
             password: ''
         }
-        this.changeName = this.changeName.bind(this)
-        this.changePass = this.changePass.bind(this)
+        this.handleInputChange = this.handleInputChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+
     }
-    changeName(event){
-        this.setState({})
+
+    handleInputChange(e) {
+        const value = e.target.value
+        const name = e.target.name
+        this.setState({
+            [name]: value
+        })
     }
-    changePass(event) {
-        this.setState({})
+
+    handleSubmit(e) {
+        e.preventDefault()
+        console.log('state',this.state)
     }
     render() {
         const styles = Login.styles;
@@ -32,15 +40,15 @@ export default class Login extends React.Component{
                             <div style={styles.loginHeader}>
                                 <p>登录到xx云平台</p>
                             </div>
-                            <form>
+                            <form onSubmit={this.handleSubmit}>
                                 <VLayout style={styles.loginForm}>
                                     <div style={styles.loginFormItem}>
                                         <div style={styles.loginFormItemHeader}>用户名</div>
-                                        <input style={styles.loginFormItemInput} placeholder='输入用户名' type="text" />
+                                        <input style={styles.loginFormItemInput} placeholder='输入用户名' type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
                                     </div>
                                     <div style={styles.loginFormItem}>
                                         <div style={styles.loginFormItemHeader} >密码</div>
-                                        <div><input style={styles.loginFormItemInput} placeholder='输入用户名' type="password" /></div>
+                                        <div><input style={styles.loginFormItemInput} placeholder='输入用户名' type="password" name="password" value={this.state.password} onChange={this.handleInputChange} /></div>
                                     </div>
                                     <div style={styles.loginFormItem}>
                                         <input style={styles.loginFormItemSubmit} type="submit" value="登陆" />
