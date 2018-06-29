@@ -12,7 +12,7 @@ export default class AppContent extends React.Component {
             <div style={styles.center}>
                 <div style={styles.appContentHeader}>
                     <div> {match.params.appName}</div>
-                    <div >
+                    <div>
                         <input type="text" style={styles.appContentHeaderEdition} placeholder='版本管理' list='varList' />
                         <datalist id='varList'>
                             <option style={styles.appContentHeaderEditionOption}>321312</option>

@@ -1,37 +1,68 @@
 import React from 'react'
+import AuthContext from '../auth-context.js'
 
 export default class CreateModal extends React.Component {
     constructor(props) {
         super(props)
         this.handleBack = this.handleBack.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleBack(e) {
         e.stopPropagation()
         this.props.history.goBack()
     }
+    handleSubmit(auth, e) {
+        e.preventDefault()
+        console.log('file---', this.fileInput.files[0])
+        const sid = auth.sid
+        const fileInfo = this.fileInput.files[0]
+        this.uploadApp(sid, fileInfo)
+    }
+
+    async uploadApp(sid, fileInfo) {
+        const tempFileId = await G.api.opentempfile(sid)
+        console.log('tempFileId---', tempFileId)
+        await G.api.setlfiledata(sid, tempFileId, 0, await this.readBlob(fileInfo))
+        const fileid = await G.api.temp2lfile(sid, tempFileId)
+        const appid = await G.api.uploadapp(sid, fileid)
+        console.log('appid', appid);
+    }
+
+    readBlob(blob) {
+        const reader = new FileReader()
+        return new Promise(resolve => {
+            reader.onloadend = () => {
+                resolve(reader.result)
+            }
+            reader.readAsArrayBuffer(blob)
+        })
+    }
+
     render() {
         const styles = CreateModal.styles
-        return (<div style={styles.modal}>
-            <form style={styles.content}>
-                <div style={styles.contentHeader}>新建应用</div>
-                <div style={styles.contentText}>
-                    <textarea style={styles.contentTextConent} />
+        return (<AuthContext.Consumer>
+            {auth => (
+                <div style={styles.modal}>
+                    <form style={styles.content} onSubmit={this.handleSubmit.bind(this, auth)}>
+                        <div style={styles.contentHeader}>新建应用</div>
+                        <div style={styles.contentText}>
+                            <textarea style={styles.contentTextConent} />
+                        </div>
+                        <div style={styles.contentFile}>
+                            <input type="file" style={styles.contentFileMain} ref={input => {this.fileInput = input}} />
+                        </div>
+                        <div style={styles.contentSubmit}>
+                            <div  style={styles.contentSubmitH}  onClick={this.handleBack}>返回</div>
+                            <input style={styles.contentSubmitF} type="submit" value="发布" />
+                        </div>
+                    </form>
                 </div>
-                <div style={styles.contentFile}>
-                    <input type="file" style={styles.contentFileMain} />
-                </div>
-                <div style={styles.contentSubmit}>
-                    <div  style={styles.contentSubmitH}>返回</div>
-                    <input style={styles.contentSubmitF} type="submit" value="发布" onClick={this.handleBack} />
-                   
-                </div>
-               
-            </form>
-        </div>)
+            )}
+        </AuthContext.Consumer>)
+        }
     }
-}
-
+    
 CreateModal.styles = {
     modal: {
         position: 'absolute',
