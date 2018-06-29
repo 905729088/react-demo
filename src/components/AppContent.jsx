@@ -7,7 +7,6 @@ export default class AppContent extends React.Component {
 
     render() {
         const match = this.props.match
-        console.log('appName---', match.params.appName);
         
         return (<div>
             <div>{match.appName}</div>
