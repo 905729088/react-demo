@@ -24,11 +24,10 @@ export default class HashRoute extends React.Component {
             }))
             
         }
-
         this.state = {
             isAuthenticated: false,
             sid:'',
-            user: null,
+            user:null,
             login: this.login,
             logout: this.logout,
         }
