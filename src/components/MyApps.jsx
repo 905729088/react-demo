@@ -8,11 +8,35 @@ export default class MyApps extends React.Component {
     }
 
     render() {
-        return (<div>
-            <div>我的上传</div>
-            <VLayout>
+        const styles = MyApps.styles;
+        return (<div  style={styles.background}>
+            <div  style={styles.myAppsHeader}>我的上传</div>
+            <div style={styles.myAppsMain}>
                 <MyAppRow />
-            </VLayout>
+                <MyAppRow />
+                <MyAppRow />
+                <MyAppRow />
+                <MyAppRow />
+                <MyAppRow />
+            </div>
         </div>)
     }
+}
+
+MyApps.styles = {
+    background: {
+       paddingTop:'50px',
+        overflow: 'hidden',
+    },
+    myAppsHeader: {
+        fontSize: '24px',
+        fontWeight:'bold'
+    },
+    myAppsMain: {
+        marginTop: '30px',
+        paddingRight:'35px',
+        height: '460px',
+        overflowY:'auto',
+        fontWeight: 'bold',
+    },
 }

@@ -8,15 +8,66 @@ export default class MyAppRow extends React.Component{
     }
 
     render() {
-        return (<HLayout>
-            <div>
-                <span>logo</span>
+        const styles = MyAppRow.styles;
+        return (<HLayout style={styles.background}>
+            <HLayout style={styles.MyAppRowLeft}>
+                <span>1.</span>
+                <span style={styles.MyAppRowLeftLogin}>logo</span>
                 <span>应用名</span>
-            </div>
-            <div>
-                <Link to="/tree/testApp"><span>编辑</span></Link>
-                <span>删除</span>
+            </HLayout>
+            <div style={styles.MyAppRowRight}>
+                <Link to="/tree/testApp" style={styles.MyAppRowRightEdit} ><span>编辑</span></Link>
+                <span style={styles.MyAppRowRightDele}>删除</span>
             </div>
         </HLayout>)
+    }
+}
+
+MyAppRow.styles = {
+    background: {
+        marginBottom:'30px',
+        justifyContent: 'space-between',
+    },
+    MyAppRowLeft: {
+        fontSize: '26px',
+        alignItems:'center'
+    },
+    MyAppRowLeftLogin: {
+        display: 'block',
+        margin:'0 20px',
+        width: '60px',
+        height:'60px',
+        fontSize: '18px',
+        lineHeight: '60px',
+        textAlign:'center',
+        border: '1px solid #BBBBBB',
+        borderRadius:'100%'
+    },
+    MyAppRowRight: {
+        display:'flex',
+        width:'200px',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    MyAppRowRightEdit: {
+        width: '85px',
+        height: '40px',
+        lineHeight: '40px',
+        alignItems: 'center',
+        textAlign: 'center',
+        fontSize:'18px',
+        border: '1px solid #BBBBBB',
+        borderRadius: '6px',
+        backgroundColor:'#D9D9D9'
+    },
+    MyAppRowRightDele: {
+        width: '85px',
+        height: '40px',
+        lineHeight: '40px',
+        alignItems: 'center',
+        textAlign: 'center',
+        fontSize:'18px',
+        border: '1px solid #BBBBBB',
+        borderRadius: '6px',
     }
 }

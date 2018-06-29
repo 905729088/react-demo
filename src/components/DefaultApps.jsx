@@ -8,11 +8,19 @@ export default class DefaultApps extends React.Component {
     }
 
     render() {
-        return (<div>
+        const styles = DefaultApps.styles;
+        return (<div style={styles.background}>
             <div>选择默认应用</div>
             <VLayout>
                 <DefaultAppRow />
             </VLayout>
         </div>)
+    }
+}
+
+DefaultApps.styles = {
+    background: {
+        width:'520px',
+        boxSizing: 'border-box',
     }
 }
