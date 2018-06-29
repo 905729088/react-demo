@@ -6,23 +6,29 @@ import AuthContext from './auth-context.js'
 
 export default class HashRoute extends React.Component {
     constructor(props) {
-        super(props);
-        this.login = () => {
-            console.log('login');
+        super(props)
+        this.login = (info) => {
+            console.log('login',info)
             this.setState(state => ({
-                isAuthenticated: true
+                isAuthenticated: true,
+                sid: info.sid,
+                user: info.user
             }))
         }
         this.logout = () => {
             console.log('logout');
             this.setState(state => ({
-                isAuthenticated: false
+                isAuthenticated: false,
+                sid: '',
+                user: null
             }))
             
         }
 
         this.state = {
-            isAuthenticated: true,
+            isAuthenticated: false,
+            sid:'',
+            user: null,
             login: this.login,
             logout: this.logout,
         }
