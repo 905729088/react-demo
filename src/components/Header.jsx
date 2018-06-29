@@ -1,6 +1,7 @@
 import React from 'react'
 import AuthContext from '../auth-context.js'
 import { HLayout } from './Layout.jsx'
+import { Link } from 'react-router-dom'
 
 export default class Header extends React.Component {
     constructor(props) {
@@ -11,11 +12,11 @@ export default class Header extends React.Component {
         const styles = Header.styles
         return (<AuthContext.Consumer>
             {auth => {
-                const setDom = auth.isAuthenticated ? 'welcome': '登陆/注册'
+                const setDom = auth.isAuthenticated ? 'welcome' : <div><Link to="/login">登陆</Link> / <Link to="/join">注册</Link></div>
                 return (<div style={styles.background}>
                     <HLayout style={styles.main}>
                         <div>云平台</div>
-                        <div>{setDom}</div>
+                        {setDom}
                     </HLayout>
                 </div>)
             }}
