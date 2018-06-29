@@ -24,31 +24,33 @@ export default class Login extends React.Component{
     render() {
         const styles = Login.styles;
         return(<AuthContext.Consumer>
-            {auth => (
-                <div style={styles.background}>
-                    <VLayout style={styles.center}>
-                        <div  style={styles.loginHeader}>
-                            <p>登录到xx云平台</p>
-                        </div>
-                        <form>
-                            <VLayout style={styles.loginForm}>
-                                <div style={styles.loginFormItem}>
-                                    <div style={styles.loginFormItemHeader}>用户名</div>
-                                    <input style={styles.loginFormItemInput} placeholder='输入用户名' type="text" />
-                                </div>
-                                <div style={styles.loginFormItem}>
-                                    <div style={styles.loginFormItemHeader} >密码</div>
-                                    <div><input style={styles.loginFormItemInput} placeholder='输入用户名' type="password" /></div>
-                                </div>
-                                <div style={styles.loginFormItem}>
-                                    <input style={styles.loginFormItemSubmit} type="submit" value="登陆" />
-                                </div>
-                            </VLayout>
-                        </form>
-                       
-                    </VLayout>
-                </div>
-            )}
+            {auth => { 
+                return auth.isAuthenticated ? <Redirect to={{ pathname: "/home" }} />
+                    :
+                    <div style={styles.background}>
+                        <VLayout style={styles.center}>
+                            <div style={styles.loginHeader}>
+                                <p>登录到xx云平台</p>
+                            </div>
+                            <form>
+                                <VLayout style={styles.loginForm}>
+                                    <div style={styles.loginFormItem}>
+                                        <div style={styles.loginFormItemHeader}>用户名</div>
+                                        <input style={styles.loginFormItemInput} placeholder='输入用户名' type="text" />
+                                    </div>
+                                    <div style={styles.loginFormItem}>
+                                        <div style={styles.loginFormItemHeader} >密码</div>
+                                        <div><input style={styles.loginFormItemInput} placeholder='输入用户名' type="password" /></div>
+                                    </div>
+                                    <div style={styles.loginFormItem}>
+                                        <input style={styles.loginFormItemSubmit} type="submit" value="登陆" />
+                                    </div>
+                                </VLayout>
+                            </form>
+
+                        </VLayout>
+                    </div>
+            }}
         </AuthContext.Consumer>)
     }
 }
