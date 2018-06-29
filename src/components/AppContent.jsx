@@ -1,5 +1,6 @@
 import React from 'react'
-
+import { HLayout } from './Layout.jsx';
+import { Link } from 'react-router-dom';
 export default class AppContent extends React.Component {
     constructor(props) {
         super(props)
@@ -24,7 +25,13 @@ export default class AppContent extends React.Component {
                     </div>
                    
                 </div>
-                <div  style={styles.appContentMain}>123</div>
+                <div style={styles.appContentMain}>
+                    <HLayout style={styles.appContentMainitem}>
+                        <Link to='/code' style={styles.appContentMainitemFileName}><span>文件名.js</span></Link>
+                        <div style={styles.appContentMainitemFileDescribe}>我在描述</div>
+                    </HLayout>
+                  
+                </div>
             </div>
         </div>)
     }
@@ -63,6 +70,28 @@ AppContent.styles = {
         color:'red'
     },
     appContentMain: {
-        width: '100%'
+        marginTop:'20px',
+        width: '100%',
+        height: '540px',
+        overflowY:'auto'
+    },
+    appContentMainitem: {
+        fontSize: '18px',
+        height: '60px',
+        lineHeight:'60px',
+        border:'1px solid #BBBBBB',
+    },
+    appContentMainitemFileName: {
+        width: '400px',
+        marginLeft: '20px',
+    },
+    appContentMainitemFileDescribe: {
+        boxSizing: 'border-box',
+        paddingRight:'40px',
+        width: '100%',
+        textIndent:'50px',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        overflow:'hidden'
     },
 }
