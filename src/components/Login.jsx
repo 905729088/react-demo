@@ -25,9 +25,20 @@ export default class Login extends React.Component{
         })
     }
 
-    handleSubmit(e) {
+    handleSubmit(login, e) {
         e.preventDefault()
-        console.log('state',this.state)
+        const name = this.state.name
+        const pass = this.state.password
+        if (name && pass) {
+            G.api.login(name, pass, 'byname').then(user => {
+                login(user)
+            }).catch((err) => {
+                console.error(err)
+                alert('用户名或密码错误！')
+            })
+        } else {
+            alert('用户名或密码不能为空！')
+        }
     }
     render() {
         const styles = Login.styles;
@@ -40,7 +51,7 @@ export default class Login extends React.Component{
                             <div style={styles.loginHeader}>
                                 <p>登录到xx云平台</p>
                             </div>
-                            <form onSubmit={this.handleSubmit}>
+                            <form onSubmit={this.handleSubmit.bind(this, auth.login)}>
                                 <VLayout style={styles.loginForm}>
                                     <div style={styles.loginFormItem}>
                                         <div style={styles.loginFormItemHeader}>用户名</div>
