@@ -25,9 +25,9 @@ export default class HashRoute extends React.Component {
             
         }
         this.state = {
-            isAuthenticated: true,//false
+            isAuthenticated: false,
             sid:'',
-            user: {name:'test'},//null
+            user: null,//null{name:'test'}
             login: this.login,
             logout: this.logout,
         }
