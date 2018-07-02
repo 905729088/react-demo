@@ -17,7 +17,7 @@ export default class AppContent extends React.Component {
 
     async getAsyncInfo() {
         const appName = this.props.match.params.appName
-        const sid = this.props.location.state.sid
+        const sid = sessionStorage.getItem('current_sid')
         if (appName && sid) {
             const versions = await G.api.getvar(sid, 'appversions', appName)
             const packages = await this.getPackages()
@@ -31,7 +31,7 @@ export default class AppContent extends React.Component {
 
     async getPackages(ver='last') {
         const appName = this.props.match.params.appName
-        const sid = this.props.location.state.sid
+        const sid = sessionStorage.getItem('current_sid')
         const packageInfo = await G.api.getvar(sid, 'apppackage', appName, ver)
         if (packageInfo) {
             return packageInfo.name2ID

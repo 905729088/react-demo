@@ -4,7 +4,25 @@ import { HLayout } from './Layout.jsx';
 export default class CodeContent extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            content : ''
+        }
     }
+
+    componentDidMount() {
+        this.getCode()
+    }
+
+    async getCode() {
+        const packageid = this.props.location.state.packageid
+        const sid = sessionStorage.getItem('current_sid')
+        const uint8 = await G.api.getlfiledata(sid, packageid, 0, -1)
+        const code = new TextDecoder('utf-8').decode(uint8)
+        this.setState({
+            content: code
+        })
+    }
+
 
     render() {
         const match = this.props.match
@@ -13,28 +31,14 @@ export default class CodeContent extends React.Component {
             <div style={styles.center}>
                 <div style={styles.codeContentHeader}>
                     <div> 代码详情</div>
-                    <div >
-                        <input type="text" style={styles.codeContentHeaderEdition} placeholder='版本管理' list='varList' />
-                        <datalist id='varList'>
-                            <option style={styles.codeContentHeaderEditionOption}>321312</option>
-                            <option  style={styles.codeContentHeaderEditionOption}>321312</option>
-                            <option  style={styles.codeContentHeaderEditionOption}>321312</option>
-                            <option  style={styles.codeContentHeaderEditionOption}>321312</option>
-                            <option  style={styles.codeContentHeaderEditionOption}>321312</option>
-                        </datalist>
-                    </div>
                    
                 </div>
                 <div style={styles.codeContentMain}>
                     <HLayout style={styles.codeContentMainHeader}>
-                        <div  style={styles.codeContentMainHeaderLeft}><span>RCTActionSheet.xcodeproj.js</span></div>
-                        <div style={styles.codeContentMainHeaderRight}>
-                            <span>17行（12sloc）</span>
-                            <span>| 426字节</span>
-                        </div>
+                        <div style={styles.codeContentMainHeaderLeft}><span>{match.params.packageName}</span></div>
                     </HLayout>
                     <div style={styles.codeContentMainContent}>
-                            <textarea style={styles.codeContentMainContentText} />
+                        <textarea style={styles.codeContentMainContentText} value={this.state.content} />
                     </div>
                 </div>
             </div>

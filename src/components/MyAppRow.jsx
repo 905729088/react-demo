@@ -18,7 +18,7 @@ export default class MyAppRow extends React.Component{
                 <span><a href={appUri} target="_blank">{appInfo.name}</a></span>
             </HLayout>
             <div style={styles.MyAppRowRight}>
-                <Link to={{ pathname: `/tree/${appInfo.name}`, state: { sid: this.props.sid } }} style={styles.MyAppRowRightEdit} ><span>编辑</span></Link>
+                <Link to={{ pathname: `/tree/${appInfo.name}`}} style={styles.MyAppRowRightEdit} ><span>编辑</span></Link>
                 <span style={styles.MyAppRowRightDele}>删除</span>
             </div>
         </HLayout>)

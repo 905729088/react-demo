@@ -8,7 +8,7 @@ export default class HashRoute extends React.Component {
     constructor(props) {
         super(props)
         this.login = (info) => {
-            console.log('login',info)
+            sessionStorage.setItem('current_sid', info.sid)
             this.setState(state => ({
                 isAuthenticated: true,
                 sid: info.sid,
@@ -16,7 +16,7 @@ export default class HashRoute extends React.Component {
             }))
         }
         this.logout = () => {
-            console.log('logout');
+            sessionStorage.removeItem('current_sid')
             this.setState(state => ({
                 isAuthenticated: false,
                 sid: '',
