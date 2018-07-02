@@ -23,7 +23,7 @@ export default class Container extends React.Component {
                         <PrivateRoute path="/home" component={Home} />
                         <PrivateRoute path="/create" component={CreateModal} />
                         <PrivateRoute path="/tree/:appName" component={AppContent} />
-                        <PrivateRoute path="/code" component={CodeContent} />
+                        <PrivateRoute path="/code/:appVer/:packageName" component={CodeContent} />
                     </Switch>
                 </div>)
             }}

@@ -4,33 +4,72 @@ import { Link } from 'react-router-dom';
 export default class AppContent extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            versions: [],
+            currentVer: 'last',
+            packages: [],
+        }
+    }
+
+    componentDidMount() {
+        this.getAsyncInfo()
+    }
+
+    async getAsyncInfo() {
+        const appName = this.props.match.params.appName
+        const sid = this.props.location.state.sid
+        if (appName && sid) {
+            const versions = await G.api.getvar(sid, 'appversions', appName)
+            const packages = await this.getPackages()
+            
+            this.setState({
+                versions,
+                packages
+            })
+        }
+    }
+
+    async getPackages(ver='last') {
+        const appName = this.props.match.params.appName
+        const sid = this.props.location.state.sid
+        const packageInfo = await G.api.getvar(sid, 'apppackage', appName, ver)
+        if (packageInfo) {
+            return packageInfo.name2ID
+        }
+        return []
     }
 
     render() {
         const match = this.props.match
-        const styles = AppContent.styles;
+        const styles = AppContent.styles
+        const currentVer = this.state.currentVer
+        const versions = this.state.versions.map((ver, i) =>
+            <option style={styles.appContentHeaderEditionOption} key={i}>{ver}</option>
+        )
+        const packages = this.state.packages
+        const packageNames = Object.keys(packages)
+        console.log('this.state.versions', this.state.versions);
+        
+        let packageDoms = '...'
+        packageDoms = packageNames && packageNames.length? packageNames.map((name, i) =>
+            <HLayout style={styles.appContentMainitem} key={i}>
+                <Link to={{ pathname: `/code/${currentVer}/${name}`, state: { packageid: packages[name] } }} style={styles.appContentMainitemFileName}><span>{name}</span></Link>
+            </HLayout>
+        ) : null
         return (<div style={styles.background}>
             <div style={styles.center}>
                 <div style={styles.appContentHeader}>
                     <div> {match.params.appName}</div>
                     <div>
-                        <input type="text" style={styles.appContentHeaderEdition} placeholder='版本管理' list='varList' />
+                        <input type="text" style={styles.appContentHeaderEdition} placeholder='版本管理' list='verList' />
                         <datalist id='varList'>
-                            <option style={styles.appContentHeaderEditionOption}>321312</option>
-                            <option  style={styles.appContentHeaderEditionOption}>321312</option>
-                            <option  style={styles.appContentHeaderEditionOption}>321312</option>
-                            <option  style={styles.appContentHeaderEditionOption}>321312</option>
-                            <option  style={styles.appContentHeaderEditionOption}>321312</option>
+                            {versions}
                         </datalist>
                     </div>
                    
                 </div>
                 <div style={styles.appContentMain}>
-                    <HLayout style={styles.appContentMainitem}>
-                        <Link to='/code' style={styles.appContentMainitemFileName}><span>文件名.js</span></Link>
-                        <div style={styles.appContentMainitemFileDescribe}>我在描述</div>
-                    </HLayout>
-                  
+                    {packageDoms}
                 </div>
             </div>
         </div>)

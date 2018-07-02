@@ -17,7 +17,6 @@ export default class MyApps extends React.Component {
     async getAppList() {
         const sid = this.props.sid
         const appList = await G.api.getvar(sid, 'appinfos')
-        console.log('appInfos', appList)
         this.setState({
             appList
         })
@@ -29,7 +28,7 @@ export default class MyApps extends React.Component {
         const appList = this.state.appList
         if (appList) {
             row = appList.map((app,i) => 
-                <MyAppRow key={app.iD} appInfo={app} index={i+1} />
+                <MyAppRow key={app.iD} appInfo={app} index={i + 1} sid={this.props.sid} />
             )
         }
         return (<div  style={styles.background}>
