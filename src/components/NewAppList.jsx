@@ -10,24 +10,26 @@ export default class NewAppList extends React.Component {
         super(props)
     }
     componentDidMount() { 
-        console.log('123123123',G.api.login())
+       // console.log('123123123',AuthContext.user)
     }
     render() {
         const styles = NewAppList.styles;
         return (
             <AuthContext.Consumer>
-                 <VLayout style={styles.background} >
+                {auth => (
+                    <VLayout style={styles.background} >
                     <div >
                         <div style={styles.createHeader}>创建新应用</div>
                         <Link to="/create" >
                             <div style={styles.createMain}>
                                 <span style={styles.createMainLeft}>+</span>
-                                <span>上传应用</span>
+                                    <span>上传应用</span>
                                 </div>
                         </Link>
                     </div>
                     <MyApps></MyApps>
                 </VLayout>
+                )} 
             </AuthContext.Consumer>
            )
     }
