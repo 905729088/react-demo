@@ -5,19 +5,37 @@ import MyAppRow from './MyAppRow.jsx'
 export default class MyApps extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            appList: null
+        }
+    }
+
+    componentDidMount() {
+        this.getAppList()
+    }
+
+    async getAppList() {
+        const sid = this.props.sid
+        const appList = await G.api.getvar(sid, 'appinfos')
+        console.log('appInfos', appList)
+        this.setState({
+            appList
+        })
     }
 
     render() {
-        const styles = MyApps.styles;
+        const styles = MyApps.styles
+        let row = '...'
+        const appList = this.state.appList
+        if (appList) {
+            row = appList.map((app,i) => 
+                <MyAppRow key={app.iD} appInfo={app} index={i+1} />
+            )
+        }
         return (<div  style={styles.background}>
             <div  style={styles.myAppsHeader}>我的上传</div>
             <div style={styles.myAppsMain}>
-                <MyAppRow />
-                <MyAppRow />
-                <MyAppRow />
-                <MyAppRow />
-                <MyAppRow />
-                <MyAppRow />
+                {row}
             </div>
         </div>)
     }

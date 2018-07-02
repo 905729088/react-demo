@@ -27,7 +27,7 @@ export default class NewAppList extends React.Component {
                                 </div>
                         </Link>
                     </div>
-                    <MyApps></MyApps>
+                        <MyApps sid={auth.sid} user={auth.user}></MyApps>
                 </VLayout>
                 )} 
             </AuthContext.Consumer>

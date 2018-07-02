@@ -12,6 +12,7 @@ export default class CreateModal extends React.Component {
         e.stopPropagation()
         this.props.history.goBack()
     }
+
     handleSubmit(auth, e) {
         e.preventDefault()
         console.log('file---', this.fileInput.files[0])
@@ -26,7 +27,9 @@ export default class CreateModal extends React.Component {
         await G.api.setlfiledata(sid, tempFileId, 0, await this.readBlob(fileInfo))
         const fileid = await G.api.temp2lfile(sid, tempFileId)
         const appid = await G.api.uploadapp(sid, fileid)
-        console.log('appid', appid);
+        const appInfo = await G.api.getvar(sid, 'appinfo', appid)
+        console.log('appid', appid)
+        console.log('appInfo', appInfo)
     }
 
     readBlob(blob) {

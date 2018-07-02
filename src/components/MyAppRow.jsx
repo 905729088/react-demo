@@ -9,14 +9,16 @@ export default class MyAppRow extends React.Component{
 
     render() {
         const styles = MyAppRow.styles;
+        const appInfo = this.props.appInfo
+        const appUri = `http://${G.currentIP}/entry?author=${appInfo.author}&app=${appInfo.name}&ver=last`
         return (<HLayout style={styles.background}>
             <HLayout style={styles.MyAppRowLeft}>
-                <span>1.</span>
+                <span>{this.props.index}</span>
                 <span style={styles.MyAppRowLeftLogin}>logo</span>
-                <span>应用名</span>
+                <span><a href={appUri} target="_blank">{appInfo.name}</a></span>
             </HLayout>
             <div style={styles.MyAppRowRight}>
-                <Link to="/tree/testApp" style={styles.MyAppRowRightEdit} ><span>编辑</span></Link>
+                <Link to={`/tree/${appInfo.name}`} style={styles.MyAppRowRightEdit} ><span>编辑</span></Link>
                 <span style={styles.MyAppRowRightDele}>删除</span>
             </div>
         </HLayout>)
