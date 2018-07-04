@@ -2,7 +2,6 @@ import React from 'react'
 import { HLayout,VLayout } from './Layout.jsx'
 import AuthContext from '../auth-context.js'
 import { styled } from 'styled-components';
-
 import { Redirect } from 'react-router-dom'
 
 export default class Login extends React.Component{

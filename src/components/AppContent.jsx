@@ -1,6 +1,7 @@
 import React from 'react'
 import { HLayout } from './Layout.jsx';
 import { Link } from 'react-router-dom';
+import Dropdown from './Dropdown.jsx';
 export default class AppContent extends React.Component {
     constructor(props) {
         super(props)
@@ -28,7 +29,6 @@ export default class AppContent extends React.Component {
             })
         }
     }
-
     async getPackages(ver='last') {
         const appName = this.props.match.params.appName
         const sid = sessionStorage.getItem('current_sid')
@@ -43,13 +43,8 @@ export default class AppContent extends React.Component {
         const match = this.props.match
         const styles = AppContent.styles
         const currentVer = this.state.currentVer
-        const versions = this.state.versions.map((ver, i) =>
-            <option style={styles.appContentHeaderEditionOption} key={i}>{ver}</option>
-        )
         const packages = this.state.packages
         const packageNames = Object.keys(packages)
-        console.log('this.state.versions', this.state.versions);
-        
         let packageDoms = '...'
         packageDoms = packageNames && packageNames.length? packageNames.map((name, i) =>
             <HLayout style={styles.appContentMainitem} key={i}>
@@ -60,13 +55,10 @@ export default class AppContent extends React.Component {
             <div style={styles.center}>
                 <div style={styles.appContentHeader}>
                     <div> {match.params.appName}</div>
-                    <div>
-                        <input type="text" style={styles.appContentHeaderEdition} placeholder='版本管理' list='verList' />
-                        <datalist id='varList'>
-                            {versions}
-                        </datalist>
-                    </div>
-                   
+                    <Dropdown
+                        styles={{ width: '160px' }}
+                        dataList={this.state.versions}
+                    />
                 </div>
                 <div style={styles.appContentMain}>
                     {packageDoms}
@@ -94,20 +86,7 @@ AppContent.styles = {
         textAlign: 'left',
         justifyContent: 'space-between',
     },
-    appContentHeaderEdition: {
-        width: '160px',
-        height: '30px',
-        textIndent:'20px',
-        border: '1px solid #BBBBBB',
-        borderRadius: '6px',
-        fontSize:'18px',
-        outline: 'none',
-        color:'#AAAAAAA'
-    },
-    appContentHeaderEditionOption: {
-        fontSize: '18px',
-        color:'red'
-    },
+   
     appContentMain: {
         marginTop:'20px',
         width: '100%',
