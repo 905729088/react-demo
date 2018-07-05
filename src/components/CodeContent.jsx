@@ -1,6 +1,6 @@
 import React from 'react'
 import { HLayout } from './Layout.jsx';
-
+import { Link } from 'react-router-dom'
 export default class CodeContent extends React.Component {
     constructor(props) {
         super(props)
@@ -27,11 +27,11 @@ export default class CodeContent extends React.Component {
     render() {
         const match = this.props.match
         const styles = CodeContent.styles;
+        const appName = this.props.match.params.appName;
         return (<div style={styles.background}>
             <div style={styles.center}>
                 <div style={styles.codeContentHeader}>
                     <div> 代码详情</div>
-                   
                 </div>
                 <div style={styles.codeContentMain}>
                     <HLayout style={styles.codeContentMainHeader}>
@@ -41,6 +41,11 @@ export default class CodeContent extends React.Component {
                         <textarea style={styles.codeContentMainContentText} value={this.state.content} />
                     </div>
                 </div>
+                <HLayout style={{marginTop:'20px'}}>
+                    <Link to={{ pathname: `/tree/${appName}`}} style={styles.btnReturn}>返回</Link>  
+                    <div style={styles.btnSubmit}>提交</div>
+                </HLayout>
+               
             </div>
         </div>)
     }
@@ -111,5 +116,23 @@ CodeContent.styles = {
         height: '100%',
         fontSize:'18px',
         resize:'none',
+    },
+    btnSubmit: {
+        marginRight:"20px",
+        width: '90px',
+        height: '35px',
+        textAlign:'center',
+        border: '1px solid #BBBBBB',
+        lineHeight: '35px',
+        cursor:'pointer'
+    }
+    , btnReturn: {
+        marginRight:"20px",
+        width: '90px',
+        height: '35px',
+        textAlign:'center',
+        border: '1px solid #BBBBBB',
+        lineHeight: '35px',
+        cursor:'pointer'
     }
 }

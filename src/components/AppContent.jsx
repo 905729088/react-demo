@@ -45,10 +45,11 @@ export default class AppContent extends React.Component {
         const currentVer = this.state.currentVer
         const packages = this.state.packages
         const packageNames = Object.keys(packages)
+        const appName = this.props.match.params.appName;
         let packageDoms = '...'
         packageDoms = packageNames && packageNames.length? packageNames.map((name, i) =>
             <HLayout style={styles.appContentMainitem} key={i}>
-                <Link to={{ pathname: `/code/${currentVer}/${name}`, state: { packageid: packages[name] } }} style={styles.appContentMainitemFileName}><span>{name}</span></Link>
+                <Link to={{ pathname: `/treeCode/${appName}/${currentVer}/${name}`, state: { packageid: packages[name] } }} style={styles.appContentMainitemFileName}><span>{name}</span></Link>
             </HLayout>
         ) : null
         return (<div style={styles.background}>
