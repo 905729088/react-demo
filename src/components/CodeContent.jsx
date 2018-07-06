@@ -28,22 +28,30 @@ export default class CodeContent extends React.Component {
         const sid = sessionStorage.getItem('current_sid')
         const uint8 = await G.api.getlfiledata(sid, packageid, 0, -1)
         const code = new TextDecoder('utf-8').decode(uint8)
-
+        this.lastCode = code;
         this.setState({
             content: code
         })
     }
-   async onSubmit() { 
-       const file=new Blob([this.state.content],{type:"text/plain;charset=utf-8"});
-       const sid = sessionStorage.getItem('current_sid');
-       const tempFileId = await G.api.opentempfile(sid)
-       await G.api.setlfiledata(sid, tempFileId, 0, await this.readBlob(file))
-       //console.log('111111====》',appid);
-       const fileid = await G.api.temp2lfile(sid, tempFileId)
-      // console.log('2222222====》',appid);
-       const appid = await G.api.uploadappfile(sid, this.props.match.params.appName, this.props.match.params.packageName, fileid)
-    //   console.log('应用更新结果====》',appid);
-        this.props.history.push(`/tree/${this.props.match.params.appName}`)//重定向
+    async onSubmit() { 
+        if (this.lastCode === this.state.content) {
+            console.log('不更新');
+            this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
+        } else {
+            console.log('更新');
+            const file=new Blob([this.state.content],{type:"text/plain;charset=utf-8"});
+            const sid = sessionStorage.getItem('current_sid');
+            const tempFileId = await G.api.opentempfile(sid)
+            await G.api.setlfiledata(sid, tempFileId, 0, await this.readBlob(file))
+            //console.log('111111====》',appid);
+            const fileid = await G.api.temp2lfile(sid, tempFileId)
+            // console.log('2222222====》',appid);
+             const appid = await G.api.uploadappfile(sid, this.props.match.params.appName, this.props.match.params.packageName, fileid)
+            //   console.log('应用更新结果====》',appid);
+            this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
+         }
+       
+       
     }
    
     readBlob(blob) {
@@ -65,7 +73,6 @@ export default class CodeContent extends React.Component {
         const match = this.props.match
         const styles = CodeContent.styles;
         const appName = this.props.match.params.appName;
-        
         return (<div style={styles.background}>
             <div style={styles.center}>
                 <div style={styles.codeContentHeader}>
@@ -80,7 +87,7 @@ export default class CodeContent extends React.Component {
                     </div>
                 </div>
                 <HLayout style={{marginTop:'20px'}}>
-                    <Link to={{ pathname: `/tree/${appName}` }} style={styles.btnReturn}>返回</Link> 
+                    <Link to={{ pathname: `/tree/${appName}/${match.params.appVer}` }} style={styles.btnReturn}>返回</Link> 
                     <div style={styles.btnSubmit} onClick={this.onSubmit}>提交</div> 
                     {/* <Link to={{ pathname: `/tree/${appName}` }} style={styles.btnSubmit} onClick={this.onSubmit}>提交</Link>   */}
                 </HLayout>

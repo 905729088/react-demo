@@ -9,7 +9,8 @@ export default class AppContent extends React.Component {
             versions: [],
             currentVer: 'last',
             packages: [],
-        }
+        };
+        this.onClickselectAppVer = this.onClickselectAppVer.bind(this);
     }
 
     componentDidMount() {
@@ -21,7 +22,7 @@ export default class AppContent extends React.Component {
         const sid = sessionStorage.getItem('current_sid')
         if (appName && sid) {
             const versions = await G.api.getvar(sid, 'appversions', appName)
-            const packages = await this.getPackages()
+            const packages = await this.getPackages(this.props.match.params.appVer)
             
             this.setState({
                 versions,
@@ -29,7 +30,7 @@ export default class AppContent extends React.Component {
             })
         }
     }
-    async getPackages(ver='last') {
+    async getPackages(ver) {
         const appName = this.props.match.params.appName
         const sid = sessionStorage.getItem('current_sid')
         const packageInfo = await G.api.getvar(sid, 'apppackage', appName, ver)
@@ -38,7 +39,14 @@ export default class AppContent extends React.Component {
         }
         return []
     }
-
+    onClickselectAppVer(val) { //选择版本后重新跳转路由
+        //console.log(this.props.match.params.appName,this.props.match.params.appVer,this.props.history);
+        if(val!==this.props.match.params.appVer){
+            this.props.history.push(`/tree/${this.props.match.params.appName}/${val}`)//重定向
+        }
+       
+       
+    }
     render() {
         const match = this.props.match
         const styles = AppContent.styles
@@ -60,6 +68,7 @@ export default class AppContent extends React.Component {
                     <Dropdown
                         styles={{ width: '160px' }}
                         dataList={this.state.versions}
+                        onClick={this.onClickselectAppVer}
                     />
                 </div>
                 <div style={styles.appContentMain}>

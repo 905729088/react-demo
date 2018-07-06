@@ -25,7 +25,7 @@ export default class Dropdown extends React.Component {
             isFocus: false,
             value: val
         });
-        console.log(val);
+        this.props.onClick(val);
     }
     inputFocus() { 
         this.setState({

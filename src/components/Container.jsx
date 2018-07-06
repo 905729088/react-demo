@@ -15,15 +15,16 @@ export default class Container extends React.Component {
             {auth => {
                 const setDom = auth.isAuthenticated ? <Redirect to={{pathname: "/home"}}/>:null
                 return (<div>
-                    {setDom}
+                   
                     <Switch>
                         <Route exact path="/" component={Introduce} />
                         <Route path="/login" component={Login} />
                         <Route path="/join" component={Register} />
                         <PrivateRoute path="/home" component={Home} />
                         <PrivateRoute path="/create" component={CreateModal} />
-                        <PrivateRoute path="/tree/:appName" component={AppContent} />
+                        <PrivateRoute path="/tree/:appName/:appVer" component={AppContent} />
                         <PrivateRoute path="/treeCode/:appName/:appVer/:packageName" component={CodeContent} />
+                        {setDom}
                     </Switch>
                 </div>)
             }}
