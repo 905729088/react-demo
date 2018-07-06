@@ -44,6 +44,7 @@ export default class AppContent extends React.Component {
         const styles = AppContent.styles
         const currentVer = this.state.currentVer
         const packages = this.state.packages
+       
         const packageNames = Object.keys(packages)
         const appName = this.props.match.params.appName;
         let packageDoms = '...'
@@ -64,6 +65,9 @@ export default class AppContent extends React.Component {
                 <div style={styles.appContentMain}>
                     {packageDoms}
                 </div>
+                <HLayout style={{marginTop:'20px'}}>
+                    <Link to={{ pathname: `/home` }} style={styles.btnReturn}>返回</Link> 
+                </HLayout>
             </div>
         </div>)
     }
@@ -92,13 +96,15 @@ AppContent.styles = {
         marginTop:'20px',
         width: '100%',
         height: '540px',
-        overflowY:'auto'
+        overflowY: 'auto',
+        borderTop:'1px solid #BBBBBB',
     },
     appContentMainitem: {
         fontSize: '18px',
         height: '60px',
         lineHeight:'60px',
-        border:'1px solid #BBBBBB',
+        border: '1px solid #BBBBBB',
+        borderTop:'none',
     },
     appContentMainitemFileName: {
         width: '400px',
@@ -112,5 +118,13 @@ AppContent.styles = {
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
         overflow:'hidden'
-    },
+    },btnReturn: {
+        marginRight:"20px",
+        width: '90px',
+        height: '35px',
+        textAlign:'center',
+        border: '1px solid #BBBBBB',
+        lineHeight: '35px',
+        cursor:'pointer'
+    }
 }

@@ -10,6 +10,7 @@ export default class MyAppRow extends React.Component{
     render() {
         const styles = MyAppRow.styles;
         const appInfo = this.props.appInfo
+       // console.log('appInfo=====>',appInfo);
         const appUri = `http://${G.currentIP}/entry?author=${appInfo.author}&app=${appInfo.name}&ver=last`
         return (<HLayout style={styles.background}>
             <HLayout style={styles.MyAppRowLeft}>

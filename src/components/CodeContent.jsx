@@ -1,12 +1,15 @@
 import React from 'react'
 import { HLayout } from './Layout.jsx';
 import { Link } from 'react-router-dom'
+
 export default class CodeContent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             content : ''
         }
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onTextarea = this.onTextarea.bind(this);
     }
 
     componentDidMount() {
@@ -14,20 +17,55 @@ export default class CodeContent extends React.Component {
     }
 
     async getCode() {
-        const packageid = this.props.location.state.packageid
+        let packageid;
+        if (this.props.location.state) {
+
+            packageid= this.props.location.state.packageid;
+        } else { 
+            packageid = sessionStorage.getItem('current_fileId');
+        }
+        sessionStorage.setItem('current_fileId',packageid);
         const sid = sessionStorage.getItem('current_sid')
         const uint8 = await G.api.getlfiledata(sid, packageid, 0, -1)
         const code = new TextDecoder('utf-8').decode(uint8)
+
         this.setState({
             content: code
         })
     }
-
-
+   async onSubmit() { 
+       const file=new Blob([this.state.content],{type:"text/plain;charset=utf-8"});
+       const sid = sessionStorage.getItem('current_sid');
+       const tempFileId = await G.api.opentempfile(sid)
+       await G.api.setlfiledata(sid, tempFileId, 0, await this.readBlob(file))
+       //console.log('111111====》',appid);
+       const fileid = await G.api.temp2lfile(sid, tempFileId)
+      // console.log('2222222====》',appid);
+       const appid = await G.api.uploadappfile(sid, this.props.match.params.appName, this.props.match.params.packageName, fileid)
+    //   console.log('应用更新结果====》',appid);
+        this.props.history.push(`/tree/${this.props.match.params.appName}`)//重定向
+    }
+   
+    readBlob(blob) {
+        const reader = new FileReader()
+        return new Promise(resolve => {
+            reader.onloadend = () => {
+                resolve(reader.result)
+            }
+            reader.readAsArrayBuffer(blob)
+        })
+    }
+    onTextarea() {
+        this.setState({
+            content: this.textarea.value
+        });
+       
+    }
     render() {
         const match = this.props.match
         const styles = CodeContent.styles;
         const appName = this.props.match.params.appName;
+        
         return (<div style={styles.background}>
             <div style={styles.center}>
                 <div style={styles.codeContentHeader}>
@@ -38,12 +76,13 @@ export default class CodeContent extends React.Component {
                         <div style={styles.codeContentMainHeaderLeft}><span>{match.params.packageName}</span></div>
                     </HLayout>
                     <div style={styles.codeContentMainContent}>
-                        <textarea style={styles.codeContentMainContentText} value={this.state.content} />
+                        <textarea style={styles.codeContentMainContentText} ref={textarea => {this.textarea = textarea}} onChange={this.onTextarea} value={this.state.content} />
                     </div>
                 </div>
                 <HLayout style={{marginTop:'20px'}}>
-                    <Link to={{ pathname: `/tree/${appName}`}} style={styles.btnReturn}>返回</Link>  
-                    <div style={styles.btnSubmit}>提交</div>
+                    <Link to={{ pathname: `/tree/${appName}` }} style={styles.btnReturn}>返回</Link> 
+                    <div style={styles.btnSubmit} onClick={this.onSubmit}>提交</div> 
+                    {/* <Link to={{ pathname: `/tree/${appName}` }} style={styles.btnSubmit} onClick={this.onSubmit}>提交</Link>   */}
                 </HLayout>
                
             </div>

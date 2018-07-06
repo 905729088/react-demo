@@ -15,7 +15,7 @@ export default class CreateModal extends React.Component {
 
     handleSubmit(auth, e) {
         e.preventDefault()
-        console.log('file---', this.fileInput.files[0])
+       // console.log('file---', this.fileInput.files[0])
         const sid = auth.sid
         const fileInfo = this.fileInput.files[0]
         this.uploadApp(sid, fileInfo)
@@ -23,13 +23,13 @@ export default class CreateModal extends React.Component {
 
     async uploadApp(sid, fileInfo) {
         const tempFileId = await G.api.opentempfile(sid)
-        console.log('tempFileId---', tempFileId)
+      //  console.log('tempFileId---', tempFileId,fileInfo)
         await G.api.setlfiledata(sid, tempFileId, 0, await this.readBlob(fileInfo))
         const fileid = await G.api.temp2lfile(sid, tempFileId)
         const appid = await G.api.uploadapp(sid, fileid)
         const appInfo = await G.api.getvar(sid, 'appinfo', appid)
-        console.log('appid', appid)
-        console.log('appInfo', appInfo)
+        //console.log('appid', appid)
+       // console.log('appInfo', appInfo)
     }
 
     readBlob(blob) {
@@ -53,7 +53,8 @@ export default class CreateModal extends React.Component {
                             <textarea style={styles.contentTextConent} />
                         </div>
                         <div style={styles.contentFile}>
-                            <input type="file" style={styles.contentFileMain} ref={input => {this.fileInput = input}} />
+                            <label htmlFor="getfile" style={styles.contentFileMain}>上传</label>
+                            <input id='getfile' type="file" style={{display:'none'}} ref={input => {this.fileInput = input}} />
                         </div>
                         <div style={styles.contentSubmit}>
                             <div  style={styles.contentSubmitH}  onClick={this.handleBack}>返回</div>
@@ -108,7 +109,14 @@ CreateModal.styles = {
         width: '100%',
     },
     contentFileMain: {
-        width: '200px',
+        display:'block',
+        height:'85px',
+        width: '185px',
+        lineHeight: '85px',
+        fontSize: '18px',
+        fontWeight:'bold',
+        textAlign:'center',
+        border:'1px dashed #BBBBBB'
     },
     contentSubmit: {
         marginTop: '20px',

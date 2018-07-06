@@ -25,7 +25,7 @@ export default class Register extends React.Component {
         })
     }
     handleSubmit(e) {
-        console.log('state',this.state)
+      //  console.log('state',this.state)
         e.preventDefault()
     }
     render() {

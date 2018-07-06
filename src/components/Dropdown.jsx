@@ -20,11 +20,12 @@ export default class Dropdown extends React.Component {
     }
 
     
-    handleClick(obj) { 
+    handleClick(val) { 
         this.setState({
             isFocus: false,
-            value:obj
-        })
+            value: val
+        });
+        console.log(val);
     }
     inputFocus() { 
         this.setState({
@@ -47,7 +48,7 @@ export default class Dropdown extends React.Component {
                 height: '30px',
                 color:'#AAAAAAA'
             }}  >
-                <input style={styles.main} value={this.state.value} type="text" placeholder='版本管理' disabled />
+                <input style={styles.main}  value={this.state.value} type="text" placeholder='版本管理' disabled />
                 <div style={styles.mainground} onClick={this.inputFocus} ></div>
                 <div style={styles.Triangle} onClick={this.TriangleClick}>
                     <div style={this.state.isFocus ? styles.TriangleHide : styles.TriangleShow} onClick={this.TriangleClick}></div>
