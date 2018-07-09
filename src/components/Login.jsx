@@ -3,8 +3,8 @@ import { HLayout,VLayout } from './Layout.jsx'
 import AuthContext from '../auth-context.js'
 import { styled } from 'styled-components';
 import { Redirect } from 'react-router-dom'
-import { withCookies, Cookies } from 'react-cookie';
-export default class Login extends React.Component{
+
+class Login extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -18,9 +18,8 @@ export default class Login extends React.Component{
     componentDidMount() {
         const msg = JSON.parse(sessionStorage.getItem('current_pass'));
         if (msg) { 
-           // this.onLogin(login,name,pass);
+            this.onLogin(this.props.auth.login,msg.name,msg.pass);
         }
-       console.log('======>',msg)
     }
     handleInputChange(e) {
         const value = e.target.value
@@ -51,16 +50,13 @@ export default class Login extends React.Component{
     }
     render() {
         const styles = Login.styles;
-        return(<AuthContext.Consumer>
-            {auth => { 
-                return auth.isAuthenticated ? <Redirect to={{ pathname: "/home" }} />
-                    :
-                    <div style={styles.background}>
+        return (
+            <div style={styles.background}>
                         <VLayout style={styles.center}>
                             <div style={styles.loginHeader}>
                                 <p>登录到xx云平台</p>
                             </div>
-                            <form onSubmit={this.handleSubmit.bind(this, auth.login)}>
+                            <form onSubmit={this.handleSubmit.bind(this, this.props.auth.login)}>
                                 <VLayout style={styles.loginForm}>
                                     <div style={styles.loginFormItem}>
                                         <div style={styles.loginFormItemHeader}>用户名</div>
@@ -82,12 +78,19 @@ export default class Login extends React.Component{
 
                         </VLayout>
                     </div>
-            }}
-        </AuthContext.Consumer>)
+        )
     }
 }
 
-
+export default  props => (
+    <AuthContext.Consumer>
+         {auth => { 
+                return auth.isAuthenticated ? <Redirect to={{ pathname: "/home" }} />
+                    :
+                 <Login {...props} auth={auth}/>
+            }}
+    </AuthContext.Consumer>
+  );
 
 Login.styles = {
     background: {

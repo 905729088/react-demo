@@ -17,6 +17,7 @@ export default class HashRoute extends React.Component {
         }
         this.logout = () => {
             sessionStorage.removeItem('current_sid')
+            sessionStorage.removeItem('current_pass')
             this.setState(state => ({
                 isAuthenticated: false,
                 sid: '',

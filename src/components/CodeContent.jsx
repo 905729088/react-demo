@@ -35,27 +35,26 @@ export default class CodeContent extends React.Component {
     }
 
     async onSubmit() { 
-        // if (this.lastCode === this.state.content) {
-        //     console.log('不更新');
+        const file = new Blob([this.state.content], { type: "text/plain;charset=utf-8" });
+        const sid = sessionStorage.getItem('current_sid');
+        console.log('=================>',file);
+        const id=await G.api.CreateFileByData(sid,file);
+        //     const file=this.file.files[0];
+        //     console.log(file);
+        //     const sid = sessionStorage.getItem('current_sid');
+        //     const tempFileId = await G.api.opentempfile(sid)
+        //     await G.api.setlfiledata(sid, tempFileId, 0, await this.readBlob(file))
+        //     //console.log('111111====》',appid);
+        //     const fileid = await G.api.temp2lfile(sid, tempFileId)
+        //     // console.log('2222222====》',appid);
+        //     await G.api.uploadappfile(sid, this.props.match.params.appName, this.props.match.params.packageName, fileid)
+        //     //await G.api.uploadapp(sid, fileid)
+        //     console.log('========>',appid);
+        //    // await G.api.getvar("version",sid, this.props.match.params.appName,'lastver') 
+        //     //await G.api.version(sid, this.props.match.params.appName,'lastver','') 
+        //     //   console.log('应用更新结果====》',appid);
         //     this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
-        // } else {
-        //     console.log('更新');
-            const file=this.file.files[0];
-            console.log(file);
-            const sid = sessionStorage.getItem('current_sid');
-            const tempFileId = await G.api.opentempfile(sid)
-            await G.api.setlfiledata(sid, tempFileId, 0, await this.readBlob(file))
-            //console.log('111111====》',appid);
-            const fileid = await G.api.temp2lfile(sid, tempFileId)
-            // console.log('2222222====》',appid);
-            await G.api.uploadappfile(sid, this.props.match.params.appName, this.props.match.params.packageName, fileid)
-            //await G.api.uploadapp(sid, fileid)
-            console.log('========>',appid);
-           // await G.api.getvar("version",sid, this.props.match.params.appName,'lastver') 
-            //await G.api.version(sid, this.props.match.params.appName,'lastver','') 
-            //   console.log('应用更新结果====》',appid);
-            this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
-         //}
+        //  //}
        
        
     }
