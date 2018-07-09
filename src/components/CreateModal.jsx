@@ -18,6 +18,7 @@ export default class CreateModal extends React.Component {
        // console.log('file---', this.fileInput.files[0])
         const sid = auth.sid
         const fileInfo = this.fileInput.files[0]
+       
         this.uploadApp(sid, fileInfo)
     }
 
@@ -25,9 +26,13 @@ export default class CreateModal extends React.Component {
         const tempFileId = await G.api.opentempfile(sid)
       //  console.log('tempFileId---', tempFileId,fileInfo)
         await G.api.setlfiledata(sid, tempFileId, 0, await this.readBlob(fileInfo))
+        console.log('1');
         const fileid = await G.api.temp2lfile(sid, tempFileId)
+        console.log('2');
         const appid = await G.api.uploadapp(sid, fileid)
-        const appInfo = await G.api.getvar(sid, 'appinfo', appid)
+        console.log('3',appid);
+        // const appInfo = await G.api.getvar(sid, 'appinfo', appid)
+        // console.log('4');
         //console.log('appid', appid)
        // console.log('appInfo', appInfo)
     }

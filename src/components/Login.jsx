@@ -3,7 +3,7 @@ import { HLayout,VLayout } from './Layout.jsx'
 import AuthContext from '../auth-context.js'
 import { styled } from 'styled-components';
 import { Redirect } from 'react-router-dom'
-
+import { withCookies, Cookies } from 'react-cookie';
 export default class Login extends React.Component{
     constructor(props){
         super(props)
@@ -15,7 +15,13 @@ export default class Login extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this)
 
     }
-
+    componentDidMount() {
+        const msg = JSON.parse(sessionStorage.getItem('current_pass'));
+        if (msg) { 
+           // this.onLogin(login,name,pass);
+        }
+       console.log('======>',msg)
+    }
     handleInputChange(e) {
         const value = e.target.value
         const name = e.target.name
@@ -28,6 +34,10 @@ export default class Login extends React.Component{
         e.preventDefault()
         const name = this.state.name
         const pass = this.state.password
+        this.onLogin(login,name,pass);
+    }
+    onLogin(login,name,pass) { 
+        sessionStorage.setItem('current_pass', JSON.stringify({name:name,pass:pass}));
         if (name && pass) {
             G.api.login(name, pass, 'byname').then(user => {
                 login(user)
@@ -59,6 +69,10 @@ export default class Login extends React.Component{
                                     <div style={styles.loginFormItem}>
                                         <div style={styles.loginFormItemHeader} >密码</div>
                                         <div><input style={styles.loginFormItemInput} placeholder='输入用户名' type="password" name="password" value={this.state.password} onChange={this.handleInputChange} /></div>
+                                        <div style={styles.loginFormItemForget}>
+                                            <input ref={checkbox=>this.checkbox=checkbox} style={styles.loginFormItemForgetBox} type="checkbox" />
+                                            <span>记住密码</span>
+                                        </div>
                                     </div>
                                     <div style={styles.loginFormItem}>
                                         <input style={styles.loginFormItemSubmit} type="submit" value="登陆" />
@@ -72,6 +86,8 @@ export default class Login extends React.Component{
         </AuthContext.Consumer>)
     }
 }
+
+
 
 Login.styles = {
     background: {
@@ -97,6 +113,7 @@ Login.styles = {
         boxSizing:'border-box'
     },
     loginFormItem: {
+        position:'relative',
         marginTop: '30px',
         width:'100%',
     },
@@ -114,6 +131,16 @@ Login.styles = {
         textIndent: '15px',
         color:'#AAAAAA',
         border:'1px solid #BBBBBB',
+    },
+    loginFormItemForget: {
+        marginTop:'10px',
+        display: 'flex',
+        justifyContent: 'end-start',
+        lineHeight:'14px'
+    },
+    loginFormItemForgetBox: {
+        width: '15px',
+        height:'15px'
     },
     loginFormItemSubmit: {
         height:'50px',
