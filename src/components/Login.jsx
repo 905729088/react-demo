@@ -1,7 +1,6 @@
 import React from 'react'
 import { HLayout,VLayout } from './Layout.jsx'
 import AuthContext from '../auth-context.js'
-import { styled } from 'styled-components';
 import { Redirect } from 'react-router-dom'
 
 class Login extends React.Component{
@@ -35,11 +34,8 @@ class Login extends React.Component{
         const pass = this.state.password
         this.onLogin(login,name,pass);
     }
-    onLogin(login, name, pass) { 
-        if (name&&pass) { 
-            sessionStorage.setItem('current_pass', JSON.stringify({name:name,pass:pass}));
-        }
-       
+    onLogin(login,name,pass) { 
+        sessionStorage.setItem('current_pass', JSON.stringify({name:name,pass:pass}));
         if (name && pass) {
             G.api.login(name, pass, 'byname').then(user => {
                 login(user)
@@ -56,64 +52,29 @@ class Login extends React.Component{
         return (
             <div style={styles.background}>
                         <VLayout style={styles.center}>
-                            <div style={styles.loginHeader}>
-                            <p>为开发人员打造的云平台</p>
-                            <p>让<span style={{backgroundColor:'#85d9ff'}}>应用完美上传</span>。</p> 
-                            </div>   
-                            <div style={styles.loginDescribe}>
-                                <p>只需3分钟几步简单的操作就可以开发你想要的应用，应用一键发布，代码在线编辑，规则由你来定。</p>
-                                <p>有兴趣欢迎内容......</p>
-                            </div>
-                            <form onSubmit={this.handleSubmit.bind(this, this.props.auth.login)}>
-                                <HLayout style={styles.loginForm}>
-                                    <div style={styles.loginFormItem}>
-                                    <HLayout style={styles.loginFormItemText}>
-                                        <i style={styles.loginFormItemUser}></i>
-                                        <span>用户名</span>
-                                    </HLayout>
-                                        <input style={styles.loginFormItemInput}  type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
+                        <form onSubmit={this.handleSubmit.bind(this, this.props.auth.login)}>
+                            <VLayout style={styles.loginForm}>
+                                    <div style={styles.loginHeader}>
+                                        <p>登录</p>
                                     </div>
                                     <div style={styles.loginFormItem}>
-                                        <HLayout style={styles.loginFormItemText} >
-                                            <i style={styles.loginFormItemPass}></i>
-                                            <span>密码</span>
-                                       </HLayout>
-                                        <div><input style={styles.loginFormItemInput}  type="password" name="password" value={this.state.password} onChange={this.handleInputChange} /></div>
+                                        <div style={styles.loginFormItemHeader}>用户名</div>
+                                        <input style={styles.loginFormItemInput} placeholder='输入用户名' type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
                                     </div>
                                     <div style={styles.loginFormItem}>
-                                        <input id='IntroduceSubmit' style={styles.loginFormItemSubmit} type="submit" value="" />
-                                        <label htmlFor="IntroduceSubmit" style={styles.loginFormItemSubmitC}>
-                                            <span style={styles.loginFormItemSubmitL}>立即登陆</span>
-                                            <i style={styles.loginFormItemSubmitJ}></i>
-                                        </label>
-                                     </div>
-                                </HLayout>
+                                        <div style={styles.loginFormItemHeader} >密码</div>
+                                        <div><input style={styles.loginFormItemInput} placeholder='输入用户名' type="password" name="password" value={this.state.password} onChange={this.handleInputChange} /></div>
+                                        <div style={styles.loginFormItemForget}>
+                                            <span>忘记密码？</span>
+                                        </div>
+                                    </div>
+                                    <div style={styles.loginFormItem}>
+                                        <input style={styles.loginFormItemSubmit} type="submit" value="登陆" />
+                                    </div>
+                                </VLayout>
                             </form>
-                            <HLayout style={styles.loginDescribe}>
-                                <HLayout style={styles.loginDescribeItem}>
-                                    <div style={styles.loginDescribeItemLeftDeploy}></div>
-                                    <div style={styles.loginDescribeItemRight}>
-                                        <div style={styles.loginDescribeItemRightTop}>快速部署</div>
-                                        <div style={styles.loginDescribeItemRightBottom}>操作便捷，快速简单</div>
-                                    </div>
-                                 </HLayout>
-                                <HLayout style={styles.loginDescribeItem}>
-                                    <div style={styles.loginDescribeItemLeftEdit}></div>
-                                    <div style={styles.loginDescribeItemRight}>
-                                        <div style={styles.loginDescribeItemRightTop}>在线编辑</div>
-                                        <div  style={styles.loginDescribeItemRightBottom}>在线编辑代码，一键发布</div>
-                                  </div>
-                               </HLayout>
-                                <HLayout style={styles.loginDescribeItem}>
-                                    <div style={styles.loginDescribeItemLeftSafe}></div>
-                                    <div style={styles.loginDescribeItemRight}>
-                                        <div style={styles.loginDescribeItemRightTop}>安全稳定</div>
-                                        <div style={styles.loginDescribeItemRightBottom}>代码安全，运行稳定</div>
-                                    </div>
-                                </HLayout>
-                            </HLayout>
+
                         </VLayout>
-                <div style={styles.loginbackground}></div>
                     </div>
         )
     }
@@ -131,145 +92,68 @@ export default  props => (
 
 Login.styles = {
     background: {
-        position: 'relative',
-        height:'100%',
-    },
-    loginbackground: {
         position: 'fixed',
-        bottom:'-123px',
-        width:'100%',
-        height: '780px',
-        background:"url('./src/img/bg-shouye.png') no-repeat 100%/100%"
+        top:'0',
+        width: '100%',
+        height: '100%',
     },
     center: {
         position: 'absolute',
-        zIndex:'1',
+        top:'50%',
         left: '50%',
-        transform:'translateX(-50%)',
+        transform:'translate(-50%,-50%)',
     },
     loginHeader: {
-        marginTop:'180px',
-        fontSize: '50px',
-        textAlign:'left'
-    },
-    loginDescribe: {
-        marginTop:'28px',
-        fontSize: '16px',
-        textAlign: 'left',
-        color: '#828ea1'
+        fontSize: '28px',
+        textAlign:'center'
     },
     loginForm: {
         marginTop: '45px',
-        padding:'10px 7px',
-        border:'1px solid #dcdee0',
-        boxShadow: '0px 8px 9px 0px rgba(34, 34, 34, 0.08)',
-        boxSizing: 'border-box',
-        borderRadius: '4px'
+        padding:'20px 45px',
+        width:' 484px',
+        height: '464px',
+        border:'1px solid #BBBBBB',
+        boxShadow: ' rgb(227, 233, 236) 0px 0px 4px 1px',
+        boxSizing:'border-box'
     },
     loginFormItem: {
         position:'relative',
-        marginRight: '14px',
-        width:'366px',
+        marginTop: '30px',
+        width:'100%',
     },
-    loginFormItemText: {
-        position: 'absolute',
-        left: '10px',
-        top:'10px',
+    loginFormItemHeader: {
         textAlign: 'left',
-        fontSize: '18px',
-        color:'#22272f'
-    },
-    loginFormItemUser: {
-        display: 'block',
-        marginRight:'10px',
-        width: '21px',
-        height:'24px',
-        background:"url('./src/img/ico-user.png') no-repeat 100%/100%"
-    },
-    loginFormItemPass: {
-        display: 'block',
-        marginRight:'10px',
-        width: '21px',
-        height:'24px',
-        background:"url('./src/img/ico-pass.png') no-repeat 100%/100%"
+        fontSize: '22px',
+        fontWeight:'bold'
     },
     loginFormItemInput: {
+        marginTop:'20px',
         height: '50px',
-        paddingLeft:'90px',
         width:'100%',
         textAlign: 'left',
         fontSize: '20px',
         textIndent: '15px',
         color:'#AAAAAA',
-        border: '1px solid #BBBBBB',
-        boxSizing: 'border-box',
-        boxShadow:'inset 0px 2px 3px 0px rgba(0, 0, 0, 0.15)',
-	    borderRadius: '4px',
-	    border: 'solid 1px #dcdee0'
+        border:'1px solid #BBBBBB',
+    },
+    loginFormItemForget: {
+        marginTop:'10px',
+        display: 'flex',
+        justifyContent: 'end-start',
+        lineHeight:'14px'
+    },
+    loginFormItemForgetBox: {
+        width: '15px',
+        height:'15px'
     },
     loginFormItemSubmit: {
         height:'50px',
         width: '100%',
-        backgroundImage: 'linear-gradient(90deg, #8a71ff 0%,  #9671ff 40%,  #9f71ff 64%,#a471ff 70%,  #a971ff 100%),  linear-gradient( #f16b80,#f16b80)',
+        backgroundColor: '#1FA0FE',
+        fontSize: '20px',
+        fontWeight:'bold',
         lineHeight: '50px',
-       
-    },
-    loginFormItemSubmitC: {
-        position: 'absolute',
-        top:'0',
-        width: '100%',
-        height: '100%',
-        display:'flex',
-        alignItems: 'center',
-        justifyContent:'center',
-        fontSize: '24px',
-        fontWeight: 'bold',
-        color: '#fff',
-        cursor:'pointer'
-    },
-    loginFormItemSubmitJ: {
-        display: 'block',
-        marginTop: '2px',
-        height:'52px',
-        width: '32px',
-        background:"url('./src/img/ico-arrow.png') no-repeat 100%/100%"
-    },
-    loginFormItemSubmitL: {
-        marginLeft: '-10px',
-        paddingRight:'10px'
-    },
-    loginDescribe: {
-        marginTop: '55px',
-        width:'70%'
-    },
-    loginDescribeItem: {
-        width:'200px'
-    },
-    loginDescribeItemLeftDeploy: {
-        width: '64px',
-        height: '65px',
-        background:"url('./src/img/ico-deploy.png') no-repeat 100%/100%"
-    },
-    loginDescribeItemLeftEdit: {
-        width: '64px',
-        height: '65px',
-        background:"url('./src/img/ico-edit.png') no-repeat 100%/100%"
-    },
-    loginDescribeItemLeftSafe: {
-        width: '64px',
-        height: '65px',
-        background:"url('./src/img/ico-safe.png') no-repeat 100%/100%"
-    },
-    loginDescribeItemRight: {
-        marginLeft:'5px',
-        paddingTop:'10px'
-    },
-    loginDescribeItemRightTop: {
-        fontSize: '18px',
-        fontWeight:'bold'
-     },
-     loginDescribeItemRightBottom: {
-         fontSize: '14px',
-         color: '#828ea1'
-      }
+        textAlign: 'center',
+        color:'#ffffff'
+    }
 }

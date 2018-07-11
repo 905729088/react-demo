@@ -12,7 +12,7 @@ export default class Header extends React.Component {
         const styles = Header.styles
         return (<AuthContext.Consumer>
             {auth => {
-                const setDom = auth.isAuthenticated ? <div>welcome {auth.user.name}<span onClick={auth.logout}>登出</span></div> : <div style={styles.mainRight}><Link style={styles.mainRightLogin} to="/login">登陆</Link><Link style={styles.mainRightReiser} to="/join">注册</Link></div>
+                const setDom = auth.isAuthenticated ? <div>{auth.user.name}<span onClick={auth.logout}>登出</span></div> : <div style={styles.mainRight}><Link style={styles.mainRightLogin} to="/login">登陆</Link><Link style={styles.mainRightReiser} to="/join">注册</Link></div>
                 return (<div style={styles.background}>
                     <HLayout style={styles.main}>
                         <div style={styles.mainLeft}>
@@ -29,10 +29,15 @@ export default class Header extends React.Component {
 
 Header.styles = {
     background: {
+        position: 'fixed',
+        top:'0',
+        width:'100%',
+        zIndex:'10',
         fontSize: '0.46rem',
         color: '#101010',
         boxShadow:'0px 2px 2px 0px rgba(34, 34, 34, 0.08)',
-        borderBottom:'1px solid #eeeeee'
+        borderBottom: '1px solid #eeeeee',
+        backgroundColor:'#ffffff'
     },
     main: {
         justifyContent: 'space-between',

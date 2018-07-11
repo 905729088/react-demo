@@ -64,12 +64,11 @@ export default class CodeContent extends React.Component {
             console.log('不更新');
             this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
         } else {
-            console.log('更新');
+            console.log('更新',this.props.match.params.appName,this.props.match.params.packageName);
             const sid = sessionStorage.getItem('current_sid');
             const fileid=await G.api.createfilebydata(sid,this.state.content);
             const appid = await G.api.uploadappfile(sid, this.props.match.params.appName, this.props.match.params.packageName, fileid)
-         
-            //await G.api.version(sid, this.props.match.params.appName,'lastver','') 
+            await G.api.Version(sid, this.props.match.params.appName,'lastver','') 
             //   console.log('应用更新结果====》',appid);
             this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
          }
@@ -112,7 +111,6 @@ export default class CodeContent extends React.Component {
                 <HLayout style={{marginTop:'20px'}}>
                     <Link to={{ pathname: `/tree/${appName}/${match.params.appVer}` }} style={styles.btnReturn}>返回</Link> 
                     <div style={styles.btnSubmit} onClick={this.onSubmit}>提交</div> 
-                    <input type='file' ref={file=>this.file=file}/>
                     {/* <Link to={{ pathname: `/tree/${appName}` }} style={styles.btnSubmit} onClick={this.onSubmit}>提交</Link>   */}
                 </HLayout>
                

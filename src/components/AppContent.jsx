@@ -7,22 +7,24 @@ export default class AppContent extends React.Component {
         super(props)
         this.state = {
             versions: [],
-            currentVer: 'last',
+            currentVer:this.props.match.params.appVer,
             packages: [],
         };
         this.onClickselectAppVer = this.onClickselectAppVer.bind(this);
     }
 
     componentDidMount() {
+       
         this.getAsyncInfo()
     }
-
+    
     async getAsyncInfo() {
+       
         const appName = this.props.match.params.appName
         const sid = sessionStorage.getItem('current_sid')
         if (appName && sid) {
             const versions = await G.api.getvar(sid, 'appversions', appName)
-            const packages = await this.getPackages(this.props.match.params.appVer)
+            const packages = await this.getPackages(this.props.match.params.appVer)//this.props.match.params.appVer
             
             this.setState({
                 versions,
@@ -41,7 +43,11 @@ export default class AppContent extends React.Component {
     }
     onClickselectAppVer(val) { //选择版本后重新跳转路由
         //console.log(this.props.match.params.appName,this.props.match.params.appVer,this.props.history);
-        if(val!==this.props.match.params.appVer){
+        if (val !== this.props.match.params.appVer) {
+            this.getAsyncInfo();
+            this.setState({
+                currentVer:val
+            })
             this.props.history.push(`/tree/${this.props.match.params.appName}/${val}`)//重定向
         }
        
@@ -61,6 +67,7 @@ export default class AppContent extends React.Component {
                 <Link to={{ pathname: `/treeCode/${appName}/${currentVer}/${name}`, state: { packageid: packages[name] } }} style={styles.appContentMainitemFileName}><span>{name}</span></Link>
             </HLayout>
         ) : null
+        console.log("当前版本",this.state.nowversion);
         return (<div style={styles.background}>
             <div style={styles.center}>
                 <div style={styles.appContentHeader}>
