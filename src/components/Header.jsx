@@ -12,7 +12,13 @@ export default class Header extends React.Component {
         const styles = Header.styles
         return (<AuthContext.Consumer>
             {auth => {
-                const setDom = auth.isAuthenticated ? <div>{auth.user.name}<span onClick={auth.logout}>登出</span></div> : <div style={styles.mainRight}><Link style={styles.mainRightLogin} to="/login">登陆</Link><Link style={styles.mainRightReiser} to="/join">注册</Link></div>
+                const setDom = auth.isAuthenticated ? <div>
+                    {auth.user.name}
+                    <span onClick={auth.logout}>登出</span>
+                </div> : <div style={styles.mainRight}>
+                        <Link style={styles.mainRightLogin} to="/login">登陆</Link>
+                        {/* <Link style={styles.mainRightReiser} to="/join">注册</Link> */}
+                    </div>
                 return (<div style={styles.background}>
                     <HLayout style={styles.main}>
                         <div style={styles.mainLeft}>
@@ -57,7 +63,7 @@ Header.styles = {
         display:'block',
         width: '37px',
         height: '37px',
-        background:"url('./src/img/logo-image.png') no-repeat 100%/100%"
+        background:`url('${require('../img/logo-image.png')}') no-repeat 100%/100%`
     },
     mainLeftText: {
         marginLeft:'10px',
@@ -74,7 +80,8 @@ Header.styles = {
         float:'left',
         width:'2.4rem',
         fontWeight:'bold',
-        borderLeft:'1px solid #eee',
+        borderLeft: '1px solid #eee',
+        borderRight:'1px solid #eee',
     },
     mainRightReiser: {
         float:'left',

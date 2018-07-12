@@ -42,7 +42,6 @@ MyApps.styles = {
         overflowY:'auto',
         fontWeight: 'bold',
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'flex-start',
         flexFlow:'row wrap',
         alignContent:'flex-start'

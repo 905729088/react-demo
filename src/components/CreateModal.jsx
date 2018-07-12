@@ -1,6 +1,5 @@
 import React from 'react'
 import AuthContext from '../auth-context.js'
-import { HLayout } from './Layout.jsx';
 export default class CreateModal extends React.Component {
     constructor(props) {
         super(props)
@@ -53,12 +52,16 @@ export default class CreateModal extends React.Component {
     render() {
         const styles = CreateModal.styles;
         const content = this.state.content;
+      
         return (<AuthContext.Consumer>
             {auth => (
                 <div>
                     <form style={styles.content} onSubmit={this.handleSubmit.bind(this, auth)}>
                         <div style={styles.contentFile}>
-                            <label htmlFor="getfile" style={styles.contentFileMain}>{content}</label>
+                            <label htmlFor="getfile" style={styles.contentFileMain}>
+                                <img src={require('../img/ico-add.png')} style={content === "上传新的应用"?styles.contentFileMainImg : styles.contentFileMainImgNo} alt="" />
+                                <span> {content}</span>
+                            </label>
                             <input id='getfile' type="file" style={{ display: 'none' }} onChange={this.onFileChange} ref={input => {this.fileInput = input}} />
                         </div>
                         <input style={styles.contentSubmitF} type="submit" value="发布" onClick={this.props.onClick} />
@@ -93,7 +96,13 @@ CreateModal.styles = {
         borderRadius: '4px',
         border:'1px dashed #BBBBBB'
     },
-
+    contentFileMainImg: {
+        marginTop: '-5px', 
+        verticalAlign: 'middle'
+    },
+    contentFileMainImgNo: {
+        display:'none'
+    },
     contentSubmitF: {
         float:'left',
         width: '88px',

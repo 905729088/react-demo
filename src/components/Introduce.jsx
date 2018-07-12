@@ -2,7 +2,6 @@ import React from 'react'
 import { HLayout,VLayout } from './Layout.jsx'
 import AuthContext from '../auth-context.js'
 import { Redirect } from 'react-router-dom'
-
 class Introduce extends React.Component{
     constructor(props){
         super(props)
@@ -137,7 +136,7 @@ Introduce.styles = {
         bottom:'-123px',
         width:'100%',
         height: '780px',
-        background:"url('./src/img/bg-shouye.png') no-repeat 100%/100%"
+        gbackground:`url('') no-repeat 100%/100%` 
     },
     center: {
         position: 'absolute',
@@ -182,14 +181,14 @@ Introduce.styles = {
         marginRight:'10px',
         width: '21px',
         height:'24px',
-        background:"url('./src/img/ico-user.png') no-repeat 100%/100%"
+        background:`url('${require('../img/ico-user.png')}') no-repeat 100%/100%`
     },
     loginFormItemPass: {
         display: 'block',
         marginRight:'10px',
         width: '21px',
         height:'24px',
-        background:"url('./src/img/ico-pass.png') no-repeat 100%/100%"
+        background:`url('${require('../img/ico-pass.png')}') no-repeat 100%/100%`
     },
     loginFormItemInput: {
         height: '50px',
@@ -230,7 +229,7 @@ Introduce.styles = {
         marginTop: '2px',
         height:'52px',
         width: '32px',
-        background:"url('./src/img/ico-arrow.png') no-repeat 100%/100%"
+        background:`url('${require('../img/ico-arrow.png')}') no-repeat 100%/100%`
     },
     loginFormItemSubmitL: {
         marginLeft: '-10px',
@@ -246,17 +245,17 @@ Introduce.styles = {
     loginDescribeItemLeftDeploy: {
         width: '64px',
         height: '65px',
-        background:"url('./src/img/ico-deploy.png') no-repeat 100%/100%"
+        background:`url('${require('../img/ico-deploy.png')}') no-repeat 100%/100%`
     },
     loginDescribeItemLeftEdit: {
         width: '64px',
         height: '65px',
-        background:"url('./src/img/ico-edit.png') no-repeat 100%/100%"
+        background:`url('${require('../img/ico-edit.png')}') no-repeat 100%/100%`
     },
     loginDescribeItemLeftSafe: {
         width: '64px',
         height: '65px',
-        background:"url('./src/img/ico-safe.png') no-repeat 100%/100%"
+        background:`url('${require('../img/ico-safe.png')}') no-repeat 100%/100%`
     },
     loginDescribeItemRight: {
         marginLeft:'5px',

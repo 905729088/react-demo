@@ -39,6 +39,7 @@ Home.styles = {
         margin:'2rem auto',
         padding:'40px 30px 45px 30px',
         width: '1080px',
+        height:'750px',
         borderRadius: '6px',
         boxSizing: 'border-box',
         backgroundColor: '#ffffff',
@@ -56,8 +57,10 @@ Home.styles = {
        marginRight:'24px',
        fontSize: '24px',
        fontWeight:'bold',
+       cursor:'pointer'
     },
     mainHeaderItem: {
-        marginRight:'24px'
+        marginRight:'24px',
+        cursor:'pointer'
      },
 }

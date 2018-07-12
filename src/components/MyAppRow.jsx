@@ -16,10 +16,10 @@ export default class MyAppRow extends React.Component{
             <Link  to={{ pathname: `/tree/${appInfo.name}/last` }}style={styles.MyAppRowTitle}>
                <div  style={styles.MyAppRowTitleContent} ><span>{appInfo.name}</span></div>
            </Link>
-               <a href={appUri} target="_blank"  style={styles.MyAppRowPreview} >
-                   <img src='./src/img/ico-yan.png' alt=""/>
-               <span style={{marginLeft:'5px'}}>预览效果</span>
-               </a>
+            <a href={appUri} target="_blank"  style={styles.MyAppRowPreview} >
+                <img src={require('../img/ico-yan.png')} alt=""/>
+                <span style={{marginLeft:'5px'}}>预览效果</span>
+            </a>
        </div>
         )
     }

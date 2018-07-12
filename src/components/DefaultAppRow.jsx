@@ -8,27 +8,33 @@ export default class DefaultAppRow extends React.Component {
 
     render() {
         const styles = DefaultAppRow.styles;
-        return (<HLayout  style={styles.background}>
-            <HLayout style={styles.defaultAppRowLeft}>
-                <span>1.</span>
-                <span style={styles.defaultAppRowLeftLogin}>logo</span>
-                <span>应用名</span>
+        return (<div  style={styles.background}>
+            <HLayout style={styles.defaultAppRow}>
+                <div style={{ margin:'30px',fontSize: '22px',color: '#0366d6',}}>应用名</div>
             </HLayout>
             <div style={styles.defaultAppRowRight}>
                 <span>CLONE</span>
             </div>
-        </HLayout>)
+        </div>)
     }
 }
 
 DefaultAppRow.styles = {
     background: {
-        marginBottom:'30px',
-        justifyContent: 'space-between',
+        position: 'relative',
+        margin:'0 15px 30px 0',
+        width: '320px',
+	    height: '154px',
+        border:'1px solid #d1d2d7',
+        boxShadow: '0px 3px 9px 0px rgba(34, 34, 34, 0.07)',
+        borderRadius: '4px'
     },
-    defaultAppRowLeft: {
-        fontSize: '26px',
-        alignItems:'center'
+    defaultAppRow: {
+        overflow:'hidden',
+        display: 'block',
+        width: '100%',
+        height: '100%',
+        textDecoration:'none'
     },
     defaultAppRowLeftLogin: {
         display: 'block',
@@ -42,15 +48,19 @@ DefaultAppRow.styles = {
         borderRadius:'100%'
     },
     defaultAppRowRight: {
-        marginTop:'10px',
-        width: '120px',
-        height: '40px',
-        border: '1px solid #BBBBBB',
-        borderRadius: '6px',
-        fontSize: '18px',
+        position: 'absolute',
+        right: '30px',
+        bottom:'20px',
+        width: '80px',
+        height: '30px',
+        border: '1px solid #0084c1',
+        borderRadius: '4px',
+        fontSize: '16px',
         fontWeight:'normal',
         textAlign: 'center',
-        lineHeight: '40px',
-        backgroundColor:'#D9D9D9'
+        color:'#ffffff',
+        lineHeight: '30px',
+        backgroundColor: '#00afff',
+        cursor:'pointer'
     }
 }

@@ -133,7 +133,7 @@ CodeContent.styles = {
         color: '#0366d6'
     },
     Content: {
-        marginTop:'20px',
+        marginTop:'10px',
         width: '100%',
         backgroundColor: '#fff',
         boxShadow: '0px 8px 9px 0pxrgba(34, 34, 34, 0.08)',
@@ -166,7 +166,7 @@ CodeContent.styles = {
         textAlign:'right'
     },
     codeContentMainContent: {
-        height:'460px',
+        height:'485px',
         border: '1px solid #dadbe0',
         borderTop: 'none',
         boxSizing: 'border-box',
