@@ -3,59 +3,48 @@ import { Link } from 'react-router-dom'
 import { Layout, VLayout } from './Layout.jsx'
 import AuthContext from '../auth-context.js'
 import MyApps from './MyApps.jsx'
+import CreateModal from './CreateModal.jsx';
 
-
-export default class NewAppList extends React.Component {
-    constructor(props) {
+ class NewAppList extends React.Component {
+    constructor(props) { 
         super(props)
+        this.state = { appList: null };
+        this.handleClick = this.handleClick.bind(this);
     }
-    componentDidMount() { 
-       // console.log('123123123',AuthContext.user)
+    componentDidMount() {
+        this.getAppList()
+    }
+    handleClick() { 
+        this.getAppList();
+    }
+    async getAppList() {
+        const sid = this.props.auth.sid
+        const appList = await G.api.getvar(sid, 'appinfos')
+        this.setState({
+            appList
+        })
+        
     }
     render() {
         const styles = NewAppList.styles;
+       
         return (
-            <AuthContext.Consumer>
-                {auth => (
-                    <VLayout style={styles.background} >
-                    <div >
-                        <div style={styles.createHeader}>创建新应用</div>
-                        <Link to="/create" >
-                            <div style={styles.createMain}>
-                                <span style={styles.createMainLeft}>+</span>
-                                    <span>上传应用</span>
-                                </div>
-                        </Link>
-                    </div>
-                        <MyApps sid={auth.sid} user={auth.user}></MyApps>
-                </VLayout>
-                )} 
-            </AuthContext.Consumer>
+                <VLayout style={styles.background} >
+                        <CreateModal onClick={this.handleClick}/>
+                        <MyApps sid={this.props.auth.sid} user={this.props.auth.user} appList={this.state.appList}></MyApps>
+                </VLayout >
            )
     }
 }
 NewAppList.styles = {
     background: {
-        padding:'10px 0 0 50px',
-        borderRight:'1px solid #BBBBBB',
+        paddingTop:'20px',
         boxSizing: 'border-box',
     },
-    createHeader: {
-        fontSize: '28px',
-        fontWeight:'bold'
-    },
-    createMain: {
-        margin:'40px 0 0 0',
-        width: '275px',
-        height:'85px',
-        fontSize: '26px',
-        lineHeight: '85px',
-        textAlign:'center',
-        border: '1px solid #BBBBBB',
-        borderRadius:'6px'
-    },
-    createMainLeft: {
-        margin: '20px',
-        fontSize:'36px'
-    }
+    
 }
+export default  props => (
+    <AuthContext.Consumer>
+         {auth => <NewAppList {...props} auth={auth}/>}
+    </AuthContext.Consumer>
+  );

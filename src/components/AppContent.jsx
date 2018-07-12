@@ -2,6 +2,8 @@ import React from 'react'
 import { HLayout } from './Layout.jsx';
 import { Link } from 'react-router-dom';
 import Dropdown from './Dropdown.jsx';
+import styled from 'styled-components'
+
 export default class AppContent extends React.Component {
     constructor(props) {
         super(props)
@@ -63,27 +65,42 @@ export default class AppContent extends React.Component {
         const appName = this.props.match.params.appName;
         let packageDoms = '...'
         packageDoms = packageNames && packageNames.length? packageNames.map((name, i) =>
-            <HLayout style={styles.appContentMainitem} key={i}>
+            <MyLink style={styles.appContentMainitem} key={i}>
                 <Link to={{ pathname: `/treeCode/${appName}/${currentVer}/${name}`, state: { packageid: packages[name] } }} style={styles.appContentMainitemFileName}><span>{name}</span></Link>
-            </HLayout>
+            </MyLink>
         ) : null
         console.log("当前版本",this.state.nowversion);
         return (<div style={styles.background}>
             <div style={styles.center}>
-                <div style={styles.appContentHeader}>
-                    <div> {match.params.appName}</div>
-                    <Dropdown
-                        styles={{ width: '160px' }}
-                        dataList={this.state.versions}
-                        onClick={this.onClickselectAppVer}
-                    />
+                <div style={styles.centerHeader}>
+                    <Link to={{ pathname: `/home` }}  style={styles.btnReturn}>
+                        <img src="./src/img/ico-menu.png" alt="" style={{marginRight:'3px',verticalAlign:'middle'}} />
+                        <span style={{fontSize: '14px'}}>应用主页</span>
+                    </Link>
+                    <div style={styles.centerHeaderContent}>
+                        <span style={{margin:'0px 4px',fontSize: '22px',color:'#3f5368',verticalAlign:'middle'}}>/</span>
+                        <span style={{fontSize: '18px',fontWeight:'bold'}}>spitter-MVC</span>
+                    </div>
                 </div>
-                <div style={styles.appContentMain}>
-                    {packageDoms}
+                <div style={styles.appContent}>
+                    <div style={styles.appContentHeader}>
+                        应用文件
+                    </div>
+                    <div style={styles.appContentTitle}>
+                        <div>点此设置该应用的域名</div>
+                        <Dropdown
+                            styles={{ width: '140px' }}
+                            dataList={this.state.versions}
+                            onClick={this.onClickselectAppVer}
+                        />
+                    </div>
+                    <div style={styles.appContentMain}>
+                         <div style={styles.appContentMainitemTitle} >
+                            {match.params.appName}
+                         </div>
+                        {packageDoms}
+                    </div>
                 </div>
-                <HLayout style={{marginTop:'20px'}}>
-                    <Link to={{ pathname: `/home` }} style={styles.btnReturn}>返回</Link> 
-                </HLayout>
             </div>
         </div>)
     }
@@ -91,21 +108,52 @@ export default class AppContent extends React.Component {
 
 AppContent.styles = {
     background: {
-        position: 'relative',
+        position: 'fixed',
+        width: '100%',
+        height:'100%',
+        backgroundColor:'#E7E8EC'
     },
     center: {
-        position: 'absolute',
-        width:'1200px',
-        left: '50%',
-        transform:'translateX(-50%)',
+        margin:'2rem auto',
+        width:'1080px',
+    },
+    centerHeader: {
+        overflow:'hidden',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        height: '40px',
+        lineHeight:'40px'
+    },
+    btnReturn: {
+        overflow:'hidden',
+        textDecoration: 'none',
+        color: '#0366d6',
+     },
+    centerHeaderContent: {
+        overflow:'hidden',
+        paddingLeft:'3px',
+        color: '#0366d6'
+    },
+    appContent: {
+        marginTop: '10px',
+        padding:'30px',
+        width: '100%',
+        boxSizing:'border-box',
+        backgroundColor:'#ffffff'
     },
     appContentHeader: {
-        display:'flex',
-        marginTop:'160px',
-        fontSize: '26px',
+        fontSize: '24px',
         fontWeight:'bold',
         textAlign: 'left',
+    },
+    appContentTitle: {
+        marginTop:'20px',
+        display:'flex',
+        fontSize: '16px',
+        textAlign: 'left',
         justifyContent: 'space-between',
+        color: '#999999'
     },
    
     appContentMain: {
@@ -113,34 +161,36 @@ AppContent.styles = {
         width: '100%',
         height: '540px',
         overflowY: 'auto',
-        borderTop:'1px solid #BBBBBB',
+    },
+    appContentMainitemTitle: {
+        fontSize: '18px',
+        fontWeight:'bold',
+        height: '48px',
+        lineHeight:'48px',
+        border: '1px solid #b8dbff',
+        boxSizing: 'border-box',
+        paddingLeft: '23px',
+        backgroundColor: '#f1f8ff'
     },
     appContentMainitem: {
         fontSize: '18px',
-        height: '60px',
-        lineHeight:'60px',
-        border: '1px solid #BBBBBB',
-        borderTop:'none',
+        height: '38px',
+        lineHeight:'38px',
+        border: '1px solid #dadbe0',
+        borderTop: 'none',
+        boxSizing: 'border-box',
+        paddingLeft: '25px',
     },
     appContentMainitemFileName: {
-        width: '400px',
-        marginLeft: '20px',
+        display: 'block',
+        height:'100%',
+        color: '#0366d6',
+        textDecoration:'none'
     },
-    appContentMainitemFileDescribe: {
-        boxSizing: 'border-box',
-        paddingRight:'40px',
-        width: '100%',
-        textIndent:'50px',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        overflow:'hidden'
-    },btnReturn: {
-        marginRight:"20px",
-        width: '90px',
-        height: '35px',
-        textAlign:'center',
-        border: '1px solid #BBBBBB',
-        lineHeight: '35px',
-        cursor:'pointer'
-    }
+   
 }
+const MyLink = styled.div`
+    &:hover{
+       background:#f6f8fa;
+   }
+`

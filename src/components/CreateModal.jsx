@@ -1,11 +1,13 @@
 import React from 'react'
 import AuthContext from '../auth-context.js'
-
+import { HLayout } from './Layout.jsx';
 export default class CreateModal extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {content:'上传新的应用'};
         this.handleBack = this.handleBack.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.onFileChange = this.onFileChange.bind(this);
     }
 
     handleBack(e) {
@@ -16,10 +18,13 @@ export default class CreateModal extends React.Component {
     handleSubmit(auth, e) {
         e.preventDefault()
        // console.log('file---', this.fileInput.files[0])
-        const sid = auth.sid
-        const fileInfo = this.fileInput.files[0]
        
-        this.uploadApp(sid, fileInfo)
+        const sid = auth.sid
+        const fileInfo = this.fileInput.files[0];
+        if (this.state.content!=='上传新的应用') { 
+            this.uploadApp(sid, fileInfo)
+        }
+       
     }
 
     async uploadApp(sid, fileInfo) {
@@ -28,8 +33,13 @@ export default class CreateModal extends React.Component {
         await G.api.setlfiledata(sid, tempFileId, 0, await this.readBlob(fileInfo))
         const fileid = await G.api.temp2lfile(sid, tempFileId)
         const appid = await G.api.uploadapp(sid, fileid)
+        this.setState({ content: '上传新的应用' });
+        console.log('更新');
     }
-
+    onFileChange() {
+        const fileInfo = this.fileInput.files[0];
+        this.setState({content:fileInfo.name});
+    }
     readBlob(blob) {
         const reader = new FileReader()
         return new Promise(resolve => {
@@ -41,23 +51,17 @@ export default class CreateModal extends React.Component {
     }
 
     render() {
-        const styles = CreateModal.styles
+        const styles = CreateModal.styles;
+        const content = this.state.content;
         return (<AuthContext.Consumer>
             {auth => (
-                <div style={styles.modal}>
+                <div>
                     <form style={styles.content} onSubmit={this.handleSubmit.bind(this, auth)}>
-                        <div style={styles.contentHeader}>新建应用</div>
-                        <div style={styles.contentText}>
-                            <textarea style={styles.contentTextConent} />
-                        </div>
                         <div style={styles.contentFile}>
-                            <label htmlFor="getfile" style={styles.contentFileMain}>上传</label>
-                            <input id='getfile' type="file" style={{display:'none'}} ref={input => {this.fileInput = input}} />
+                            <label htmlFor="getfile" style={styles.contentFileMain}>{content}</label>
+                            <input id='getfile' type="file" style={{ display: 'none' }} onChange={this.onFileChange} ref={input => {this.fileInput = input}} />
                         </div>
-                        <div style={styles.contentSubmit}>
-                            <div  style={styles.contentSubmitH}  onClick={this.handleBack}>返回</div>
-                            <input style={styles.contentSubmitF} type="submit" value="发布" />
-                        </div>
+                        <input style={styles.contentSubmitF} type="submit" value="发布" onClick={this.props.onClick} />
                     </form>
                 </div>
             )}
@@ -66,83 +70,41 @@ export default class CreateModal extends React.Component {
     }
     
 CreateModal.styles = {
-    modal: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        background: "rgba(0, 0, 0, 0.15)",
-    },
     content: {
-        position: "absolute",
-        width:'930px',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems:'center',
+        width:'100%',
         background: "#fff",
-        top:'130px',
-        left: "50%",
-        right: "10%",
-        transform:'translateX(-50%)',
-        padding: '15px 15px 100px 50px',
-        border: "2px solid #444",
         borderRadius:'6px'
     },
-    contentHeader: {
-      marginTop:'30px',
-      fontSize:'28px'
-    },
-    contentText: {
-        marginTop:'20px',
-        width: '680px',
-        height: '280px',
-        fontSize:'28px'
-    },
-    contentTextConent: {
-        width: '100%',
-        height: '100%',
-        fontSize:'18px',
-        resize:'none',
-    },
     contentFile: {
-        marginTop:'20px',
-        width: '100%',
+        marginRight:'37px',
+        width: '242px',
     },
     contentFileMain: {
         display:'block',
-        height:'85px',
-        width: '185px',
-        lineHeight: '85px',
+        height:'68px',
+        width: '242px',
+        lineHeight: '68px',
         fontSize: '18px',
         fontWeight:'bold',
-        textAlign:'center',
+        textAlign: 'center',
+        borderRadius: '4px',
         border:'1px dashed #BBBBBB'
     },
-    contentSubmit: {
-        marginTop: '20px',
-        height:'50px'
-    },
-    contentSubmitH: {
-        float: 'left',
-        marginRight:'45px',
-        width: '190px',
-        height: '50px',
-        border: '1px solid #BBBBBB',
-        fontSize: '20px',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        lineHeight: '50px',
-        borderRadius:'6px'
-    },
+
     contentSubmitF: {
         float:'left',
-        width: '190px',
-        height: '50px',
-        border: '1px solid #BBBBBB',
-        fontSize: '20px',
+        width: '88px',
+        height: '40px',
+        border: '1px solid #0084c1',
+        fontSize: '16px',
         fontWeight: 'bold',
         textAlign: 'center',
-        lineHeight: '50px',
+        lineHeight: '40px',
         borderRadius: '6px',
-        backgroundColor: '#AAAAAA',
+        backgroundColor: '#00afff',
         color:'#ffffff'
       }
 }

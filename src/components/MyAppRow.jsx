@@ -12,65 +12,51 @@ export default class MyAppRow extends React.Component{
         const appInfo = this.props.appInfo
         //console.log('appInfo=====>',appInfo);
         const appUri = `http://${G.currentIP}/entry?author=${appInfo.author}&app=${appInfo.name}&ver=last`
-        return (<HLayout style={styles.background}>
-            <HLayout style={styles.MyAppRowLeft}>
-                <span>{this.props.index}</span>
-                <span style={styles.MyAppRowLeftLogin}>logo</span>
-                <span><a href={appUri} target="_blank">{appInfo.name}</a></span>
-            </HLayout>
-            <div style={styles.MyAppRowRight}>
-                <Link to={{ pathname: `/tree/${appInfo.name}/last`}} style={styles.MyAppRowRightEdit} ><span>编辑</span></Link>
-                <span style={styles.MyAppRowRightDele}>删除</span>
-            </div>
-        </HLayout>)
+        return (<div style={styles.background}>
+            <Link  to={{ pathname: `/tree/${appInfo.name}/last` }}style={styles.MyAppRowTitle}>
+               <div  style={styles.MyAppRowTitleContent} ><span>{appInfo.name}</span></div>
+           </Link>
+               <a href={appUri} target="_blank"  style={styles.MyAppRowPreview} >
+                   <img src='./src/img/ico-yan.png' alt=""/>
+               <span style={{marginLeft:'5px'}}>预览效果</span>
+               </a>
+       </div>
+        )
     }
 }
 
 MyAppRow.styles = {
     background: {
-        marginBottom:'30px',
-        justifyContent: 'space-between',
+        position: 'relative',
+        margin:'0 15px 30px 0',
+        width: '320px',
+	    height: '154px',
+        border:'1px solid #d1d2d7',
+        boxShadow: '0px 3px 9px 0px rgba(34, 34, 34, 0.07)',
+        borderRadius: '4px'
     },
-    MyAppRowLeft: {
-        fontSize: '26px',
-        alignItems:'center'
+    MyAppRowTitle: {
+        display:'block',
+        width: '100%',
+        height: '100%',
+        textDecoration:'none'
     },
-    MyAppRowLeftLogin: {
-        display: 'block',
-        margin:'0 20px',
-        width: '60px',
-        height:'60px',
-        fontSize: '18px',
-        lineHeight: '60px',
-        textAlign:'center',
-        border: '1px solid #BBBBBB',
-        borderRadius:'100%'
+    MyAppRowTitleContent: {
+        margin:'30px',
+        fontSize: '22px',
+        color: '#0366d6',
     },
-    MyAppRowRight: {
-        display:'flex',
-        width:'200px',
+    MyAppRowPreview: {
+        position: 'absolute',
+        right: '29px',
+        bottom:'25px',
+        display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent:'flex-start',
+        color: '#868e96',
+        fontSize: '14px',
+        textDecoration:'none'
     },
-    MyAppRowRightEdit: {
-        width: '85px',
-        height: '40px',
-        lineHeight: '40px',
-        alignItems: 'center',
-        textAlign: 'center',
-        fontSize:'18px',
-        border: '1px solid #BBBBBB',
-        borderRadius: '6px',
-        backgroundColor:'#D9D9D9'
-    },
-    MyAppRowRightDele: {
-        width: '85px',
-        height: '40px',
-        lineHeight: '40px',
-        alignItems: 'center',
-        textAlign: 'center',
-        fontSize:'18px',
-        border: '1px solid #BBBBBB',
-        borderRadius: '6px',
-    }
+   
+
 }

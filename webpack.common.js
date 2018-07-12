@@ -21,6 +21,14 @@ module.exports = {
                     'style-loader',
                     'css-loader'
                 ],
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: 'url-loader?limit=8192',
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: 'file-loader?limit=8192',
             }
         ]
     }

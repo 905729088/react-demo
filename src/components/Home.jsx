@@ -11,7 +11,6 @@ export default class Home extends React.Component{
     }
     handleClick(){
         this.setState({active:!this.state.active})
-        console.log(this.state.active);
     }
     render() {
         const styles = Home.styles;
