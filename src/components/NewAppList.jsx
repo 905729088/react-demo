@@ -32,6 +32,7 @@ import CreateModal from './CreateModal.jsx';
                 <VLayout style={styles.background} >
                         <CreateModal onClick={this.handleClick}/>
                         <MyApps sid={this.props.auth.sid} user={this.props.auth.user} appList={this.state.appList}></MyApps>
+               
                 </VLayout >
            )
     }

@@ -23,6 +23,7 @@ export default class Home extends React.Component{
                     <div style={!active?styles.mainHeaderItemActive:styles.mainHeaderItem} onClick={this.handleClick}>应用库</div>
                 </div>
                 {Item}
+                
             </VLayout>
         </div>)
     }

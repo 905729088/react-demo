@@ -16,7 +16,6 @@ export default class MyApps extends React.Component {
         const styles = MyApps.styles
         let row = '...'
         const appList = this.props.appList;
-        console.log(appList);
         if (appList) {
             row = appList.map((app,i) => 
                 <MyAppRow key={app.iD} appInfo={app} index={i + 1} sid={this.props.sid} />

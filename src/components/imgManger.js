@@ -1,1 +1,0 @@
-export const bgShouye = require('../img/bg-shouye.png');

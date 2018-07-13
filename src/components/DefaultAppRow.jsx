@@ -4,15 +4,19 @@ import { HLayout, VLayout } from './Layout.jsx'
 export default class DefaultAppRow extends React.Component {
     constructor(props) {
         super(props)
+        this.onClickCopy = this.onClickCopy.bind(this);
     }
-
+    onClickCopy() { 
+        console.log('复制');
+    }
     render() {
         const styles = DefaultAppRow.styles;
+        const appInfo = this.props.appInfo;
         return (<div  style={styles.background}>
             <HLayout style={styles.defaultAppRow}>
-                <div style={{ margin:'30px',fontSize: '22px',color: '#0366d6',}}>应用名</div>
+                <div style={{ margin: '30px', fontSize: '22px', color: '#0366d6', }}>{appInfo.name}</div>
             </HLayout>
-            <div style={styles.defaultAppRowRight}>
+            <div style={styles.defaultAppRowRight} onClick={this.onClickCopy}>
                 <span>CLONE</span>
             </div>
         </div>)
