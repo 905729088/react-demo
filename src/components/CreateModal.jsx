@@ -66,7 +66,7 @@ export default class CreateModal extends React.Component {
         this.setState({ content: '上传新的应用' });
         if (userType === "admin") { 
            
-           await this.saveFileData(sid, auth.user.id, {name:fileInfo.name,fileId:tempFileId,describe:this.fileDescribe.value||'这个是'+fileInfo.name+'的源文件!'});
+           await this.saveFileData(sid, auth.user.id, {name:fileInfo.name,fileId:fileid,describe:this.fileDescribe.value||'这个是'+fileInfo.name+'的源文件!'});
            this.fileDescribe.value = '';
         }
         

@@ -6,8 +6,16 @@ export default class DefaultAppRow extends React.Component {
         super(props)
         this.onClickCopy = this.onClickCopy.bind(this);
     }
-    onClickCopy() { 
-        console.log('复制');
+    async onClickCopy() { 
+        const istrue = window.confirm('您确定要克隆这个应用？');
+        if (istrue) { 
+            const sid = this.props.sid;
+            const tempFileId = this.props.appInfo.fileId;
+            const strArr = this.props.appInfo.name.split('.');
+            const type=strArr[strArr.length-1]
+            await G.api.uploadapp(sid, tempFileId,type);
+        }
+       
     }
     render() {
         const styles = DefaultAppRow.styles;

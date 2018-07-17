@@ -9,7 +9,7 @@ export default class Home extends React.Component{
         this.state={active:true}
         this.handleClick=this.handleClick.bind(this);
     }
-    handleClick(){
+    handleClick(){//切换页面
        this.setState({active:!this.state.active})
     }
     render() {
