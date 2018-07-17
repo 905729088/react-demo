@@ -23,7 +23,6 @@ import CreateModal from './CreateModal.jsx';
         this.setState({
             appList
         })
-        
     }
     render() {
         const styles = NewAppList.styles;
@@ -31,7 +30,7 @@ import CreateModal from './CreateModal.jsx';
         return (
                 <VLayout style={styles.background} >
                         <CreateModal onClick={this.handleClick}/>
-                        <MyApps sid={this.props.auth.sid} user={this.props.auth.user} appList={this.state.appList}></MyApps>
+                        <MyApps sid={this.props.auth.sid} user={this.props.auth.user} appList={this.state.appList} onClick={this.handleClick}></MyApps>
                
                 </VLayout >
            )
@@ -39,7 +38,7 @@ import CreateModal from './CreateModal.jsx';
 }
 NewAppList.styles = {
     background: {
-        paddingTop:'20px',
+        paddingTop:'40px',
         boxSizing: 'border-box',
     },
     

@@ -12,10 +12,13 @@ class DefaultApps extends React.Component {
     }
     async getAppList() { 
         const sid = this.props.auth.sid
-        const appList = await G.api.getvar(sid, 'appinfos')
-        this.setState({
-            appList
-        })
+        const strArr = await G.api.hgetall('', window.DATA_ID, '__H_File_ID__');
+        let appList = [];
+        for (let val of strArr) { 
+            let obj = JSON.parse(val.value);
+            appList.push(obj);
+        }
+        this.setState({appList})
     }
     render() {
         const styles = DefaultApps.styles;
@@ -23,7 +26,7 @@ class DefaultApps extends React.Component {
         let row = '...';
         if (appList) {
             row = appList.map((app,i) => 
-                <DefaultAppRow key={app.iD} appInfo={app} index={i + 1} sid={this.props.sid} />
+                <DefaultAppRow key={app.fileId} appInfo={app} index={i + 1} sid={this.props.sid} />
             )
         }
         return (<div style={styles.background}>
@@ -41,12 +44,10 @@ DefaultApps.styles = {
     },
     defaultAppsMain: {
         marginTop: '10px',
-        height: '580px',
+        height: '640px',
         overflowY:'auto',
         fontWeight: 'bold',
-        display: 'flex',
-        flexFlow:'row wrap',
-        justifyContent: 'flex-start',
+       
     },
 }
 export default  props => (

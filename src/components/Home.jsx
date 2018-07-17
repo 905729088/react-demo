@@ -10,7 +10,7 @@ export default class Home extends React.Component{
         this.handleClick=this.handleClick.bind(this);
     }
     handleClick(){
-        this.setState({active:!this.state.active})
+       this.setState({active:!this.state.active})
     }
     render() {
         const styles = Home.styles;
@@ -40,7 +40,7 @@ Home.styles = {
         margin:'2rem auto',
         padding:'40px 30px 45px 30px',
         width: '1080px',
-        height:'750px',
+        height:'810px',
         borderRadius: '6px',
         boxSizing: 'border-box',
         backgroundColor: '#ffffff',

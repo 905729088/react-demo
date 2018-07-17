@@ -5,8 +5,17 @@ import { HLayout, VLayout } from './Layout.jsx'
 export default class MyAppRow extends React.Component{
     constructor(props) {
         super(props)
+        this.onClickDelete=this.onClickDelete.bind(this);
     }
-
+    async onClickDelete() { 
+        const sid = this.props.sid;
+        const istrue=window.confirm('您确定要删除这个应用？');
+        if (istrue) {
+              await G.api.uninstallapp(sid, this.props.appInfo.name);
+              this.props.onClick();
+        } 
+      
+    }
     render() {
         const styles = MyAppRow.styles;
         const appInfo = this.props.appInfo
@@ -15,11 +24,16 @@ export default class MyAppRow extends React.Component{
         return (<div style={styles.background}>
             <Link  to={{ pathname: `/tree/${appInfo.name}/last` }}style={styles.MyAppRowTitle}>
                <div  style={styles.MyAppRowTitleContent} ><span>{appInfo.name}</span></div>
-           </Link>
-            <a href={appUri} target="_blank"  style={styles.MyAppRowPreview} >
-                <img src={require('../img/ico-yan.png')} alt=""/>
-                <span style={{marginLeft:'5px'}}>预览效果</span>
-            </a>
+            </Link>
+            <div style={styles.MyAppRowPreview}>
+                <a href={appUri} target="_blank"   >
+                    <img src={require('../img/ico-yan.png')} alt=""/>
+                </a>
+                <div style={styles.MyAppRowPreviewDelete} onClick={this.onClickDelete}>
+                     <img  src={require('../img/ico-delete.png')} alt=""/>
+                </div>
+               
+            </div>
        </div>
         )
     }
@@ -48,15 +62,19 @@ MyAppRow.styles = {
     },
     MyAppRowPreview: {
         position: 'absolute',
-        right: '29px',
-        bottom:'25px',
+        right: '24px',
+        bottom:'24px',
         display: 'flex',
         alignItems: 'center',
-        justifyContent:'flex-start',
+        justifyContent: 'flex-start',
+        fontWeight:'normal',
         color: '#868e96',
         fontSize: '14px',
         textDecoration:'none'
     },
-   
+    MyAppRowPreviewDelete: {
+        marginLeft: '10px',
+        cursor:'pointer'
+    },
 
 }

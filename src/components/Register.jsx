@@ -26,7 +26,23 @@ export default class Register extends React.Component {
     }
     handleSubmit(e) {
       //  console.log('state',this.state)
-        e.preventDefault()
+        e.preventDefault();
+
+        console.log(this.state.pass);
+        if (this.state.name && this.state.pass) {
+            this.onRegister({ name: this.state.name, pass: this.state.pass })
+        } else { 
+            alert('账户密码不能为空');
+        }
+        
+    }
+    async onRegister(jsonMap) { 
+        jsonMap=JSON.stringify(jsonMap)
+       await G.api.register(jsonMap, id => {
+           console.log(id);
+        }, (name, err) => {
+            console.log(err);
+        });
     }
     render() {
         const styles = Register.styles;
@@ -35,11 +51,11 @@ export default class Register extends React.Component {
                 return auth.isAuthenticated ? <Redirect to={{ pathname: "/home" }} />
                     :
                     <div>
-                        <form onSubmit={this.handleSubmit}>
+                        <form onSubmit={this.handleSubmit} >
                             <VLayout style={styles.RegisterForm}>
                                 <div style={styles.RegisterFormItem}>
                                     <div  style={styles.RegisterFormItemHeader}>用户名</div>
-                                    <input style={styles.RegisterFormItemInput} placeholder='输入用户名' type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
+                                    <input style={styles.RegisterFormItemInput}  placeholder='输入用户名' type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
                                 </div>
                                 <div  style={styles.RegisterFormItem}>
                                     <div  style={styles.RegisterFormItemHeader}>邮箱</div>
@@ -47,7 +63,7 @@ export default class Register extends React.Component {
                                 </div>
                                 <div  style={styles.RegisterFormItem}>
                                     <div  style={styles.RegisterFormItemHeader}>密码</div>
-                                   <input style={styles.RegisterFormItemInput} placeholder='输入密码' type="password"  name="pass" value={this.state.pass} onChange={this.handleInputChange} />
+                                   <input style={styles.RegisterFormItemInput}  placeholder='输入密码' type="password"  name="pass" value={this.state.pass} onChange={this.handleInputChange} />
                                 </div>
                                 <div  style={styles.RegisterFormItem}>
                                     <div  style={styles.RegisterFormItemHeader}>确认密码</div>

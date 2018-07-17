@@ -17,6 +17,9 @@ export default class Header extends React.Component {
         auth.logout();
         this.setState({ isLogout:false})
     }
+    onClickLogin() { 
+        
+    }
     render() {
         const styles = Header.styles
         return (<AuthContext.Consumer>

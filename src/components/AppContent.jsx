@@ -27,7 +27,6 @@ export default class AppContent extends React.Component {
         if (appName && sid) {
             const versions = await G.api.getvar(sid, 'appversions', appName)
             const packages = await this.getPackages(this.props.match.params.appVer)//this.props.match.params.appVer
-            
             this.setState({
                 versions,
                 packages
@@ -100,6 +99,7 @@ export default class AppContent extends React.Component {
                          </div>
                         {packageDoms}
                     </div>
+                    {/* <div style={styles.delet}>删除</div> */}
                 </div>
             </div>
         </div>)
@@ -187,7 +187,10 @@ AppContent.styles = {
         color: '#0366d6',
         textDecoration:'none'
     },
-   
+    delet: {
+        float: 'right',
+        cursor: 'pointer'
+    }
 }
 const MyLink = styled.div`
     &:hover{

@@ -107,7 +107,7 @@ CodeContent.styles = {
         position: 'fixed',
         width: '100%',
         height:'100%',
-        backgroundColor:'#E7E8EC'
+        backgroundColor: '#E7E8EC',
     },
     center: {
         margin:'2rem auto',
