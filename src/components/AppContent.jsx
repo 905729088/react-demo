@@ -13,10 +13,10 @@ export default class AppContent extends React.Component {
             packages: [],
         };
         this.onClickselectAppVer = this.onClickselectAppVer.bind(this);
+        this.onClickRelease = this.onClickRelease.bind(this);
     }
 
     componentDidMount() {
-       
         this.getAsyncInfo()
     }
     
@@ -51,8 +51,20 @@ export default class AppContent extends React.Component {
             })
             this.props.history.push(`/tree/${this.props.match.params.appName}/${val}`)//重定向
         }
-       
-       
+    }
+
+    async onClickRelease() {//发布版本 
+        const istrue=window.confirm('您确定要发布新的版本？');
+        if (istrue) {
+            const sid = sessionStorage.getItem('current_sid')
+            const appName = this.props.match.params.appName
+            await G.api.version(sid, appName, 'lastver', '') //设置新的版本
+            const versions = await G.api.getvar(sid, 'appversions', appName)
+            this.setState({
+                versions
+            })
+        } 
+          
     }
     render() {
         const match = this.props.match
@@ -83,15 +95,19 @@ export default class AppContent extends React.Component {
                 </div>
                 <div style={styles.appContent}>
                     <div style={styles.appContentHeader}>
-                        应用文件
+                        <span>应用文件</span>
+                        <div style={styles.appContentRelease} onClick={this.onClickRelease}>发布版本</div>
                     </div>
                     <div style={styles.appContentTitle}>
                         <div>点此设置该应用的域名</div>
-                        <Dropdown
-                            styles={{ width: '140px' }}
-                            dataList={this.state.versions}
-                            onClick={this.onClickselectAppVer}
-                        />
+                        <div>
+                            <Dropdown
+                                styles={{ width: '140px' }}
+                                dataList={this.state.versions}
+                                onClick={this.onClickselectAppVer}
+                            />
+                        </div>
+                       
                     </div>
                     <div style={styles.appContentMain}>
                          <div style={styles.appContentMainitemTitle} >
@@ -111,11 +127,12 @@ AppContent.styles = {
         position: 'fixed',
         width: '100%',
         height:'100%',
-        backgroundColor:'#E7E8EC'
+        backgroundColor: '#E7E8EC',
     },
     center: {
         margin:'2rem auto',
-        width:'1080px',
+        width: '1080px',
+       
     },
     centerHeader: {
         overflow:'hidden',
@@ -140,12 +157,28 @@ AppContent.styles = {
         padding:'30px',
         width: '100%',
         boxSizing:'border-box',
-        backgroundColor:'#ffffff'
+        backgroundColor: '#ffffff',
+        boxShadow: '0px 8px 9px 0px rgba(34, 34, 34, 0.08)'
     },
     appContentHeader: {
+        position:'relative',
         fontSize: '24px',
         fontWeight:'bold',
         textAlign: 'left',
+    },
+    appContentRelease: {
+        float:'right',
+        width: '140px',
+        height: '30px',
+        textAlign:'center',
+        border: '1px solid #BBBBBB',
+        color:'#777',
+        lineHeight: '30px',
+        fontSize: '14px',
+        fontWeight:'normal',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        textDecoration:'none'
     },
     appContentTitle: {
         marginTop:'20px',
@@ -155,11 +188,11 @@ AppContent.styles = {
         justifyContent: 'space-between',
         color: '#999999'
     },
-   
+    
     appContentMain: {
         marginTop:'20px',
         width: '100%',
-        height: '540px',
+        height: '600px',
         overflowY: 'auto',
     },
     appContentMainitemTitle: {

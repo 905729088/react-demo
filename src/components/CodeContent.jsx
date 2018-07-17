@@ -44,7 +44,6 @@ export default class CodeContent extends React.Component {
             const fileid = await G.api.createfilebydata(sid, this.state.content);
             console.log(this.props.match.params.packageName);
             const appid = await G.api.uploadappfile(sid, this.props.match.params.appName, this.props.match.params.packageName, fileid)
-           // await G.api.version(sid, this.props.match.params.appName,'lastver','') //设置新的版本
             this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
          }
        
