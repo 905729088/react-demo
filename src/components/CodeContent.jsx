@@ -41,10 +41,10 @@ export default class CodeContent extends React.Component {
         } else {
             console.log('更新',this.props.match.params.appName,this.props.match.params.packageName);
             const sid = sessionStorage.getItem('current_sid');
-            const fileid=await G.api.createfilebydata(sid,this.state.content);
+            const fileid = await G.api.createfilebydata(sid, this.state.content);
+            console.log(this.props.match.params.packageName);
             const appid = await G.api.uploadappfile(sid, this.props.match.params.appName, this.props.match.params.packageName, fileid)
-            await G.api.version(sid, this.props.match.params.appName,'lastver','') 
-            //   console.log('应用更新结果====》',appid);
+           // await G.api.version(sid, this.props.match.params.appName,'lastver','') //设置新的版本
             this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
          }
        

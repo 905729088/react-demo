@@ -65,10 +65,10 @@ export default class AppContent extends React.Component {
         let packageDoms = '...'
         packageDoms = packageNames && packageNames.length? packageNames.map((name, i) =>
             <MyLink style={styles.appContentMainitem} key={i}>
-                <Link to={{ pathname: `/treeCode/${appName}/${currentVer}/${name}`, state: { packageid: packages[name] } }} style={styles.appContentMainitemFileName}><span>{name}</span></Link>
+                <Link to={{ pathname: `/treeCode/${appName}/${currentVer}/${name==="main"?name+'.html':name+'.js'}`, state: { packageid: packages[name] } }} style={styles.appContentMainitemFileName}><span>{name==="main"?name+'.html':name+'.js'}</span></Link>
             </MyLink>
         ) : null
-        console.log("当前版本",this.state.nowversion);
+        
         return (<div style={styles.background}>
             <div style={styles.center}>
                 <div style={styles.centerHeader}>
