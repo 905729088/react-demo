@@ -55,11 +55,11 @@ class Introduce extends React.Component{
             <div style={styles.background}>
                         <VLayout style={styles.center}>
                             <div style={styles.loginHeader}>
-                            <p>为开发人员打造的</p>
+                            <p>为前端程序员打造</p>
                             </div>   
                             <div style={styles.loginHeaderDescribe}>
-                                <p>只需3分钟几步简单的操作就可以开发你想要的应用，应用一键发布，代码在线编辑，规则由你来定。</p>
-                                <p>有兴趣欢迎内容......</p>
+                                <p>3分钟，几步简单的操作，掌握整个团队的开发技术。</p>
+                                <p> 有兴趣欢迎内测......</p>
                             </div>
                             <form onSubmit={this.handleSubmit.bind(this, this.props.auth.login)}>
                                 <HLayout style={styles.loginForm}>
@@ -86,7 +86,7 @@ class Introduce extends React.Component{
                                      </div>
                                 </HLayout>
                             </form>
-                            <HLayout style={styles.loginDescribe}>
+                            {/* <HLayout style={styles.loginDescribe}>
                                 <HLayout style={styles.loginDescribeItem}>
                                     <div style={styles.loginDescribeItemLeftDeploy}></div>
                                     <div style={styles.loginDescribeItemRight}>
@@ -108,7 +108,7 @@ class Introduce extends React.Component{
                                         <div style={styles.loginDescribeItemRightBottom}>代码安全，运行稳定</div>
                                     </div>
                                 </HLayout>
-                            </HLayout>
+                            </HLayout> */}
                         </VLayout>
                 <div style={styles.loginbackground}></div>
                     </div>
@@ -145,7 +145,7 @@ Introduce.styles = {
         transform:'translateX(-50%)',
     },
     loginHeader: {
-        marginTop:'180px',
+        marginTop:'23%',
         fontSize: '50px',
         textAlign:'left'
     },
