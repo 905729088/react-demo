@@ -1,7 +1,7 @@
 import React from 'react'
-import { HLayout } from './Layout.jsx';
+import { HLayout } from '../Layout.jsx';
 import { Link } from 'react-router-dom'
-import Footer from './Footer.jsx';
+import Footer from '../Footer.jsx';
 import styled from 'styled-components'
 
 import CodeMirror from 'react-codemirror';
@@ -15,10 +15,11 @@ export default class CodeContent extends React.Component {
         super(props)
         this.state = {
             content: '',
+            isWrite:false
         }
         this.onSubmit = this.onSubmit.bind(this);
-        this.onTextarea = this.onTextarea.bind(this);
         this.updateCode = this.updateCode.bind(this);
+        this.onClickWrite = this.onClickWrite.bind(this);
     }
 
     componentDidMount() {
@@ -43,14 +44,17 @@ export default class CodeContent extends React.Component {
     }
 
     async onSubmit() { 
-        if (this.lastCode === this.state.content) {
-            console.log('不更新');
+        const content = this.editor.getCodeMirror().getValue();//获取编辑器的值
+        if (this.lastCode === content) {
+            ///console.log('不更新',  this.editor.getCodeMirror().getValue());
             this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
         } else {
-            console.log('更新',this.props.match.params.appName,this.props.match.params.packageName);
+           
+           // console.log('不更新',  this.editor.getCodeMirror().getValue());
+           // console.log('更新',this.props.match.params.appName,this.props.match.params.packageName);
             const sid = sessionStorage.getItem('current_sid');
-            const fileid = await G.api.createfilebydata(sid, this.state.content);
-            console.log(this.props.match.params.packageName);
+            const fileid = await G.api.createfilebydata(sid, content);
+           // console.log(this.props.match.params.packageName);
             const appid = await G.api.uploadappfile(sid, this.props.match.params.appName, this.props.match.params.packageName, fileid)
             this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
          }
@@ -67,11 +71,8 @@ export default class CodeContent extends React.Component {
             reader.readAsArrayBuffer(blob)
         })
     }
-    onTextarea() {
-        this.setState({
-            content: this.textarea.value
-        });
-       
+    onClickWrite() { 
+        this.setState({isWrite:!this.state.isWrite})
     }
     updateCode(newCode) {
 		this.setState({
@@ -82,24 +83,38 @@ export default class CodeContent extends React.Component {
         const match = this.props.match
         const styles = CodeContent.styles;
         const appName = this.props.match.params.appName;
-        var options = {
-            lineNumbers: true,
-            mode: {name: "text/x-mysql"}, 
-            extraKeys: { "Ctrl": "autocomplete" },   //自动提示配置  
-            autoCloseTags: true,
-            
-        };
+        const isWrite = this.state.isWrite;
+        if (isWrite) {
+            var options = {
+                lineNumbers: true,
+                mode: {name: "text/x-mysql"}, 
+                extraKeys: { "Ctrl": "autocomplete" },   //自动提示配置  
+                autoCloseTags: true,
+                readOnly: false,          //是否只读
+              
+            };
+        } else { 
+            var options = {
+                lineNumbers: true,
+                mode: {name: "text/x-mysql"}, 
+                extraKeys: { "Ctrl": "autocomplete" },   //自动提示配置  
+                autoCloseTags: true,
+                readOnly: true,          //是否只读
+    
+            };
+        }
+      
      
         return (<div style={styles.background}>
             <div style={styles.center}>
                 <div style={styles.centerHeader}>
                     <Link to={{  pathname: `/tree/${appName}/${match.params.appVer}`}}  style={styles.centerHeaderReturn}>
-                        <img src="./src/img/ico-menu.png" alt="" style={{marginRight:'3px',verticalAlign:'middle'}} />
-                        <span style={{fontSize: '14px'}}>spitter-MVC</span>
+                        <img src={require('../../img/ico-menu.png')} alt="" style={{marginRight:'3px',verticalAlign:'middle'}} />
+                        <span style={{fontSize: '14px'}}>{appName}</span>
                     </Link>
                     <div style={styles.centerHeaderContent}>
                         <span style={{margin:'0px 4px',fontSize: '22px',color:'#3f5368',verticalAlign:'middle'}}>/</span>
-                        <span style={{fontSize: '18px',fontWeight:'bold'}}>webpack.config.js</span>
+                        <span style={{fontSize: '18px',fontWeight:'bold'}}>{match.params.packageName}</span>
                     </div>
                 </div>
                 <div style={styles.Content}>
@@ -108,10 +123,11 @@ export default class CodeContent extends React.Component {
                     </div>
                     <div style={styles.codeContentMainHeader}>
                         <div style={styles.codeContentMainHeaderLeft}><span>{match.params.packageName}</span></div>
+                        <div style={styles.codeContentMainHeaderRight}><img onClick={this.onClickWrite} style={{wdith:'25px',height:'25px',verticalAlign:'middle',cursor:'pointer'}} src={isWrite?require('../../img/ico-write-no.png'):require('../../img/ico-write.png')} alt=""/></div>
                     </div>
                     <TextConent style={styles.codeContentMainContent}>
-                        <CodeMirror value={this.state.content} onChange={this.updateCode} options={options} ref={(editor) => {this.editor= editor}} />
-                        {/* <textarea style={styles.codeContentMainContentText} ref={textarea => {this.textarea = textarea}} onChange={this.onTextarea} value={this.state.content} /> */}
+                        <CodeMirror value={this.state.content} onChange={this.updateCode} options={options} ref={(editor) => { this.editor = editor }} />
+                        <div style={!isWrite ? styles.codeContentMainContentCover : {display:'none'}}></div>
                     </TextConent>
                     <HLayout style={{marginTop:'20px'}}>
                         <div style={styles.btnSubmit} onClick={this.onSubmit}>提交</div> 
@@ -178,29 +194,28 @@ CodeContent.styles = {
         borderBottom:'none'
     },
     codeContentMainHeaderLeft: {
-        width: '400px',
+        float:'left',
         marginLeft: '20px',
+        height:'100%'
     },
     codeContentMainHeaderRight: {
-        boxSizing: 'border-box',
-        paddingRight:'40px',
-        width: '300px',
-        textAlign:'right'
+        float: 'right',
+        marginRight: '20px',
+        height:'100%'
     },
     codeContentMainContent: {
+        position:'relative',
         height:'485px',
         border: '1px solid #dadbe0',
         borderTop: 'none',
         boxSizing: 'border-box',
     },
-    codeContentMainContentText: {
-        padding:'16px 34px',
+    codeContentMainContentCover: {
+        position: 'absolute',
+        zIndex: '9',
+        top: '0',
         width: '100%',
-        height: '100%',
-        fontSize:'18px',
-        resize: 'none',
-        border: 'none',
-        outline:'none'
+        height: '100%'
     },
     btnSubmit: {
         marginRight:"20px",

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { HLayout, VLayout } from './Layout.jsx'
-
+import styled, { keyframes} from 'styled-components'
 export default class MyAppRow extends React.Component{
     constructor(props) {
         super(props)
@@ -21,7 +21,7 @@ export default class MyAppRow extends React.Component{
         const appInfo = this.props.appInfo
         //console.log('appInfo=====>',appInfo);
         const appUri = `http://${G.currentIP}/entry?author=${appInfo.author}&app=${appInfo.name}&ver=last`
-        return (<div style={styles.background}>
+        return (<Background style={styles.background}>
             <Link  to={{ pathname: `/tree/${appInfo.name}/last` }}style={styles.MyAppRowTitle}>
                <div  style={styles.MyAppRowTitleContent} ><span>{appInfo.name}</span></div>
             </Link>
@@ -34,7 +34,7 @@ export default class MyAppRow extends React.Component{
                 </div>
                
             </div>
-       </div>
+       </Background>
         )
     }
 }
@@ -42,7 +42,6 @@ export default class MyAppRow extends React.Component{
 MyAppRow.styles = {
     background: {
         position: 'relative',
-        margin:'0 15px 30px 0',
         width: '320px',
 	    height: '154px',
         border:'1px solid #d1d2d7',
@@ -63,7 +62,7 @@ MyAppRow.styles = {
     MyAppRowPreview: {
         position: 'absolute',
         right: '24px',
-        bottom:'24px',
+        bottom:'20px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
@@ -78,3 +77,9 @@ MyAppRow.styles = {
     },
 
 }
+const Background = styled.div`
+    margin:0 21px 20px 0;
+    &:nth-child(3n){
+        margin-right:0px;
+    }
+`

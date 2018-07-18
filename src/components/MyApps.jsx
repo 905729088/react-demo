@@ -28,17 +28,17 @@ export default class MyApps extends React.Component {
 
 MyApps.styles = {
     background: {
-       paddingTop:'40px',
+       paddingTop:'20px',
         overflow: 'hidden',
     },
    
     myAppsMain: {
-        height: '520px',
+        height: '600px',
         overflowY:'auto',
         fontWeight: 'bold',
         display: 'flex',
         justifyContent: 'flex-start',
         flexFlow:'row wrap',
-        alignContent:'flex-start'
+        alignContent: 'flex-start'
     },
 }

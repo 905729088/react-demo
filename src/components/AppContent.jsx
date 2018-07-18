@@ -90,7 +90,7 @@ export default class AppContent extends React.Component {
                     </Link>
                     <div style={styles.centerHeaderContent}>
                         <span style={{margin:'0px 4px',fontSize: '22px',color:'#3f5368',verticalAlign:'middle'}}>/</span>
-                        <span style={{fontSize: '18px',fontWeight:'bold'}}>spitter-MVC</span>
+                        <span style={{fontSize: '18px',fontWeight:'bold'}}>{match.params.appName}</span>
                     </div>
                 </div>
                 <div style={styles.appContent}>

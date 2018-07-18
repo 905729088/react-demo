@@ -44,7 +44,7 @@ DefaultApps.styles = {
     },
     defaultAppsMain: {
         marginTop: '10px',
-        height: '640px',
+        height: '687px',
         overflowY:'auto',
         fontWeight: 'bold',
        

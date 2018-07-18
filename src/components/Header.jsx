@@ -26,8 +26,8 @@ export default class Header extends React.Component {
             {auth => {
                 const setDom = auth.isAuthenticated ? <div>
                     <div style={styles.userInfo} onClick={this.handleClick} >
-                        <img src={require('../img/ico-login-user.png')} alt=""/>
-                        <span style={{verticalAlign:'top'}}>{auth.user.name}</span>
+                        <img width='20' height='20' style={{marginRight:'6px',verticalAlign:'middle'}} src={require('../img/ico-login-user.png')} alt=""/>
+                        <span style={{verticalAlign:'middle'}}>{auth.user.name}</span>
                     </div>
                 </div> : <div style={styles.mainRight}>
                         <Link style={styles.mainRightLogin} to="/login">登陆</Link>

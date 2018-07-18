@@ -38,7 +38,7 @@ import CreateModal from './CreateModal.jsx';
 }
 NewAppList.styles = {
     background: {
-        paddingTop:'40px',
+        paddingTop:'30px',
         boxSizing: 'border-box',
     },
     

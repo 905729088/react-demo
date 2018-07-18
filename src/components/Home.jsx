@@ -17,13 +17,13 @@ export default class Home extends React.Component{
         const active=this.state.active;
         const Item=active?<NewAppList/>:<DefaultApps/>;
         return (<div style={styles.background} >
-            <VLayout style={styles.center}>
+            <div style={styles.center}>
                 <div  style={styles.mainHeader}>
                     <div style={active?styles.mainHeaderItemActive:styles.mainHeaderItem} onClick={this.handleClick}>我的应用</div>
                     <div style={!active?styles.mainHeaderItemActive:styles.mainHeaderItem} onClick={this.handleClick}>应用库</div>
                 </div>
                 {Item}
-            </VLayout>
+            </div>
             <Footer/>
         </div>)
     }
@@ -38,17 +38,20 @@ Home.styles = {
     },
     center: {
         margin:'2rem auto 0',
-        padding:'40px 30px 45px 30px',
+        padding:'30px 30px 45px 30px',
         width: '1080px',
         height:'810px',
-        borderRadius: '6px',
+        borderRadius: '2px',
         boxSizing: 'border-box',
         backgroundColor: '#ffffff',
         boxShadow: '0px 8px 9px 0px rgba(34, 34, 34, 0.08)'
     },
     mainHeader: {
         display: 'flex',
-        paddingBottom:'24px',
+        boxSizing:'border-box',
+        paddingBottom: '10px',
+        width:'98%',
+        lineHeight:'40px',
         justifyContent: 'flex-start',
         alignItems:'center',
         fontSize: '16px',

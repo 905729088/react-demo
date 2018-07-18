@@ -143,7 +143,7 @@ CreateModal.styles = {
         borderRadius:'6px'
     },
     contentFile: {
-        marginRight:'13px',
+        marginRight:'21px',
         width: '320px',
     },
     contentFileMain: {
@@ -159,7 +159,7 @@ CreateModal.styles = {
     contentFileDescribe: {
         display: 'block',
         padding:'0 20px',
-        marginRight:'13px',
+        marginRight:'21px',
         height:'68px',
         width: '320px',
         lineHeight: '68px',
@@ -186,7 +186,7 @@ CreateModal.styles = {
         fontWeight: 'bold',
         textAlign: 'center',
         lineHeight: '40px',
-        borderRadius: '6px',
+        borderRadius: '4px',
         backgroundColor: '#00afff',
         color:'#ffffff'
       }

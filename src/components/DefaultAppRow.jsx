@@ -1,6 +1,6 @@
 import React from 'react'
 import { HLayout, VLayout } from './Layout.jsx'
-
+import styled from 'styled-components'
 export default class DefaultAppRow extends React.Component {
     constructor(props) {
         super(props)
@@ -20,13 +20,13 @@ export default class DefaultAppRow extends React.Component {
     render() {
         const styles = DefaultAppRow.styles;
         const appInfo = this.props.appInfo;
-        return (<div  style={styles.background}>
+        return (<Background  style={styles.background}>
             <div style={styles.defaultTitle}>{appInfo.name}</div>
             <div style={styles.defaultDescribe}>{appInfo.describe}</div>
-            <div style={styles.defaultCopy} onClick={this.onClickCopy}>
+            <MyCopy style={styles.defaultCopy} onClick={this.onClickCopy}>
                 <span>CLONE</span>
-            </div>
-        </div>)
+            </MyCopy>
+        </Background>)
     }
 }
 
@@ -34,7 +34,6 @@ DefaultAppRow.styles = {
     background: {
         position: 'relative',
         float:'left',
-        margin: '0 15px 30px 0',
         padding:'20px',
         width: '320px',
         height: '154px',
@@ -57,17 +56,29 @@ DefaultAppRow.styles = {
     defaultCopy: {
         position: 'absolute',
         right: '20px',
-        bottom:'20px',
-        width: '80px',
-        height: '30px',
-        border: '1px solid #0084c1',
+        bottom:'18px',
+        width: '62px',
+        height: '24px',
+        border: '1px solid #00afff',
         borderRadius: '4px',
-        fontSize: '16px',
+        fontSize: '12px',
         fontWeight:'normal',
         textAlign: 'center',
-        color:'#ffffff',
-        lineHeight: '30px',
-        backgroundColor: '#00afff',
+        lineHeight: '24px',
         cursor:'pointer'
     }
 }
+const MyCopy = styled.div`
+    color:#00afff;
+    background-color: #ffffff;
+    &:hover{
+        color:#ffffff;
+        background-color: #00afff;
+    }
+`
+const Background = styled.div`
+    margin:0 21px 20px 0;
+    &:nth-child(3n){
+        margin-right:0px;
+    }
+`

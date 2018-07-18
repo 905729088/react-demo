@@ -18,14 +18,14 @@ Footer.styles = {
         position: 'absolute',
         top:'calc(2rem + 830px)',
         boxSzing: 'border-box',
-        padding:'0 20% 21px 20%',
+        padding:'0 24% 21px 24%',
         display: 'flex',
         width:'100%',
         alignItems: 'center',
         justifyContent:'space-between',
         zIndex: '9999',
         color: '#828ea1',
-        fontSize: '14px',
+        fontSize: '12px',
     },
     footerRight: {
         display: 'flex',
@@ -33,6 +33,6 @@ Footer.styles = {
         alignItems: 'center',
         justifyContent:'space-around',
         color: '#828ea1',
-        fontSize: '14px',
+        fontSize: '12px',
     }
 }
