@@ -2,7 +2,7 @@ import React from 'react'
 import { HLayout ,VLayout} from './Layout.jsx'
 import NewAppList from './NewAppList.jsx'
 import DefaultApps from './DefaultApps.jsx'
-
+import Footer from './Footer.jsx';
 export default class Home extends React.Component{
     constructor(props) {
         super(props);
@@ -23,8 +23,8 @@ export default class Home extends React.Component{
                     <div style={!active?styles.mainHeaderItemActive:styles.mainHeaderItem} onClick={this.handleClick}>应用库</div>
                 </div>
                 {Item}
-                
             </VLayout>
+            <Footer/>
         </div>)
     }
 }
@@ -37,7 +37,7 @@ Home.styles = {
         backgroundColor:'#E7E8EC'
     },
     center: {
-        margin:'2rem auto',
+        margin:'2rem auto 0',
         padding:'40px 30px 45px 30px',
         width: '1080px',
         height:'810px',

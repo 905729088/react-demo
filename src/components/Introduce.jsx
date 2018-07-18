@@ -2,6 +2,7 @@ import React from 'react'
 import { HLayout,VLayout } from './Layout.jsx'
 import AuthContext from '../auth-context.js'
 import { Redirect } from 'react-router-dom'
+import Footer from './Footer.jsx';
 class Introduce extends React.Component{
     constructor(props){
         super(props)
@@ -64,12 +65,12 @@ class Introduce extends React.Component{
                             <form onSubmit={this.handleSubmit.bind(this, this.props.auth.login)}>
                                 <HLayout style={styles.loginForm}>
                                     <div style={styles.loginFormItem}>
-                                    <HLayout style={styles.loginFormItemText}>
-                                        <i style={styles.loginFormItemUser}></i>
-                                        <span>用户名</span>
-                                    </HLayout>
-                                        <input style={styles.loginFormItemInput}  type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
-                                    </div>
+                                        <HLayout style={styles.loginFormItemText}>
+                                            <i style={styles.loginFormItemUser}></i>
+                                            <span>用户名</span>
+                                        </HLayout>
+                                            <input style={styles.loginFormItemInput}  type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
+                                        </div>
                                     <div style={styles.loginFormItem}>
                                         <HLayout style={styles.loginFormItemText} >
                                             <i style={styles.loginFormItemPass}></i>
@@ -77,7 +78,7 @@ class Introduce extends React.Component{
                                        </HLayout>
                                         <div><input style={styles.loginFormItemInput}  type="password" name="password" value={this.state.password} onChange={this.handleInputChange} /></div>
                                     </div>
-                                    <div style={styles.loginFormItem}>
+                                    <div style={styles.loginFormItemLast}>
                                         <input id='IntroduceSubmit' style={styles.loginFormItemSubmit} type="submit" value="" />
                                         <label htmlFor="IntroduceSubmit" style={styles.loginFormItemSubmitC}>
                                             <span style={styles.loginFormItemSubmitL}>立即登陆</span>
@@ -110,7 +111,8 @@ class Introduce extends React.Component{
                                 </HLayout>
                             </HLayout> */}
                         </VLayout>
-                <div style={styles.loginbackground}></div>
+                     <div style={styles.loginbackground}></div>
+                    <Footer/>
                     </div>
         )
     }
@@ -157,7 +159,7 @@ Introduce.styles = {
     },
     loginForm: {
         marginTop: '45px',
-        padding:'10px 7px',
+        padding:'10px 13px',
         border:'1px solid #dcdee0',
         boxShadow: '0px 8px 9px 0px rgba(34, 34, 34, 0.08)',
         boxSizing: 'border-box',
@@ -168,10 +170,14 @@ Introduce.styles = {
         marginRight: '14px',
         width:'366px',
     },
+    loginFormItemLast: {
+        position:'relative',
+        width:'245px',
+    },
     loginFormItemText: {
         position: 'absolute',
-        left: '10px',
-        top:'10px',
+        left: '24px',
+        top:'17px',
         textAlign: 'left',
         fontSize: '18px',
         color:'#22272f'
@@ -191,24 +197,25 @@ Introduce.styles = {
         background:`url('${require('../img/ico-pass.png')}') no-repeat 100%/100%`
     },
     loginFormItemInput: {
-        height: '50px',
+        height: '60px',
         paddingLeft:'90px',
         width:'100%',
         textAlign: 'left',
         fontSize: '20px',
-        textIndent: '15px',
+        textIndent: '35px',
         color:'#AAAAAA',
         border: '1px solid #BBBBBB',
         boxSizing: 'border-box',
         boxShadow:'inset 0px 2px 3px 0px rgba(0, 0, 0, 0.15)',
 	    borderRadius: '4px',
-	    border: 'solid 1px #dcdee0'
+        border: 'solid 1px #dcdee0',
+        outline:'none'
     },
     loginFormItemSubmit: {
-        height:'50px',
+        height:'60px',
         width: '100%',
         backgroundImage: 'linear-gradient(90deg, #8a71ff 0%,  #9671ff 40%,  #9f71ff 64%,#a471ff 70%,  #a971ff 100%),  linear-gradient( #f16b80,#f16b80)',
-        lineHeight: '50px',
+        lineHeight: '0px',
        
     },
     loginFormItemSubmitC: {
@@ -233,7 +240,8 @@ Introduce.styles = {
     },
     loginFormItemSubmitL: {
         marginLeft: '-10px',
-        paddingRight:'10px'
+        paddingRight: '10px',
+        fontWeight:'normal'
     },
     loginDescribe: {
         marginTop: '55px',

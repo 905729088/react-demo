@@ -96,7 +96,7 @@ export default class CreateModal extends React.Component {
         const step = fileSize / 100;
         for (let i = 0; i < 100; i ++) {
             const dataNeedSend = typedArray.slice(i*step, step*(i+1))
-            await await G.api.setlfiledata(sid, tempFileId, i*step, dataNeedSend)
+             await G.api.setlfiledata(sid, tempFileId, i*step, dataNeedSend)
           if (percentCallback) {
             percentCallback(i)
           }

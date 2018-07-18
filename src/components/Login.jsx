@@ -2,7 +2,7 @@ import React from 'react'
 import { HLayout,VLayout } from './Layout.jsx'
 import AuthContext from '../auth-context.js'
 import { Redirect } from 'react-router-dom'
-
+import Footer from './Footer.jsx';
 class Login extends React.Component{
     constructor(props){
         super(props)
@@ -73,8 +73,8 @@ class Login extends React.Component{
                                     </div>
                                 </VLayout>
                             </form>
-
-                        </VLayout>
+                     </VLayout>
+                     <Footer/>
                     </div>
         )
     }

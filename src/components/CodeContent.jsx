@@ -1,15 +1,24 @@
 import React from 'react'
 import { HLayout } from './Layout.jsx';
 import { Link } from 'react-router-dom'
+import Footer from './Footer.jsx';
+import styled from 'styled-components'
 
+import CodeMirror from 'react-codemirror';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/addon/edit/closetag';
+import 'codemirror/mode/sql/sql';
+import 'codemirror/addon/hint/show-hint.css';  
+import 'codemirror/addon/hint/show-hint.js'; 
 export default class CodeContent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            content : ''
+            content: '',
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.onTextarea = this.onTextarea.bind(this);
+        this.updateCode = this.updateCode.bind(this);
     }
 
     componentDidMount() {
@@ -29,9 +38,8 @@ export default class CodeContent extends React.Component {
         const uint8 = await G.api.getlfiledata(sid, packageid, 0, -1)
         const code = new TextDecoder('utf-8').decode(uint8)
         this.lastCode = code;
-        this.setState({
-            content: code
-        })
+        
+        this.editor.getCodeMirror().setValue(code);//将内容插入插件中
     }
 
     async onSubmit() { 
@@ -65,10 +73,23 @@ export default class CodeContent extends React.Component {
         });
        
     }
+    updateCode(newCode) {
+		this.setState({
+			content: newCode,
+		});
+	}
     render() {
         const match = this.props.match
         const styles = CodeContent.styles;
         const appName = this.props.match.params.appName;
+        var options = {
+            lineNumbers: true,
+            mode: {name: "text/x-mysql"}, 
+            extraKeys: { "Ctrl": "autocomplete" },   //自动提示配置  
+            autoCloseTags: true,
+            
+        };
+     
         return (<div style={styles.background}>
             <div style={styles.center}>
                 <div style={styles.centerHeader}>
@@ -88,15 +109,17 @@ export default class CodeContent extends React.Component {
                     <div style={styles.codeContentMainHeader}>
                         <div style={styles.codeContentMainHeaderLeft}><span>{match.params.packageName}</span></div>
                     </div>
-                    <div style={styles.codeContentMainContent}>
-                        <textarea style={styles.codeContentMainContentText} ref={textarea => {this.textarea = textarea}} onChange={this.onTextarea} value={this.state.content} />
-                    </div>
+                    <TextConent style={styles.codeContentMainContent}>
+                        <CodeMirror value={this.state.content} onChange={this.updateCode} options={options} ref={(editor) => {this.editor= editor}} />
+                        {/* <textarea style={styles.codeContentMainContentText} ref={textarea => {this.textarea = textarea}} onChange={this.onTextarea} value={this.state.content} /> */}
+                    </TextConent>
                     <HLayout style={{marginTop:'20px'}}>
                         <div style={styles.btnSubmit} onClick={this.onSubmit}>提交</div> 
                         <Link to={{ pathname: `/tree/${appName}/${match.params.appVer}` }} style={styles.btnReturn}>返回</Link> 
                     </HLayout>
                 </div>
             </div>
+            <Footer/>
         </div>)
     }
 }
@@ -205,3 +228,9 @@ CodeContent.styles = {
         textDecoration:'none'
     }
 }
+const TextConent = styled.div`
+    & .CodeMirror{
+        width:100%;
+        height:484px;
+      }
+`

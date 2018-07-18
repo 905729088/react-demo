@@ -3,7 +3,7 @@ import { HLayout } from './Layout.jsx';
 import { Link } from 'react-router-dom';
 import Dropdown from './Dropdown.jsx';
 import styled from 'styled-components'
-
+import Footer from './Footer.jsx';
 export default class AppContent extends React.Component {
     constructor(props) {
         super(props)
@@ -118,6 +118,7 @@ export default class AppContent extends React.Component {
                     {/* <div style={styles.delet}>删除</div> */}
                 </div>
             </div>
+            <Footer/>>
         </div>)
     }
 }
