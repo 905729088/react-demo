@@ -30,8 +30,8 @@ export default class Header extends React.Component {
                         <span style={{verticalAlign:'middle'}}>{auth.user.name}</span>
                     </div>
                 </div> : <div style={styles.mainRight}>
-                        <Link style={styles.mainRightLogin} to="/login">登陆</Link>
-                        {/* <Link style={styles.mainRightReiser} to="/join">注册</Link> */}
+                        <Link style={styles.mainRightLogin} to="/login">登录</Link>
+                        <Link style={styles.mainRightReiser} to="/join">注册</Link>
                     </div>
                 return (<div style={styles.background}>
                     <HLayout style={styles.main}>

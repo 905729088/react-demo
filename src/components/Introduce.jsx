@@ -81,13 +81,13 @@ class Introduce extends React.Component{
                                     <div style={styles.loginFormItemLast}>
                                         <input id='IntroduceSubmit' style={styles.loginFormItemSubmit} type="submit" value="" />
                                         <label htmlFor="IntroduceSubmit" style={styles.loginFormItemSubmitC}>
-                                            <span style={styles.loginFormItemSubmitL}>立即登陆</span>
+                                            <span style={styles.loginFormItemSubmitL}>立即登录</span>
                                             <i style={styles.loginFormItemSubmitJ}></i>
                                         </label>
                                      </div>
                                 </HLayout>
                             </form>
-                            {/* <HLayout style={styles.loginDescribe}>
+                            <HLayout style={styles.loginDescribe}>
                                 <HLayout style={styles.loginDescribeItem}>
                                     <div style={styles.loginDescribeItemLeftDeploy}></div>
                                     <div style={styles.loginDescribeItemRight}>
@@ -109,7 +109,7 @@ class Introduce extends React.Component{
                                         <div style={styles.loginDescribeItemRightBottom}>代码安全，运行稳定</div>
                                     </div>
                                 </HLayout>
-                            </HLayout> */}
+                            </HLayout>
                         </VLayout>
                      <div style={styles.loginbackground}></div>
                     <Footer/>
