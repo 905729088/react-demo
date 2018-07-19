@@ -140,14 +140,15 @@ Introduce.styles = {
         transform:'translateX(-50%)',
     },
     loginHeader: {
-        marginTop:'23%',
+        marginTop:'20%',
         fontSize: '50px',
-        textAlign:'left'
+        fontWeight:'bold',
+        textAlign:'center'
     },
     loginHeaderDescribe: {
-        marginTop:'10px',
+        marginTop:'20px',
         fontSize: '16px',
-        textAlign: 'left',
+        textAlign: 'center',
         color: '#828ea1'
     },
     loginForm: {
@@ -240,8 +241,9 @@ Introduce.styles = {
         fontWeight:'normal'
     },
     loginDescribe: {
+        justifyContent:'space-between',
         marginTop: '55px',
-        width:'70%'
+        width:'100%'
     },
     loginDescribeItem: {
         width:'200px'

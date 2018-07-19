@@ -6,7 +6,6 @@ export const HLayout = styled.div`
         border-style: solid;
         flex-flow: row nowrap;
         justify-content: flex-start;
-        flex: 1;
 `
 
 export const VLayout = styled.div`

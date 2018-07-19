@@ -4,6 +4,8 @@ import * as THREE from 'three';
 export default class Waves extends React.Component { 
     constructor(props) { 
         super(props);
+        this.timer = null;
+        
     }
     componentDidMount() { 
         var SEPARATION = 100,
@@ -16,14 +18,19 @@ export default class Waves extends React.Component {
          var particles, particle, count = 0;
 
         var mouseX = 85,
-           mouseY = -342;
+            mouseY = -342;
+        
 
-        var windowHalfX = window.innerWidth / 2;
-        var windowHalfY = window.innerHeight / 2;
+       
+        
         
         init();
         
-         animate();
+        let animate = () => { 
+            this.timer=requestAnimationFrame(animate);
+            myrender();
+        };
+        animate();
         function init() { 
             
             camera = new THREE.PerspectiveCamera(120, window.innerWidth / window.innerHeight, 1, 10000);
@@ -36,7 +43,7 @@ export default class Waves extends React.Component {
             var PI2 = Math.PI * 2;
            var material = new THREE.ParticleCanvasMaterial({
 
-                color: 0xe1e1e1,
+                color: 0x999999,
                 program: function(context) {
 
                     context.beginPath();
@@ -66,14 +73,8 @@ export default class Waves extends React.Component {
             container.appendChild(renderer.domElement);
         }
 
-        function animate() {
 
-            requestAnimationFrame(animate);
-    
-            myrender();
-    
-    
-        }
+      
 
         function myrender() {
 
@@ -105,7 +106,9 @@ export default class Waves extends React.Component {
 
     }
 
-    
+    componentWillUnmount() {
+        cancelAnimationFrame(this.timer);
+    }
     render() { 
         const styles = Waves.styles;
         return (
