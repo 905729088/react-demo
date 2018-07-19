@@ -15,11 +15,9 @@ export default class CodeContent extends React.Component {
         super(props)
         this.state = {
             content: '',
-            isWrite:false
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.updateCode = this.updateCode.bind(this);
-        this.onClickWrite = this.onClickWrite.bind(this);
     }
 
     componentDidMount() {
@@ -71,9 +69,7 @@ export default class CodeContent extends React.Component {
             reader.readAsArrayBuffer(blob)
         })
     }
-    onClickWrite() { 
-        this.setState({isWrite:!this.state.isWrite})
-    }
+   
     updateCode(newCode) {
 		this.setState({
 			content: newCode,
@@ -83,26 +79,14 @@ export default class CodeContent extends React.Component {
         const match = this.props.match
         const styles = CodeContent.styles;
         const appName = this.props.match.params.appName;
-        const isWrite = this.state.isWrite;
-        if (isWrite) {
-            var options = {
+        const options = {
                 lineNumbers: true,
                 mode: {name: "text/x-mysql"}, 
                 extraKeys: { "Ctrl": "autocomplete" },   //自动提示配置  
                 autoCloseTags: true,
                 readOnly: false,          //是否只读
-              
             };
-        } else { 
-            var options = {
-                lineNumbers: true,
-                mode: {name: "text/x-mysql"}, 
-                extraKeys: { "Ctrl": "autocomplete" },   //自动提示配置  
-                autoCloseTags: true,
-                readOnly: true,          //是否只读
-    
-            };
-        }
+       
       
      
         return (<div style={styles.background}>
@@ -123,11 +107,9 @@ export default class CodeContent extends React.Component {
                     </div>
                     <div style={styles.codeContentMainHeader}>
                         <div style={styles.codeContentMainHeaderLeft}><span>{match.params.packageName}</span></div>
-                        <div style={styles.codeContentMainHeaderRight}><img onClick={this.onClickWrite} style={{wdith:'25px',height:'25px',verticalAlign:'middle',cursor:'pointer'}} src={isWrite?require('../../img/ico-write-no.png'):require('../../img/ico-write.png')} alt=""/></div>
                     </div>
                     <TextConent style={styles.codeContentMainContent}>
                         <CodeMirror value={this.state.content} onChange={this.updateCode} options={options} ref={(editor) => { this.editor = editor }} />
-                        <div style={!isWrite ? styles.codeContentMainContentCover : {display:'none'}}></div>
                     </TextConent>
                     <HLayout style={{marginTop:'20px'}}>
                         <div style={styles.btnSubmit} onClick={this.onSubmit}>提交</div> 

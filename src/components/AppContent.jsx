@@ -38,7 +38,14 @@ export default class AppContent extends React.Component {
         const sid = sessionStorage.getItem('current_sid')
         const packageInfo = await G.api.getvar(sid, 'apppackage', appName, ver)
         if (packageInfo) {
-            return packageInfo.name2ID
+            let obj = {};
+            for (let key in packageInfo.entryTemplate) { 
+                obj[key] = packageInfo.entryTemplate[key];
+            }
+            for (let key in packageInfo.name2ID) { 
+                obj[key] = packageInfo.name2ID[key];
+            }
+            return obj;
         }
         return []
     }
@@ -77,7 +84,7 @@ export default class AppContent extends React.Component {
         let packageDoms = '...'
         packageDoms = packageNames && packageNames.length? packageNames.map((name, i) =>
             <MyLink style={styles.appContentMainitem} key={i}>
-                <Link to={{ pathname: `/treeCode/${appName}/${currentVer}/${name==="main"?name+'.html':name+'.js'}`, state: { packageid: packages[name] } }} style={styles.appContentMainitemFileName}><span>{name==="main"?name+'.html':name+'.js'}</span></Link>
+                <Link to={{ pathname: `/treeCode/${appName}/${currentVer}/${name==="main"?name+'.html':name}`, state: { packageid: packages[name] } }} style={styles.appContentMainitemFileName}><span>{name==="main"?name+'.html':name}</span></Link>
             </MyLink>
         ) : null
         
