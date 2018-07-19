@@ -4959,6 +4959,10 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
+three@^0.58.10:
+  version "0.58.10"
+  resolved "http://registry.npm.taobao.org/three/download/three-0.58.10.tgz#ab78f3d60fca580924101216916c785c9b4dedd9"
+
 through2@^2.0.0:
   version "2.0.3"
   resolved "http://registry.npm.taobao.org/through2/download/through2-2.0.3.tgz#0004569b37c7c74ba39c43f3ced78d1ad94140be"

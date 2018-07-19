@@ -60,7 +60,7 @@ Header.styles = {
         zIndex:'10',
         fontSize: '0.46rem',
         color: '#101010',
-        boxShadow:'0px 2px 2px 0px rgba(34, 34, 34, 0.08)',
+        boxShadow:'0px 2px 2px 0px rgba(34, 34, 34, 0.02)',
         borderBottom: '1px solid #eeeeee',
         backgroundColor:'#ffffff'
     },
@@ -105,9 +105,7 @@ Header.styles = {
     mainRightLogin: {
         float:'left',
         width:'2.4rem',
-        fontWeight:'bold',
         borderLeft: '1px solid #eee',
-        borderRight:'1px solid #eee',
     },
     mainRightReiser: {
         float:'left',

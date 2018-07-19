@@ -1,5 +1,5 @@
 import React from 'react'
-import Introduce from './Introduce.jsx'
+import Introduce from './Introduce/Introduce.jsx'
 import Home from './Home.jsx'
 import Login from './Login.jsx'
 import CreateModal from './CreateModal.jsx'

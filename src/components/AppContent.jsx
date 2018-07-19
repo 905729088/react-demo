@@ -85,7 +85,7 @@ export default class AppContent extends React.Component {
             <div style={styles.center}>
                 <div style={styles.centerHeader}>
                     <Link to={{ pathname: `/home` }}  style={styles.btnReturn}>
-                        <img src="./src/img/ico-menu.png" alt="" style={{marginRight:'3px',verticalAlign:'middle'}} />
+                        <img src={require('../img/ico-menu.png')} alt="" style={{marginRight:'3px',verticalAlign:'middle'}} />
                         <span style={{fontSize: '14px'}}>应用主页</span>
                     </Link>
                     <div style={styles.centerHeaderContent}>

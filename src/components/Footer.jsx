@@ -3,7 +3,7 @@ export default class Footer extends React.Component {
     render() { 
         const styles = Footer.styles;
         return ( <div style={styles.footer}>
-            <div>Copyright©2017 沪ICP备16035344号-1</div>
+            <div>Copyright©2017 浙ICP备B2-20170452 </div>
             <div style={styles.footerRight}>
                 <span >隐私条款</span>
                 <span style={{marginTop:'-2px'}}>|</span>
