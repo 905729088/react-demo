@@ -67,15 +67,19 @@ Dropdown.styles = {
         top: '0',
         left:'0',
         width: '100%',
-        paddingRight:'30px',
+        paddingRight:'23px',
         height: '100%',
-        border: '1px solid #BBBBBB',
+        border: '1px solid #d1d5da',
         borderRadius: '6px',
         fontSize: '14px',
-        textIndent: '10px',
+        textAlign:'center',
         outline: 'none',
         boxSizing: 'border-box',
-        background:'#ffffff'
+        color:'#32475e',
+        background: '#ffffff',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        overflow:'hidden'
     },
     mainground: {
         position: 'absolute',
@@ -88,13 +92,14 @@ Dropdown.styles = {
     Triangle: {
         position: 'absolute',
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems:'center',
         right: '0px',
         zIndex: '1',
-        width: '30px',
+        width: '23px',
         height: '30px',
-        cursor:'pointer' 
+        cursor: 'pointer',
+        boxSizing: 'border-box',
     },
     TriangleHide: {
         borderWidth: '0px 6px 8px 6px',
@@ -116,9 +121,9 @@ Dropdown.styles = {
         top:'100%',
         zIndex: '1',
         fontSize: '14px',
-        color:'#777',
+        color:'#32475e',
         textAlign:'center',
-        border: '1px solid #BBBBBB',
+        border: '1px solid #d1d5da',
         background:'#ffffff'
     },
     option: {

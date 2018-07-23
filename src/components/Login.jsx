@@ -63,7 +63,7 @@ class Login extends React.Component{
                                     </div>
                                     <div style={styles.loginFormItem}>
                                         <div style={styles.loginFormItemHeader} >密码</div>
-                                        <div><input style={styles.loginFormItemInput} placeholder='输入用户名' type="password" name="password" value={this.state.password} onChange={this.handleInputChange} /></div>
+                                        <div><input style={styles.loginFormItemInput} placeholder='输入密码' type="password" name="password" value={this.state.password} onChange={this.handleInputChange} /></div>
                                         <div style={styles.loginFormItemForget}>
                                             <span>忘记密码？</span>
                                         </div>

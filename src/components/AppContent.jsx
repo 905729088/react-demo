@@ -103,16 +103,16 @@ export default class AppContent extends React.Component {
                 <div style={styles.appContent}>
                     <div style={styles.appContentHeader}>
                         <span>应用文件</span>
-                        <div style={styles.appContentRelease} onClick={this.onClickRelease}>发布版本</div>
                     </div>
                     <div style={styles.appContentTitle}>
                         <div>点此设置该应用的域名</div>
-                        <div>
+                        <div style={styles.appContentTitleRight}>
                             <Dropdown
-                                styles={{ width: '140px' }}
+                                styles={{ width: '107px' }}
                                 dataList={this.state.versions}
                                 onClick={this.onClickselectAppVer}
                             />
+                             <div style={styles.appContentRelease} onClick={this.onClickRelease}>发布版本</div>
                         </div>
                        
                     </div>
@@ -175,12 +175,12 @@ AppContent.styles = {
         textAlign: 'left',
     },
     appContentRelease: {
-        float:'right',
-        width: '140px',
+        marginLeft:'10px',
+        width: '107px',
         height: '30px',
         textAlign:'center',
-        border: '1px solid #BBBBBB',
-        color:'#777',
+        border: '1px solid #d1d5da',
+        color:'#32475e',
         lineHeight: '30px',
         fontSize: '14px',
         fontWeight:'normal',
@@ -195,8 +195,11 @@ AppContent.styles = {
         textAlign: 'left',
         justifyContent: 'space-between',
         color: '#999999'
+    },appContentTitleRight: {
+        display:'flex',
+        justifyContent: 'space-between',
+       
     },
-    
     appContentMain: {
         marginTop:'20px',
         width: '100%',
