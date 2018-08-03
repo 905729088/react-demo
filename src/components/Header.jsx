@@ -54,8 +54,6 @@ export default class Header extends React.Component {
 
 Header.styles = {
     background: {
-        position: 'fixed',
-        top:'0',
         width:'100%',
         zIndex:'10',
         fontSize: '0.46rem',
@@ -116,7 +114,8 @@ Header.styles = {
         color:'#fff'
     },
     mainMenu: {
-        position:'absolute',
+        position: 'absolute',
+        zIndex:'9',
         right: '0px',
         top: '1.2rem',
         width:'2.4rem',

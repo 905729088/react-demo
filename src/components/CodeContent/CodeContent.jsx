@@ -124,13 +124,14 @@ export default class CodeContent extends React.Component {
 
 CodeContent.styles = {
     background: {
+        overflow:'hidden',
         position: 'fixed',
+        height: '100%',
         width: '100%',
-        height:'100%',
         backgroundColor: '#E7E8EC',
     },
     center: {
-        margin:'2rem auto',
+        margin:'20px auto',
         width: '1080px',
         boxSizing:'border-box',
     },
@@ -187,7 +188,7 @@ CodeContent.styles = {
     },
     codeContentMainContent: {
         position:'relative',
-        height:'485px',
+        height:'547px',
         border: '1px solid #dadbe0',
         borderTop: 'none',
         boxSizing: 'border-box',
@@ -228,6 +229,6 @@ CodeContent.styles = {
 const TextConent = styled.div`
     & .CodeMirror{
         width:100%;
-        height:484px;
+        height:546px;
       }
 `

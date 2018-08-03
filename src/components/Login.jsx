@@ -73,8 +73,11 @@ class Login extends React.Component{
                                     </div>
                                 </VLayout>
                             </form>
-                     </VLayout>
-                     <Footer/>
+                </VLayout>
+                <div style={styles.footer}>
+                    <Footer/>
+                </div>
+                    
                     </div>
         )
     }
@@ -92,16 +95,12 @@ export default  props => (
 
 Login.styles = {
     background: {
-        position: 'fixed',
-        top:'0',
+        overflow:'hidden',
         width: '100%',
-        height: '100%',
     },
     center: {
-        position: 'absolute',
-        top:'50%',
-        left: '50%',
-        transform:'translate(-50%,-50%)',
+        margin:'160px auto 0',
+        width: '486px',
     },
     loginHeader: {
         fontSize: '28px',
@@ -155,5 +154,8 @@ Login.styles = {
         lineHeight: '50px',
         textAlign: 'center',
         color:'#ffffff'
+    },
+    footer: {
+        marginTop:'186px'
     }
 }

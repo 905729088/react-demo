@@ -15,8 +15,9 @@ export default class Footer extends React.Component {
 
 Footer.styles = {
     footer: {
-        position: 'absolute',
-        top:'calc(2rem + 830px)',
+        position: 'fixed',
+        bottom:'10px',
+        marginTop:'25px',
         boxSzing: 'border-box',
         padding:'0 24% 21px 24%',
         display: 'flex',
@@ -26,6 +27,7 @@ Footer.styles = {
         zIndex: '9999',
         color: '#828ea1',
         fontSize: '12px',
+        
     },
     footerRight: {
         display: 'flex',

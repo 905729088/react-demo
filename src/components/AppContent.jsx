@@ -125,20 +125,21 @@ export default class AppContent extends React.Component {
                     {/* <div style={styles.delet}>删除</div> */}
                 </div>
             </div>
-            <Footer/>>
+            <Footer/>
         </div>)
     }
 }
 
 AppContent.styles = {
     background: {
+        overflow:'hidden',
         position: 'fixed',
+        height: '100%',
         width: '100%',
-        height:'100%',
         backgroundColor: '#E7E8EC',
     },
     center: {
-        margin:'2rem auto',
+        margin:'20px auto',
         width: '1080px',
        
     },

@@ -31,13 +31,14 @@ export default class Home extends React.Component{
 Home.styles = {
     background: {
         position: 'fixed',
-        top:'0',
-        width: '100%',
         height: '100%',
+        width: '100%',
+        overflow:'hidden',
+        width: '100%',
         backgroundColor:'#E7E8EC'
     },
     center: {
-        margin:'2rem auto 0',
+        margin:'20px auto',
         padding:'30px 30px 45px 30px',
         width: '1080px',
         height:'810px',

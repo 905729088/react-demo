@@ -121,7 +121,8 @@ export default class Waves extends React.Component {
  Waves.styles = {
     background: {
         position: 'fixed',
-        bottom:'-100px',
+        zIndex:'-1',
+        top:'280px',
         width:'100%',
         height: '780px',
     },

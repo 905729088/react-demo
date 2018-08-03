@@ -110,8 +110,8 @@ class Introduce extends React.Component{
                                 </HLayout>
                             </HLayout>
                         </VLayout>
-                     <Waves></Waves>
-                    <Footer/>
+                        <Waves></Waves>
+                        <Footer/>
                     </div>
         )
     }
@@ -129,15 +129,15 @@ export default  props => (
 
 Introduce.styles = {
     background: {
-        position: 'relative',
-        height:'100%',
+        position: 'fixed',
+        height: '100%',
+        width: '100%',
     },
    
     center: {
-        position: 'absolute',
-        zIndex:'1',
-        left: '50%',
-        transform:'translateX(-50%)',
+        margin: '0 auto',
+        width: '50%',
+        minWidth:'1030px'
     },
     loginHeader: {
         marginTop:'20%',
@@ -274,7 +274,7 @@ Introduce.styles = {
      loginDescribeItemRightBottom: {
          fontSize: '14px',
          color: '#828ea1'
-      }
+    }
 }
 
 const MyInput = styled.input`

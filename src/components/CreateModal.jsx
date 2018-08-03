@@ -32,6 +32,7 @@ export default class CreateModal extends React.Component {
         const sid = auth.sid;
         const userType = auth.userType;
         const tempFileId = await G.api.opentempfile(sid);
+        console.log('临时Id',tempFileId);
         const strArr = fileInfo.name.split('.');
         const type=strArr[strArr.length-1]
         // await G.api.setlfiledata(sid, tempFileId, 0, await this.readBlob(fileInfo))
@@ -43,7 +44,7 @@ export default class CreateModal extends React.Component {
             this.setState( {
                 index: (index*0.9) | 0,
             });
-        },type)
+        })
        
         let timer = setInterval(() => { 
             if (this.state.index==100) { 
@@ -58,11 +59,8 @@ export default class CreateModal extends React.Component {
             }
            
         }, t / 10);
-    
-        const fileid = await G.api.temp2lfile(sid, tempFileId)
-       
+        const fileid = await G.api.temp2lfile(sid,tempFileId)
         const appid = await G.api.uploadapp(sid, fileid,type)
-        
         this.setState({ content: '上传新的应用' });
         if (userType === "admin") { 
            
