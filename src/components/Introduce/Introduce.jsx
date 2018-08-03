@@ -1,8 +1,7 @@
 import React from 'react'
-import { HLayout,VLayout } from '../Layout.jsx'
+import { HLayout,VLayout } from '../ACommon/Layout.jsx'
 import AuthContext from '../../auth-context.js'
 import { Redirect } from 'react-router-dom'
-import Footer from '../Footer.jsx';
 import styled from 'styled-components';
 import Waves from './Waves.jsx'
 class Introduce extends React.Component{
@@ -111,7 +110,6 @@ class Introduce extends React.Component{
                             </HLayout>
                         </VLayout>
                         <Waves></Waves>
-                        <Footer/>
                     </div>
         )
     }

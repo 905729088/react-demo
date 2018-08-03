@@ -1,9 +1,9 @@
 import {HashRouter as Router} from "react-router-dom"
 import React from 'react'
-import Header from './components/Header.jsx'
-import Container from './components/Container.jsx'
+import Header from './components/Header/Header.jsx'
+import Container from './components/ACommon/Container.jsx'
 import AuthContext from './auth-context.js'
-
+import Footer from './components/Footer/Footer.jsx'
 export default class HashRoute extends React.Component {
     constructor(props) {
         super(props)
@@ -67,6 +67,7 @@ export default class HashRoute extends React.Component {
                 <div> 
                     <Header />
                     <Container />
+                    <Footer/>
                 </div>
             </Router>
         </AuthContext.Provider> )

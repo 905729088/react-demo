@@ -1,7 +1,6 @@
 import React from 'react'
-import { HLayout } from '../Layout.jsx';
+import { HLayout } from '../ACommon/Layout.jsx';
 import { Link } from 'react-router-dom'
-import Footer from '../Footer.jsx';
 import styled from 'styled-components'
 
 import CodeMirror from 'react-codemirror';
@@ -117,7 +116,6 @@ export default class CodeContent extends React.Component {
                     </HLayout>
                 </div>
             </div>
-            <Footer/>
         </div>)
     }
 }
