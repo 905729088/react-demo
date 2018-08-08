@@ -5,6 +5,8 @@
 		<script type="text/javascript">
 (function(){
 	var host = "192.168.1.51"; //
+	//var host = "192.168.1.230"; //
+	//var host = "192.168.1.147"; //
 	// var host = '192.168.1.137'; // 69
 	host = host.replace(/,$/, '').split(',');
 	window.entryParams = {
@@ -13,7 +15,9 @@
 	};
 	window.hostParams = {
 		"host": host,
+		//"hostid": "trfVa5dPUr_lETcR_-2wPwE2GOI", // 230
 		"hostid": "Z11mB_LBLnmht34cWxgh-PpWQn2", // 51
+		//"hostid": "p50oupaeqv3WW_iip8OTKuRUtR4", // my
 		// "hostid": 'pXnaGtjESmwnh6n_KRHIJgsJe4x', // 69
 	};
 	window.sessionStorage.setItem("HOST_PARAMS", JSON.stringify(window.hostParams));

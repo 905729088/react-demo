@@ -16,8 +16,7 @@ export default class Footer extends React.Component {
 Footer.styles = {
     footer: {
         position: 'fixed',
-        bottom:'10px',
-        marginTop:'25px',
+        bottom:'0px',
         boxSzing: 'border-box',
         padding:'0 24% 21px 24%',
         display: 'flex',
