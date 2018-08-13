@@ -6,43 +6,36 @@ export default class HeaderBackground extends React.Component {
         return (
             <div style={styles.background}>
                 <div style={styles.mainline}>
-                    <Mainl
-                        margin= '-180px 0 0 198px'
-                        width='200px'
-                        transform='rotate(-45deg)'
-                        animation={`${line1move} 1.5s infinite linear alternate`}
-                    />
-                     <Mainl
-                        margin= '-215px 0 0 155px'
-                        width='80px'
-                        transform='rotate(-45deg)'
-                        animation={`${line2move} 1.2s infinite linear alternate`}
-                       
-                    />
-                     <Mainl
-                        margin= '-147px 0 0 226px'
-                        width='60px'
-                        transform='rotate(-45deg)'
-                        animation={`${line3move} 1s infinite linear alternate`}
-                    />
-                     <Mainl
-                        margin= '200px 0 0 -180px'
-                        width='0px'
-                        transform='rotate(135deg)'
-                        animation={`${line4move} 1.5s infinite linear alternate`}
-                    />
-                     <Mainl
-                        margin= '160px 0 0 -218px'
-                        width='0px'
-                        transform='rotate(135deg)'
-                        animation={`${line5move} 1.2s infinite linear alternate`}
-                    />
-                     <Mainl
-                        margin= '224px 0 0 -143px'
-                        width='0px'
-                        transform='rotate(135deg)'
-                        animation={`${line6move} 1s infinite linear alternate`}
-                    />
+                    <div style={styles.main1}>
+                        <Mainl
+                            animation={`${linemove} 1.5s infinite linear alternate`}
+                        />
+                    </div>
+                    <div style={styles.main2}>
+                        <Mainl
+                            animation={`${linemove} 1.2s infinite linear alternate`}
+                        />
+                    </div>
+                    <div style={styles.main3}>
+                        <Mainl
+                            animation={`${linemove} 1s infinite linear alternate`}
+                        />
+                    </div>
+                    <div style={styles.main4}>
+                        <Mainl
+                            animation={`${linemove} 1.5s infinite linear alternate-reverse`}
+                        />
+                    </div>
+                    <div style={styles.main5}>
+                        <Mainl
+                            animation={`${linemove} 1.2s infinite linear alternate-reverse`}
+                        />
+                    </div>
+                    <div style={styles.main6}>
+                        <Mainl
+                            animation={`${linemove} 1s infinite linear alternate-reverse`}
+                        />
+                    </div> 
                 </div>
                 <Mainline2>
                 <div style={styles.mainla}></div>
@@ -95,6 +88,72 @@ HeaderBackground.styles = {
         left: '0',
         width: '100%',
         height: '100%',
+    },
+    main1: {
+        overflow:'hidden',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        margin:'-180px 0 0 198px',
+        width:  '200px',
+        height: '1px',
+        transform:'rotate(-45deg)',
+        transformOrigin:'0 0'
+    },
+    main2: {
+        overflow:'hidden',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        margin:'-215px 0 0 155px',
+        width:  '80px',
+        height: '1px',
+        transform:'rotate(-45deg)',
+        transformOrigin:'0 0'
+    },
+    main3: {
+        overflow:'hidden',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        margin:'-147px 0 0 226px',
+        width:  '60px',
+        height: '1px',
+        transform:'rotate(-45deg)',
+        transformOrigin:'0 0'
+    },
+    main4: {
+        overflow:'hidden',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        margin:'200px 0 0 -180px',
+        width:  '220px',
+        height: '1px',
+        transform:'rotate(135deg)',
+        transformOrigin:'0 0'
+    },
+    main5: {
+        overflow:'hidden',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        margin:'160px 0 0 -218px',
+        width:  '100px',
+        height: '1px',
+        transform:'rotate(135deg)',
+        transformOrigin:'0 0'
+    },
+    main6: {
+        overflow:'hidden',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        margin:'224px 0 0 -143px',
+        width:  '70px',
+        height: '1px',
+        transform:'rotate(135deg)',
+        transformOrigin:'0 0'
     },
     mainla: {
         position: 'absolute',
@@ -261,45 +320,16 @@ const mainxza = keyframes`
     form{transform:rotate(0deg);}
     to{transform:rotate(359deg);}
 `;
-const line1move = keyframes`
-    form{width:200px;}
-    to{width:0px;}
-`;
-const line2move = keyframes`
-    form{width:80px;}
-    to{width:0px;}
-`;
-const line3move = keyframes`
-    form{width:60px;}
-    to{width:0px;}
-`;
-const line4move = keyframes`
-    form{width:0px;}
-    to{width:220px;}
-`;
-const line5move = keyframes`
-    form{width:0px;}
-    to{width:100px;}
-`;
-const line6move = keyframes`
-    form{width:0px;}
-    to{width:70px;}
+const linemove = keyframes`
+    form{transform:translateX(0px)}
+    to{transform:translateX(-100%)}
 `;
 const Mainl= styled.div.attrs({
-    margin: props=>props.margin,
-    width:props=>props.width ,
-    transform: props=>props.transform,
     animation:props=>props.animation,
 })`
-    position: absolute;
-    top: 50%;
-    left: 50%;
     background-color: #5ce55c;
-    margin: ${props=>props.margin};
-    width:  ${props=>props.width};
+    width: 100%;
     height: 1px;
-    transform:${props=>props.transform};
-    transform-origin: 0 0;
     animation: ${props=>props.animation};
 `
 
