@@ -1,11 +1,11 @@
 import React from 'react'
 import Introduce from './../Introduce/Introduce.jsx'
 import Home from './../Home/Home.jsx'
-import Login from './../Introduce/Login.jsx'
+import Login from './../Login/Login.jsx'
 import CreateModal from './../Home/NewAppList/CreateModal/CreateModal.jsx'
 import AppContent from './../AppContent/AppContent.jsx'
 import CodeContent from './../CodeContent/CodeContent.jsx'
-import Register from './../Introduce/Register.jsx'
+import Register from './../Register/Register.jsx'
 import {Route,Redirect,Switch} from 'react-router-dom'
 import AuthContext from '../../auth-context.js'
 
@@ -26,6 +26,7 @@ export default class Container extends React.Component {
                         <PrivateRoute path="/treeCode/:appName/:appVer/:packageName" component={CodeContent} />
                         {setDom}
                     </Switch>
+                   
                 </div>)
             }}
         </AuthContext.Consumer>)

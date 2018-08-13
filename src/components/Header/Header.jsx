@@ -36,8 +36,8 @@ export default class Header extends React.Component {
                 return (<div style={styles.background}>
                     <HLayout style={styles.main}>
                         <div style={styles.mainLeft}>
-                            <i style={styles.mainLeftLogo}></i>
-                            <span style={styles.mainLeftText}>云平台</span>
+                            <img src={require('./img/li.png')} />
+                            <img style={{marginLeft:'10px'}} src={require('./img/Leither.png')}/>
                         </div>
                         {setDom}
                         <div style={this.state.isLogout ? styles.mainMenu : {display:'none'}}>
@@ -54,13 +54,13 @@ export default class Header extends React.Component {
 
 Header.styles = {
     background: {
+        position: 'absolute',
+        paddingTop:'12px',
+        minWidth: '1200px',
         width:'100%',
         zIndex:'10',
         fontSize: '0.46rem',
         color: '#101010',
-        boxShadow:'0px 2px 2px 0px rgba(34, 34, 34, 0.02)',
-        borderBottom: '1px solid #eeeeee',
-        backgroundColor:'#ffffff'
     },
     main: {
         position:'relative',
@@ -77,22 +77,13 @@ Header.styles = {
         fontWeight: 'bold',
         alignItems:'center'
     },
-    mainLeftLogo: {
-        display:'block',
-        width: '37px',
-        height: '37px',
-        background:`url('${require('../../img/logo-image.png')}') no-repeat 100%/100%`
-    },
-    mainLeftText: {
-        marginLeft:'10px',
-        fontSize: '18px',
-        fontWeight:'bold'
-    },
     mainRight: {
-       height:'100%',
-       lineHeight:'1.4rem',
-       textAlign: 'center',
-       fontSize: '15px',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems:'center',
+        height:'100%',
+        textAlign: 'center',
+        fontSize: '15px',
     },
     userInfo: {
         height:'32px',
@@ -101,17 +92,16 @@ Header.styles = {
         cursor:'pointer'
      },
     mainRightLogin: {
-        float:'left',
-        width:'2.4rem',
-        borderLeft: '1px solid #eee',
+        width: '2.4rem',
+        color:'#fff'
     },
     mainRightReiser: {
-        float:'left',
-        width:'2rem',
-        height:'100%',
-        backgroundColor: '#00afff',
-        borderLeft:'1px solid #eee',
-        color:'#fff'
+        width: '66px',
+        height: '32px',
+        lineHeight:'32px',
+        backgroundColor: '#389f70',
+        color: '#fff',
+        borderRadius:'4px'
     },
     mainMenu: {
         position: 'absolute',

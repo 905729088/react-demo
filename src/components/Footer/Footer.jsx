@@ -15,15 +15,13 @@ export default class Footer extends React.Component {
 
 Footer.styles = {
     footer: {
-        position: 'fixed',
-        bottom:'0px',
         boxSzing: 'border-box',
-        padding:'0 24% 21px 24%',
+        padding: '0 24%',
+        height:'50px',
         display: 'flex',
         width:'100%',
         alignItems: 'center',
         justifyContent:'space-between',
-        zIndex: '9999',
         color: '#828ea1',
         fontSize: '12px',
         

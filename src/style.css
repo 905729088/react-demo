@@ -31,10 +31,6 @@
     -webkit-box-shadow: inset 0 0 6px rgba(144, 142, 142, 0.29);
     background-color: rgb(217, 213, 213);
 }
-html,body{
-    width: 100%;
-    height:100%;
-}
 div,
 dl,
 dt,

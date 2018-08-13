@@ -67,7 +67,8 @@ export default class HashRoute extends React.Component {
                 <div> 
                     <Header />
                     <Container />
-                    <Footer/>
+                    <Footer />
+                    
                 </div>
             </Router>
         </AuthContext.Provider> )
