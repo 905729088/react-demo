@@ -27,8 +27,7 @@ export default class Home extends React.Component{
 }
 Home.styles = {
     background: {
-        position: 'fixed',
-        height: '100%',
+        position: 'relative',
         width: '100%',
         overflow:'hidden',
         width: '100%',

@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import Dropdown from './Dropdown.jsx';
 import styled from 'styled-components'
+import SetDomain from './setDomain.jsx';
 export default class AppContent extends React.Component {
     constructor(props) {
         super(props)
@@ -12,6 +13,7 @@ export default class AppContent extends React.Component {
         };
         this.onClickselectAppVer = this.onClickselectAppVer.bind(this);
         this.onClickRelease = this.onClickRelease.bind(this);
+        
     }
 
     componentDidMount() {
@@ -33,7 +35,7 @@ export default class AppContent extends React.Component {
     }
     async getPackages(ver) {
         const appName = this.props.match.params.appName
-        const sid = sessionStorage.getItem('current_sid')
+        const sid = sessionStorage.getItem('current_sid');
         const packageInfo = await G.api.getvar(sid, 'apppackage', appName, ver)
         if (packageInfo) {
             let obj = {};
@@ -85,7 +87,6 @@ export default class AppContent extends React.Component {
                 <Link to={{ pathname: `/treeCode/${appName}/${currentVer}/${name==="main"?name+'.html':name}`, state: { packageid: packages[name] } }} style={styles.appContentMainitemFileName}><span>{name==="main"?name+'.html':name}</span></Link>
             </MyLink>
         ) : null
-        
         return (<div style={styles.background}>
             <div style={styles.center}>
                 <div style={styles.centerHeader}>
@@ -101,6 +102,7 @@ export default class AppContent extends React.Component {
                 <div style={styles.appContent}>
                     <div style={styles.appContentHeader}>
                         <span>应用文件</span>
+                        <SetDomain appName={appName}/>
                     </div>
                     <div style={styles.appContentTitle}>
                         <div>点此设置该应用的域名</div>

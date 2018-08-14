@@ -50,7 +50,7 @@ export default class Register extends React.Component {
             {auth => {
                 return auth.isAuthenticated ? <Redirect to={{ pathname: "/home" }} />
                     :
-                    <div>
+                    <div style={styles.background}>
                         <form onSubmit={this.handleSubmit} >
                             <VLayout style={styles.RegisterForm}>
                                 <div style={styles.RegisterFormItem}>
@@ -80,6 +80,9 @@ export default class Register extends React.Component {
     }
 }
 Register.styles = {
+    background: {
+        overflow:'hidden',
+    },
     RegisterForm: {
         margin: '100px auto',
         padding:'20px 45px 50px 45px',

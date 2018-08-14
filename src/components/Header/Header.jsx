@@ -24,28 +24,34 @@ export default class Header extends React.Component {
         const styles = Header.styles
         return (<AuthContext.Consumer>
             {auth => {
-                const setDom = auth.isAuthenticated ? <div>
+                const setDom = auth.isAuthenticated ? <div style={styles.main}>
+                    <div style={styles.mainLeft}>
+                        <img src={require('./img/li2.png')} />
+                        <img style={{marginLeft:'10px'}} src={require('./img/Leither2.png')}/>
+                    </div>
                     <div style={styles.userInfo} onClick={this.handleClick} >
-                        <img width='20' height='20' style={{marginRight:'6px',verticalAlign:'middle'}} src={require('../../img/ico-login-user.png')} alt=""/>
-                        <span style={{verticalAlign:'middle'}}>{auth.user.name}</span>
+                        <img  style={{ marginRight: '16px', verticalAlign: 'middle' }} src={require('./img/lidang.png')} alt="" />
+                        <img  style={{ marginRight: '9px', verticalAlign: 'middle' }} src={require('./img/user.png')} alt="" />
+                        <span style={{ verticalAlign: 'middle' }}>{auth.user.name}</span>
                     </div>
-                </div> : <div style={styles.mainRight}>
-                        <Link style={styles.mainRightLogin} to="/login">登录</Link>
-                        <Link style={styles.mainRightReiser} to="/join">注册</Link>
+                    <div style={this.state.isLogout ? styles.mainMenu : {display:'none'}}>
+                        <i style={styles.mainMenuT}></i>
+                        <MyLogin style={styles.mainMenuItem} onClick={() => {this.changeState(auth)}}>登出</MyLogin>
                     </div>
-                return (<div style={styles.background}>
-                    <HLayout style={styles.main}>
-                        <div style={styles.mainLeft}>
+                </div> :
+                    <div style={styles.main}>
+                         <div style={styles.mainLeft}>
                             <img src={require('./img/li.png')} />
                             <img style={{marginLeft:'10px'}} src={require('./img/Leither.png')}/>
                         </div>
-                        {setDom}
-                        <div style={this.state.isLogout ? styles.mainMenu : {display:'none'}}>
-                            <i style={styles.mainMenuT}></i>
-                            <MyLogin style={styles.mainMenuItem} onClick={() => {this.changeState(auth)}}>登出</MyLogin>
+                        <div style={styles.mainRight}>
+                            <Link style={styles.mainRightLogin} to="/login">登录</Link>
+                            <Link style={styles.mainRightReiser} to="/join">注册</Link>
                         </div>
-                    </HLayout>
-                    
+                    </div>
+                    ;
+                return (<div style={auth.isAuthenticated ? styles.background2 : styles.background1}>
+                    {setDom}
                 </div>)
             }}
         </AuthContext.Consumer>)
@@ -53,7 +59,8 @@ export default class Header extends React.Component {
 }
 
 Header.styles = {
-    background: {
+    background1: {//未登陆
+        overflow:'hidden',
         position: 'absolute',
         paddingTop:'12px',
         minWidth: '1200px',
@@ -62,8 +69,18 @@ Header.styles = {
         fontSize: '0.46rem',
         color: '#101010',
     },
+    background2: {//登陆
+        position: 'relative',
+        paddingTop:'0px',
+        minWidth: '1200px',
+        width:'100%',
+        zIndex:'10',
+        fontSize: '0.46rem',
+        color: '#101010',
+    },
     main: {
-        position:'relative',
+        position: 'relative',
+        display:'flex',
         justifyContent: 'space-between',
         maxWidth: '100%',
         borderStyle: 'none',
