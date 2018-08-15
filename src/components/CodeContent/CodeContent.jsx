@@ -24,14 +24,14 @@ export default class CodeContent extends React.Component {
     }
 
     async getCode() {
-        let packageid;
-        if (this.props.location.state) {
+        let  packageid= this.props.codeData.packageid;
+        // if (this.props.location.state) {
 
-            packageid= this.props.location.state.packageid;
-        } else { 
-            packageid = sessionStorage.getItem('current_fileId');
-        }
-        sessionStorage.setItem('current_fileId',packageid);
+        //     packageid= this.props.codeData.packageid;
+        // } else { 
+        //     packageid = sessionStorage.getItem('current_fileId');
+        // }
+        // sessionStorage.setItem('current_fileId',packageid);
         const sid = sessionStorage.getItem('current_sid')
         const uint8 = await G.api.getlfiledata(sid, packageid, 0, -1)
         const code = new TextDecoder('utf-8').decode(uint8)
@@ -43,17 +43,18 @@ export default class CodeContent extends React.Component {
     async onSubmit() { 
         const content = this.editor.getCodeMirror().getValue();//获取编辑器的值
         if (this.lastCode === content) {
-            ///console.log('不更新',  this.editor.getCodeMirror().getValue());
-            this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
+            //console.log('====>不更新');
+            this.props.onReturnAppConent({index:6,type:Number,appIndex:this.props.codeData.appIndex},false)
+           // this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
         } else {
            
-           // console.log('不更新',  this.editor.getCodeMirror().getValue());
-           // console.log('更新',this.props.match.params.appName,this.props.match.params.packageName);
+           // console.log('====>更新');
             const sid = sessionStorage.getItem('current_sid');
             const fileid = await G.api.createfilebydata(sid, content);
-           // console.log(this.props.match.params.packageName);
-            const appid = await G.api.uploadappfile(sid, this.props.match.params.appName, this.props.match.params.packageName, fileid)
-            this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
+        
+            const appid = await G.api.uploadappfile(sid, this.props.codeData.appName, this.props.codeData.packageName, fileid)
+            this.props.onReturnAppConent({index:6,type:Number,appIndex:this.props.codeData.appIndex},true)
+         //   this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
          }
        
        
@@ -75,9 +76,10 @@ export default class CodeContent extends React.Component {
 		});
 	}
     render() {
-        const match = this.props.match
+       
         const styles = CodeContent.styles;
-        const appName = this.props.match.params.appName;
+        const codeData = this.props.codeData;
+        const appName = codeData.appName;
         const options = {
                 lineNumbers: true,
                 mode: {name: "text/x-mysql"}, 
@@ -86,35 +88,21 @@ export default class CodeContent extends React.Component {
                 readOnly: false,          //是否只读
             };
        
-      
      
         return (<div style={styles.background}>
-            <div style={styles.center}>
-                <div style={styles.centerHeader}>
-                    <Link to={{  pathname: `/tree/${appName}/${match.params.appVer}`}}  style={styles.centerHeaderReturn}>
-                        <img src={require('../../img/ico-menu.png')} alt="" style={{marginRight:'3px',verticalAlign:'middle'}} />
-                        <span style={{fontSize: '14px'}}>{appName}</span>
-                    </Link>
-                    <div style={styles.centerHeaderContent}>
-                        <span style={{margin:'0px 4px',fontSize: '22px',color:'#3f5368',verticalAlign:'middle'}}>/</span>
-                        <span style={{fontSize: '18px',fontWeight:'bold'}}>{match.params.packageName}</span>
-                    </div>
+            <div style={styles.header}>我的应用/<span style={{ color: '#019f57' }}>{appName}/{codeData.packageName}</span></div>
+            <div style={styles.line}></div>
+            <div style={styles.Content}>
+                <div style={styles.codeContentMainHeader}>
+                    <div style={styles.codeContentMainHeaderLeft}><span>{codeData.packageName}</span></div>
                 </div>
-                <div style={styles.Content}>
-                    <div style={styles.codeContentHeader}>
-                        <div> 代码详情</div>
-                    </div>
-                    <div style={styles.codeContentMainHeader}>
-                        <div style={styles.codeContentMainHeaderLeft}><span>{match.params.packageName}</span></div>
-                    </div>
-                    <TextConent style={styles.codeContentMainContent}>
-                        <CodeMirror value={this.state.content} onChange={this.updateCode} options={options} ref={(editor) => { this.editor = editor }} />
-                    </TextConent>
-                    <HLayout style={{marginTop:'20px'}}>
-                        <div style={styles.btnSubmit} onClick={this.onSubmit}>提交</div> 
-                        <Link to={{ pathname: `/tree/${appName}/${match.params.appVer}` }} style={styles.btnReturn}>返回</Link> 
-                    </HLayout>
-                </div>
+                <TextConent style={styles.codeContentMainContent}>
+                    <CodeMirror value={this.state.content} onChange={this.updateCode} options={options} ref={(editor) => { this.editor = editor }} />
+                </TextConent>
+                <HLayout style={{marginTop:'20px'}}>
+                    <div style={styles.btnSubmit} onClick={this.onSubmit}>提交</div> 
+                    <div style={styles.btnReturn} onClick={()=>this.props.onReturnAppConent({index:6,type:Number,appIndex:codeData.appIndex})}>取消</div> 
+                </HLayout>
             </div>
         </div>)
     }
@@ -122,57 +110,39 @@ export default class CodeContent extends React.Component {
 
 CodeContent.styles = {
     background: {
-        overflow:'hidden',
-        position: 'fixed',
-        height: '100%',
+        overflow: 'hidden',
+        overflowY:'auto',
+        padding:'33px 0 33px 50px',
         width: '100%',
-        backgroundColor: '#E7E8EC',
+        height: '100%',
+        background: '#fff',
     },
-    center: {
-        margin:'20px auto',
-        width: '1080px',
-        boxSizing:'border-box',
+    header: {
+        fontSize: '28px',
+        fontWeight: 'normal',
+        color: '#222222',
+        fontFamily:'SimSun'
     },
-    centerHeader: {
-        overflow:'hidden',
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        height: '40px',
-        lineHeight:'40px'
-    },
-    centerHeaderReturn: {
-        overflow:'hidden',
-        textDecoration: 'none',
-        color: '#0366d6',
-     },
-    centerHeaderContent: {
-        overflow:'hidden',
-        paddingLeft:'3px',
-        color: '#0366d6'
-    },
+    line: {
+        marginTop:'20px',
+        width: '100%',
+        height:'1px',
+        backgroundColor:'#E7E8EC'
+    }, 
     Content: {
-        marginTop:'10px',
+        marginTop:'30px',
         width: '100%',
         backgroundColor: '#fff',
         boxShadow: '0px 8px 9px 0pxrgba(34, 34, 34, 0.08)',
         boxSizing: 'border-box',
-        padding:'30px'
-    },
-    codeContentHeader: {
-        fontSize: '24px',
-        fontWeight:'bold',
-        textAlign: 'left',
-        color: '#32475e'
     },
     codeContentMainHeader: {
         marginTop:'20px',
         fontSize: '18px',
         height: '48px',
         lineHeight:'48px',
-        border: '1px solid #b8dbff',
-        background: '#f1f8ff',
-        borderBottom:'none'
+        border: '1px solid #019f57',
+        background: '#acd6b7',
     },
     codeContentMainHeaderLeft: {
         float:'left',
@@ -200,25 +170,25 @@ CodeContent.styles = {
     },
     btnSubmit: {
         marginRight:"20px",
-        width: '90px',
-        height: '35px',
+        width: '80px',
+        height: '42px',
         textAlign: 'center',
         fontSize: '16px',
         color:'#fff',
-        border: '1px solid #0084c1',
-        lineHeight: '35px',
+        border: '1px solid #019f57',
+        lineHeight: '42px',
         cursor: 'pointer',
         borderRadius: '4px',
-        backgroundColor:'#00afff'
+        backgroundColor:'#019f57'
     }
     , btnReturn: {
         marginRight:"20px",
-        width: '90px',
-        height: '35px',
+        width: '80px',
+        height: '42px',
         textAlign:'center',
-        border: '1px solid #0084c1',
-        color:'#00afff',
-        lineHeight: '35px',
+        border: '1px solid #019f57',
+        color:'#019f57',
+        lineHeight: '42px',
         borderRadius: '4px',
         cursor: 'pointer',
         textDecoration:'none'

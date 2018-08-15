@@ -14,7 +14,7 @@ export default class MyApps extends React.Component {
         const appList = this.props.appList;
         if (appList) {
             row = appList.map((app,i) => 
-                <MyAppRow key={app.iD} appInfo={app} index={i + 1} sid={this.props.sid}  onClick={this.props.onClick}/>
+                <MyAppRow key={app.iD} appInfo={app} index={i + 1} sid={this.props.sid} handleAppClick={this.props.handleAppClick}/>
             )
         }
         return (<div  style={styles.background}>
@@ -32,8 +32,6 @@ MyApps.styles = {
     },
    
     myAppsMain: {
-        height: '600px',
-        overflowY:'auto',
         fontWeight: 'bold',
         display: 'flex',
         justifyContent: 'flex-start',

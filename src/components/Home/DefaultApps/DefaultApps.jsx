@@ -23,12 +23,15 @@ class DefaultApps extends React.Component {
         const styles = DefaultApps.styles;
         const appList = this.state.appList;
         let row = '...';
+        
         if (appList) {
             row = appList.map((app,i) => 
                 <DefaultAppRow key={app.fileId} appInfo={app} index={i + 1} sid={this.props.auth.sid} />
             )
         }
         return (<div style={styles.background}>
+            <div style={styles.header}>应用库</div>
+            <div style={styles.line}></div>
             <div style={styles.defaultAppsMain}>
                 {row}
             </div>
@@ -38,15 +41,27 @@ class DefaultApps extends React.Component {
 
 DefaultApps.styles = {
     background: {
-        paddingTop:'20px',
+        width: '100%',
+        height: '100%',
+        background:'#ffffff',
         overflow: 'hidden',
+        overflowY:'auto',
+        padding:'33px 0px 33px 50px',
+    },
+    header: {
+        fontSize: '28px',
+        fontWeight: 'normal',
+        color: '#222222',
+        fontFamily:'SimSun'
+    },
+    line: {
+        marginTop:'20px',
+        width: '100%',
+        height:'1px',
+        backgroundColor:'#E7E8EC'
     },
     defaultAppsMain: {
-        marginTop: '10px',
-        height: '687px',
-        overflowY:'auto',
-        fontWeight: 'bold',
-       
+        marginTop: '50px',
     },
 }
 export default  props => (

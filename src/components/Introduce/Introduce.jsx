@@ -14,8 +14,6 @@ class Introduce extends React.Component{
             password: '',
             wHeight:0
         }
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.moveNext = this.moveNext.bind(this);
         this.moveAnimation = this.moveAnimation.bind(this);
         this.checkWheel = this.checkWheel.bind(this);
@@ -37,37 +35,7 @@ class Introduce extends React.Component{
         window.onresize = null;
         this.ondelWheel(this.checkWheel);
     }
-    handleInputChange(e) {
-        const value = e.target.value
-        const name = e.target.name
-        this.setState({
-            [name]: value
-        })
-    }
-
-    handleSubmit(login, e) {
-        e.preventDefault()
-        const name = this.state.name
-        const pass = this.state.password
-        this.onIntroduce(login,name,pass);
-    }
-    onIntroduce(login, name, pass) { 
-        if (name&&pass) { 
-            sessionStorage.setItem('current_pass', JSON.stringify({name:name,pass:pass}));
-        }
-       
-        if (name && pass) {
-            G.api.login(name, pass, 'byname').then(user => {
-                login(user)
-            }).catch((err) => {
-                console.error(err)
-                alert('用户名或密码错误！')
-            })
-        } else {
-            alert('用户名或密码不能为空！')
-        }
-    }
-
+  
     moveNext() { 
         cancelAnimationFrame(this.timer);
         this.timer = requestAnimationFrame(this.moveAnimation);

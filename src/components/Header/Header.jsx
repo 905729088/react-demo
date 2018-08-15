@@ -30,8 +30,8 @@ export default class Header extends React.Component {
                         <img style={{marginLeft:'10px'}} src={require('./img/Leither2.png')}/>
                     </div>
                     <div style={styles.userInfo} onClick={this.handleClick} >
-                        <img  style={{ marginRight: '16px', verticalAlign: 'middle' }} src={require('./img/lidang.png')} alt="" />
-                        <img  style={{ marginRight: '9px', verticalAlign: 'middle' }} src={require('./img/user.png')} alt="" />
+                        <img  style={{ marginRight: '16px', verticalAlign: 'middle' }} src={require('./img/ico-lidang.png')} alt="" />
+                        <img  style={{ marginRight: '9px', verticalAlign: 'middle' }} src={require('./img/ico-user.png')} alt="" />
                         <span style={{ verticalAlign: 'middle' }}>{auth.user.name}</span>
                     </div>
                     <div style={this.state.isLogout ? styles.mainMenu : {display:'none'}}>

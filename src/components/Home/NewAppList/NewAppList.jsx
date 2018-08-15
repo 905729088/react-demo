@@ -1,9 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Layout, VLayout } from '../../ACommon/Layout.jsx'
 import AuthContext from '../../../auth-context.js'
 import MyApps from './MyApps.jsx'
-import CreateModal from './CreateModal/CreateModal.jsx';
+
 
  class NewAppList extends React.Component {
     constructor(props) { 
@@ -28,20 +26,35 @@ import CreateModal from './CreateModal/CreateModal.jsx';
         const styles = NewAppList.styles;
        
         return (
-                <VLayout style={styles.background} >
-                        <CreateModal onClick={this.handleClick}/>
-                        <MyApps sid={this.props.auth.sid} user={this.props.auth.user} appList={this.state.appList} onClick={this.handleClick}></MyApps>
-               
-                </VLayout >
+            <div style={styles.background} >
+                <div style={styles.header}>我的应用</div>
+                <div style={styles.line}></div>
+                <MyApps sid={this.props.auth.sid} handleAppClick={this.props.handleAppClick} user={this.props.auth.user} appList={this.state.appList} onClick={this.handleClick}></MyApps>
+            </div >
            )
     }
 }
 NewAppList.styles = {
     background: {
-        paddingTop:'30px',
-        boxSizing: 'border-box',
+        width: '100%',
+        height: '100%',
+        background:'#ffffff',
+        overflow: 'hidden',
+        overflowY:'auto',
+        padding:'33px 0px 33px 50px',
     },
-    
+    header: {
+        fontSize: '28px',
+        fontWeight: 'normal',
+        color: '#222222',
+        fontFamily:'SimSun'
+    },
+    line: {
+        marginTop:'20px',
+        width: '100%',
+        height:'1px',
+        backgroundColor:'#E7E8EC'
+    }
 }
 export default  props => (
     <AuthContext.Consumer>

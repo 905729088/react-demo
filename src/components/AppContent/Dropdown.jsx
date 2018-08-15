@@ -7,11 +7,20 @@ export default class Dropdown extends React.Component {
         super(props);
         this.state = {
             isFocus: false,
-            value:''
+            value: '',
+            dataList:[]
         }
         this.inputFocus = this.inputFocus.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.TriangleClick = this.TriangleClick.bind(this);
+    }
+    componentDidMount() { 
+        const dataList = this.props.dataList;
+        this.setState({dataList});
+    }
+    static getDerivedStateFromProps(nextProps, prevState) { 
+        const dataList = nextProps.dataList;
+        return {dataList}
     }
     TriangleClick() { 
         this.setState({
@@ -35,7 +44,7 @@ export default class Dropdown extends React.Component {
         
     render() { 
         const styles = Dropdown.styles
-        const list = this.props.dataList;
+        const list = this.state.dataList;
         mystyle = this.props.styles;
         let itemList = list.length!=0?list.map(val => (
             <MyOptin style={styles.option} key={val} onClick={() => { 

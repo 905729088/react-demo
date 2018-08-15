@@ -8,7 +8,7 @@ export default class AppContent extends React.Component {
         super(props)
         this.state = {
             versions: [],
-            currentVer:this.props.match.params.appVer,
+            currentVer:this.props.appInfo.appVer,
             packages: [],
         };
         this.onClickselectAppVer = this.onClickselectAppVer.bind(this);
@@ -17,24 +17,31 @@ export default class AppContent extends React.Component {
     }
 
     componentDidMount() {
-        this.getAsyncInfo()
+        this.getAsyncInfo();
     }
-    
+    static getDerivedStateFromProps(nextProps, prevState) { 
+        const versions = nextProps.apppContent.versions;
+        const packages = nextProps.apppContent.packages;
+        return {versions,packages}
+    }
     async getAsyncInfo() {
        
-        const appName = this.props.match.params.appName
+        const appName = this.props.appInfo.appName
         const sid = sessionStorage.getItem('current_sid')
         if (appName && sid) {
             const versions = await G.api.getvar(sid, 'appversions', appName)
-            const packages = await this.getPackages(this.props.match.params.appVer)//this.props.match.params.appVer
+            const packages = await this.getPackages(this.props.appInfo.appVer)//this.props.match.params.appVer
             this.setState({
                 versions,
                 packages
             })
         }
+
+        
     }
     async getPackages(ver) {
-        const appName = this.props.match.params.appName
+       
+        const appName = this.props.appInfo.appName
         const sid = sessionStorage.getItem('current_sid');
         const packageInfo = await G.api.getvar(sid, 'apppackage', appName, ver)
         if (packageInfo) {
@@ -51,12 +58,15 @@ export default class AppContent extends React.Component {
     }
     onClickselectAppVer(val) { //选择版本后重新跳转路由
         //console.log(this.props.match.params.appName,this.props.match.params.appVer,this.props.history);
-        if (val !== this.props.match.params.appVer) {
+        if (val !== this.props.appInfo.appVer) {
             this.getAsyncInfo();
             this.setState({
                 currentVer:val
             })
-            this.props.history.push(`/tree/${this.props.match.params.appName}/${val}`)//重定向
+            const active = { index: 6, type: 'appinfo', appIndex: this.props.appInfo.appIndex };
+            const appInfo = { appName: this.props.appInfo.appName, appVer: val ,appIndex:this.props.appInfo.appIndex};
+           
+            this.props.handleAppClick(active,appInfo);
         }
     }
 
@@ -64,66 +74,69 @@ export default class AppContent extends React.Component {
         const istrue=window.confirm('您确定要发布新的版本？');
         if (istrue) {
             const sid = sessionStorage.getItem('current_sid')
-            const appName = this.props.match.params.appName
+            const appName = this.props.appInfo.appName
             await G.api.version(sid, appName, 'lastver', '') //设置新的版本
-            const versions = await G.api.getvar(sid, 'appversions', appName)
-            this.setState({
-                versions
-            })
+            const versions = await G.api.getvar(sid, 'appversions', appName);
+           
+            this.props.onUpdataVerList(versions);
         } 
           
     }
-    render() {
-        const match = this.props.match
+
+    async onClickDelete() { 
+        const sid = sessionStorage.getItem('current_sid');
+        const istrue=window.confirm('您确定要删除这个应用？');
+        if (istrue) {
+              await G.api.uninstallapp(sid, this.props.appInfo.name);
+             
+        } 
+      
+    }
+     render() {
+       
+        const props = this.props;
         const styles = AppContent.styles
         const currentVer = this.state.currentVer
-        const packages = this.state.packages
-       
+        const packages = this.state.packages;
         const packageNames = Object.keys(packages)
-        const appName = this.props.match.params.appName;
+        const appName = this.props.appInfo.appName;
         let packageDoms = '...'
         packageDoms = packageNames && packageNames.length? packageNames.map((name, i) =>
             <MyLink style={styles.appContentMainitem} key={i}>
-                <Link to={{ pathname: `/treeCode/${appName}/${currentVer}/${name==="main"?name+'.html':name}`, state: { packageid: packages[name] } }} style={styles.appContentMainitemFileName}><span>{name==="main"?name+'.html':name}</span></Link>
+                <div style={styles.appContentMainitemFileName} onClick={() => {
+                    this.props.onOpenCode({ index: 7, type: Number, appIndex: this.props.appInfo.appIndex }, { appName: appName, appVer: currentVer, packageid: packages[name],packageName:name==="main"?name+'.html':name ,appIndex:this.props.appInfo.appIndex})
+                }}>
+                    <span>{name==="main"?name+'.html':name}</span>
+                </div>
             </MyLink>
-        ) : null
-        return (<div style={styles.background}>
-            <div style={styles.center}>
-                <div style={styles.centerHeader}>
-                    <Link to={{ pathname: `/home` }}  style={styles.btnReturn}>
-                        <img src={require('../../img/ico-menu.png')} alt="" style={{marginRight:'3px',verticalAlign:'middle'}} />
-                        <span style={{fontSize: '14px'}}>应用主页</span>
-                    </Link>
-                    <div style={styles.centerHeaderContent}>
-                        <span style={{margin:'0px 4px',fontSize: '22px',color:'#3f5368',verticalAlign:'middle'}}>/</span>
-                        <span style={{fontSize: '18px',fontWeight:'bold'}}>{match.params.appName}</span>
-                    </div>
-                </div>
-                <div style={styles.appContent}>
-                    <div style={styles.appContentHeader}>
-                        <span>应用文件</span>
-                        <SetDomain appName={appName}/>
-                    </div>
-                    <div style={styles.appContentTitle}>
-                        <div>点此设置该应用的域名</div>
-                        <div style={styles.appContentTitleRight}>
-                            <Dropdown
-                                styles={{ width: '107px' }}
-                                dataList={this.state.versions}
-                                onClick={this.onClickselectAppVer}
-                            />
-                             <div style={styles.appContentRelease} onClick={this.onClickRelease}>发布版本</div>
+         ) : null
+         
+         return (<div style={styles.background}>
+             <div style={{ position:'relative',paddingBottom:'50px',minHeight:'100%'}}>
+                <div style={styles.header}>我的应用/<span style={{ color: '#019f57' }}>{props.appInfo.appName}</span></div>
+                <div style={styles.line}></div>
+                    <div style={styles.appContent}>
+                        <div style={styles.appContentTitle}>
+                        <div style={{textDecoration:'underline',color:'#8a8f99'}}>点此设置该应用的域名</div>
+                        {/* <SetDomain appName={appName}/> */}
+                            <div style={styles.appContentTitleRight}>
+                                <Dropdown
+                                    styles={{ width: '107px' }}
+                                    dataList={this.state.versions}
+                                    onClick={this.onClickselectAppVer}
+                                />
+                                <div style={styles.appContentRelease} onClick={this.onClickRelease}>发布版本</div>
+                            </div>
+                        
                         </div>
-                       
-                    </div>
-                    <div style={styles.appContentMain}>
-                         <div style={styles.appContentMainitemTitle} >
-                            {match.params.appName}
-                         </div>
-                        {packageDoms}
-                    </div>
-                    {/* <div style={styles.delet}>删除</div> */}
-                </div>
+                        <div style={styles.appContentMain}>
+                            <div style={styles.appContentMainitemTitle} >
+                                {props.appInfo.appName}
+                            </div>
+                            {packageDoms}
+                        </div>
+                 </div>
+                 <img style={styles.delet} src={require('./img/ico-del.png')} alt=""/>
             </div>
         </div>)
     }
@@ -131,42 +144,29 @@ export default class AppContent extends React.Component {
 
 AppContent.styles = {
     background: {
-        overflow:'hidden',
-        position: 'fixed',
+        overflow: 'hidden',
+        overflowY:'auto',
+        padding:'33px 50px 33px 50px',
+        width: '100%',
         height: '100%',
+        background: '#fff',
+    },
+    header: {
+        fontSize: '28px',
+        fontWeight: 'normal',
+        color: '#222222',
+        fontFamily:'SimSun'
+    },
+    line: {
+        marginTop:'20px',
         width: '100%',
-        backgroundColor: '#E7E8EC',
-    },
-    center: {
-        margin:'20px auto',
-        width: '1080px',
-       
-    },
-    centerHeader: {
-        overflow:'hidden',
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        height: '40px',
-        lineHeight:'40px'
-    },
-    btnReturn: {
-        overflow:'hidden',
-        textDecoration: 'none',
-        color: '#0366d6',
-     },
-    centerHeaderContent: {
-        overflow:'hidden',
-        paddingLeft:'3px',
-        color: '#0366d6'
-    },
+        height:'1px',
+        backgroundColor:'#E7E8EC'
+    }, 
+    
     appContent: {
-        marginTop: '10px',
-        padding:'30px',
+        marginTop: '38px',
         width: '100%',
-        boxSizing:'border-box',
-        backgroundColor: '#ffffff',
-        boxShadow: '0px 8px 9px 0px rgba(34, 34, 34, 0.08)'
     },
     appContentHeader: {
         position:'relative',
@@ -203,18 +203,16 @@ AppContent.styles = {
     appContentMain: {
         marginTop:'20px',
         width: '100%',
-        height: '600px',
-        overflowY: 'auto',
     },
     appContentMainitemTitle: {
         fontSize: '18px',
         fontWeight:'bold',
         height: '48px',
         lineHeight:'48px',
-        border: '1px solid #b8dbff',
+        border: '1px solid #019f57',
         boxSizing: 'border-box',
         paddingLeft: '23px',
-        backgroundColor: '#f1f8ff'
+        backgroundColor: '#acd6b7'
     },
     appContentMainitem: {
         fontSize: '18px',
@@ -228,15 +226,18 @@ AppContent.styles = {
     appContentMainitemFileName: {
         display: 'block',
         height:'100%',
-        color: '#0366d6',
+        color: '#8a8f99',
         textDecoration:'none'
     },
     delet: {
-        float: 'right',
+        position: 'absolute',
+        bottom: '0px',
+        right:'0px',
         cursor: 'pointer'
     }
 }
 const MyLink = styled.div`
+    cursor:pointer;
     &:hover{
        background:#f6f8fa;
    }

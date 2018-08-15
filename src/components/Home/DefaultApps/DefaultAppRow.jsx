@@ -3,8 +3,12 @@ import styled from 'styled-components'
 export default class DefaultAppRow extends React.Component {
     constructor(props) {
         super(props)
+
         this.onClickCopy = this.onClickCopy.bind(this);
+        this.SectionToChinese = this.SectionToChinese.bind(this);
+       
     }
+    
     async onClickCopy() { 
         const istrue = window.confirm('您确定要克隆这个应用？');
         if (istrue) { 
@@ -16,68 +20,129 @@ export default class DefaultAppRow extends React.Component {
         }
        
     }
+    SectionToChinese(section) {
+        const chnNumChar = ["零","一","二","三","四","五","六","七","八","九"];
+        const chnUnitSection = ["","万","亿","万亿","亿亿"];
+        const chnUnitChar = ["","十","百","千"];
+        let strIns = '', chnStr = '';
+        let unitPos = 0;
+        let zero = true;
+        while(section > 0){
+            let v = section % 10;
+            if(v === 0){
+                if(!zero){
+                    zero = true;
+                    chnStr = chnNumChar[v] + chnStr;
+                }
+            }else{
+                zero = false;
+                strIns = chnNumChar[v];
+                strIns += chnUnitChar[unitPos];
+                chnStr = strIns + chnStr;
+            }
+            unitPos++;
+            section = Math.floor(section / 10);
+        }
+        return chnStr;
+    }
+
     render() {
         const styles = DefaultAppRow.styles;
         const appInfo = this.props.appInfo;
-        return (<Background  style={styles.background}>
-            <div style={styles.defaultTitle}>{appInfo.name}</div>
-            <div style={styles.defaultDescribe}>{appInfo.describe}</div>
-            <MyCopy style={styles.defaultCopy} onClick={this.onClickCopy}>
-                <span>CLONE</span>
-            </MyCopy>
-        </Background>)
+       
+        //阿拉伯转汉字
+        const index =  this.SectionToChinese(this.props.index);
+       
+
+        return (<div style={styles.background}>
+            <div style={styles.left}>
+                应用{index}：
+            </div>
+            <div style={styles.right}>
+                <div style={styles.rightLeft}>
+                    <div>
+                        <img src={require('./img/ico-app.png')} alt=""/>
+                    </div>
+                    <div style={styles.rightLeftMain}>
+                        <div style={styles.title}>{appInfo.name}</div>
+                        <div style={styles.describe}>{appInfo.describe}</div>
+                    </div>
+                </div>
+                <MyCopy style={styles.leftLeft} onClick={this.onClickCopy}>
+                    <span>CLONE</span>
+                </MyCopy>
+            </div>
+           
+        </div>)
     }
 }
 
 DefaultAppRow.styles = {
     background: {
-        position: 'relative',
-        float:'left',
-        padding:'20px',
-        width: '320px',
-        height: '154px',
+        overflow:'hidden',
+        float: 'left',
+        marginBottom:'40px',
+        paddingRight:'4%',
+        width: '50%',
+       
+    },
+    left: {
+        fontSize: '16px',
+        color:'#2222222'
+    },
+    right: {
+        marginTop:'10px',
+        padding:'30px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems:'center',
+        width: '100%',
+        height: '120px',  
         border: '1px solid #d1d2d7',
         boxShadow: '0px 3px 9px 0px rgba(34, 34, 34, 0.07)',
         borderRadius: '4px'
     },
-    defaultTitle: {
-        fontSize: '22px',
-        color: '#0366d6', 
+    rightLeft: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        height:'100%',
+     
     },
-    defaultDescribe: {
+    rightLeftMain: {
+        padding: '5px 0px 0 20px',
+        height:'100%',
+    },
+    title: {
+        fontSize: '20px',
+        color: '#222222', 
+    },
+    describe: {
         marginTop: '10px',
         fontSize:'12px',
         height: '33px',
         textOverflow: 'ellipsis',
         overflow: 'hidden',
-        fontWeight:'normal'
+        fontWeight: 'normal',
+        color:'#8a8f99'
     },
-    defaultCopy: {
-        position: 'absolute',
-        right: '20px',
-        bottom:'18px',
-        width: '62px',
-        height: '24px',
-        border: '1px solid #00afff',
+    leftLeft: {
+        width: '80px',
+        height: '42px',
+        border: '1px solid #019f57',
         borderRadius: '4px',
-        fontSize: '12px',
+        fontSize: '16px',
         fontWeight:'normal',
         textAlign: 'center',
-        lineHeight: '24px',
+        lineHeight: '42px',
         cursor:'pointer'
     }
 }
 const MyCopy = styled.div`
-    color:#00afff;
-    background-color: #ffffff;
-    &:hover{
-        color:#ffffff;
-        background-color: #00afff;
-    }
+    color:#ffffff;
+    background-color: #019f57;
+   
 `
-const Background = styled.div`
-    margin:0 21px 20px 0;
-    &:nth-child(3n){
-        margin-right:0px;
-    }
-`
+// &:hover{
+//     color:#ffffff;
+//     background-color: #019f57;
+// }
