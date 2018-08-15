@@ -79,7 +79,6 @@ export default class DefaultAppRow extends React.Component {
 
 DefaultAppRow.styles = {
     background: {
-        overflow:'hidden',
         float: 'left',
         marginBottom:'40px',
         paddingRight:'4%',
@@ -99,7 +98,7 @@ DefaultAppRow.styles = {
         width: '100%',
         height: '120px',  
         border: '1px solid #d1d2d7',
-        boxShadow: '0px 3px 9px 0px rgba(34, 34, 34, 0.07)',
+        boxShadow: ' 0px 6px 9px 0px rgba(34, 34, 34, 0.04)',
         borderRadius: '4px'
     },
     rightLeft: {

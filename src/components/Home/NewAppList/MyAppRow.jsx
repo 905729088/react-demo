@@ -81,7 +81,7 @@ export default class MyAppRow extends React.Component{
 
 MyAppRow.styles = {
     background: {
-        overflow:'hidden',
+       
         float: 'left',
         marginBottom:'40px',
         paddingRight:'4%',
