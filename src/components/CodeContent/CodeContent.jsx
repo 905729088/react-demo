@@ -14,6 +14,7 @@ export default class CodeContent extends React.Component {
         super(props)
         this.state = {
             content: '',
+            isButton:true
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.updateCode = this.updateCode.bind(this);
@@ -24,7 +25,8 @@ export default class CodeContent extends React.Component {
     }
 
     async getCode() {
-        let  packageid= this.props.codeData.packageid;
+        let packageid = this.props.codeData.packageid;
+        console.log('文本内容',packageid);
         // if (this.props.location.state) {
 
         //     packageid= this.props.codeData.packageid;
@@ -47,13 +49,15 @@ export default class CodeContent extends React.Component {
             this.props.onReturnAppConent({index:6,type:Number,appIndex:this.props.codeData.appIndex},false)
            // this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
         } else {
-           
+            if (this.state.isButton) {
+                this.setState({isButton:false})
+                const sid = sessionStorage.getItem('current_sid');
+                const fileid = await G.api.createfilebydata(sid, content);
+                const appid = await G.api.uploadappfile(sid, this.props.codeData.appName, this.props.codeData.packageName, fileid)
+                this.props.onReturnAppConent({index:6,type:Number,appIndex:this.props.codeData.appIndex},true)
+             }
            // console.log('====>更新');
-            const sid = sessionStorage.getItem('current_sid');
-            const fileid = await G.api.createfilebydata(sid, content);
-        
-            const appid = await G.api.uploadappfile(sid, this.props.codeData.appName, this.props.codeData.packageName, fileid)
-            this.props.onReturnAppConent({index:6,type:Number,appIndex:this.props.codeData.appIndex},true)
+           
          //   this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
          }
        

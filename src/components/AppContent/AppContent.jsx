@@ -13,7 +13,7 @@ export default class AppContent extends React.Component {
         };
         this.onClickselectAppVer = this.onClickselectAppVer.bind(this);
         this.onClickRelease = this.onClickRelease.bind(this);
-        
+        this.onClickDelete = this.onClickDelete.bind(this);
     }
 
     componentDidMount() {
@@ -77,7 +77,6 @@ export default class AppContent extends React.Component {
             const appName = this.props.appInfo.appName
             await G.api.version(sid, appName, 'lastver', '') //设置新的版本
             const versions = await G.api.getvar(sid, 'appversions', appName);
-           
             this.props.onUpdataVerList(versions);
         } 
           
@@ -85,12 +84,11 @@ export default class AppContent extends React.Component {
 
     async onClickDelete() { 
         const sid = sessionStorage.getItem('current_sid');
-        const istrue=window.confirm('您确定要删除这个应用？');
+        const istrue = window.confirm('您确定要删除这个应用？');
         if (istrue) {
-              await G.api.uninstallapp(sid, this.props.appInfo.name);
-             
+              await G.api.uninstallapp(sid, this.props.appInfo.appName);
+              this.props.handleClick({index:4,type:Number,appIndex:-1});
         } 
-      
     }
      render() {
        
@@ -136,7 +134,7 @@ export default class AppContent extends React.Component {
                             {packageDoms}
                         </div>
                  </div>
-                 <img style={styles.delet} src={require('./img/ico-del.png')} alt=""/>
+                 <img onClick={this.onClickDelete} style={styles.delet} src={require('./img/ico-del.png')} alt=""/>
             </div>
         </div>)
     }

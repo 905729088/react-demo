@@ -43,8 +43,7 @@ export default class Home extends React.Component{
     }
 
     async handleAppClick(active, appInfo) {//切换页面  //打开文件列表即进入ApppContent
-        console.log('====>',appInfo);
-        const apppContent =await this.getAsyncInfo(appInfo.appName);
+        const apppContent =await this.getAsyncInfo(appInfo.appName,appInfo.appVer);
         this.setState({ active, appInfo,apppContent});
     }
     //更新版本列表
@@ -56,11 +55,12 @@ export default class Home extends React.Component{
        
     }
     //ApppContent的数据
-    async getAsyncInfo(appName) {
+    async getAsyncInfo(appName, appVer = 'last') {
+        console.log('ppppppp====>',appVer);
         const sid = sessionStorage.getItem('current_sid')
         if (appName && sid) {
             const versions = await G.api.getvar(sid, 'appversions', appName)
-            const packages = await this.getPackages(appName,'last')//this.props.match.params.appVer
+            const packages = await this.getPackages(appName,appVer)//this.props.match.params.appVer
             const apppContent = { versions, packages };
             return apppContent;
         }
@@ -121,7 +121,7 @@ export default class Home extends React.Component{
             ) : null;
         //右边模块
          //初始化右边模块
-        const rightArrs = [<HomeIntroduce />, <ApiManual />, <DefaultApps />, <NewAppList handleAppClick={this.handleAppClick} />, <CreateModal onDel={this.onDelFile} fileInfo={this.state.fileInfo} />, <AppContent handleAppClick={this.handleAppClick} onOpenCode={this.onOpenCode} onUpdataVerList={this.onUpdataVerList} apppContent={this.state.apppContent} appInfo={this.state.appInfo} />, <CodeContent onReturnAppConent={this.onReturnAppConent} codeData={this.state.codeData}/>];
+        const rightArrs = [<HomeIntroduce />, <ApiManual />, <DefaultApps />, <NewAppList handleAppClick={this.handleAppClick} />, <CreateModal onDel={this.onDelFile} fileInfo={this.state.fileInfo} />, <AppContent handleAppClick={this.handleAppClick} handleClick={this.handleClick} onOpenCode={this.onOpenCode} onUpdataVerList={this.onUpdataVerList} apppContent={this.state.apppContent} appInfo={this.state.appInfo} />, <CodeContent onReturnAppConent={this.onReturnAppConent} codeData={this.state.codeData}/>];
         let rightItem = null;
         if (active.type===Number) { 
              rightItem = rightArrs[active.index - 1];
