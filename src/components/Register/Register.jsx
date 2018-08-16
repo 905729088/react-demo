@@ -27,13 +27,13 @@ export default class Register extends React.Component {
     handleSubmit(e) {
       //  console.log('state',this.state)
         e.preventDefault();
-
-        console.log(this.state.pass);
-        if (this.state.name && this.state.pass) {
-            this.onRegister({ name: this.state.name, pass: this.state.pass })
-        } else { 
-            alert('账户密码不能为空');
-        }
+        alert("少年还不能注册哦");
+        // console.log(this.state.pass);
+        // if (this.state.name && this.state.pass) {
+        //     this.onRegister({ name: this.state.name, pass: this.state.pass })
+        // } else { 
+        //     alert('账户密码不能为空');
+        // }
         
     }
     async onRegister(jsonMap) { 

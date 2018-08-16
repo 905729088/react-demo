@@ -10,10 +10,12 @@ export default class AppContent extends React.Component {
             versions: [],
             currentVer:this.props.appInfo.appVer,
             packages: [],
+            isSetDomain:false,//设置域名界面是否显示
         };
         this.onClickselectAppVer = this.onClickselectAppVer.bind(this);
         this.onClickRelease = this.onClickRelease.bind(this);
         this.onClickDelete = this.onClickDelete.bind(this);
+        this.onShowSetDomain = this.onShowSetDomain.bind(this);
     }
 
     componentDidMount() {
@@ -90,6 +92,10 @@ export default class AppContent extends React.Component {
               this.props.handleClick({index:4,type:Number,appIndex:-1});
         } 
     }
+
+    onShowSetDomain() { //显示和关闭设置域名界面
+        this.setState({isSetDomain:!this.state.isSetDomain})
+    }
      render() {
        
         const props = this.props;
@@ -108,15 +114,14 @@ export default class AppContent extends React.Component {
                 </div>
             </MyLink>
          ) : null
-         
+         let setDomain = this.state.isSetDomain ? <SetDomain style={{ display: 'none' }} onShowSetDomain={this.onShowSetDomain} appName={appName}/>: null;
          return (<div style={styles.background}>
              <div style={{ position:'relative',paddingBottom:'50px',minHeight:'100%'}}>
                 <div style={styles.header}>我的应用/<span style={{ color: '#019f57' }}>{props.appInfo.appName}</span></div>
                 <div style={styles.line}></div>
                     <div style={styles.appContent}>
                         <div style={styles.appContentTitle}>
-                        <div style={{textDecoration:'underline',color:'#8a8f99'}}>点此设置该应用的域名</div>
-                        {/* <SetDomain appName={appName}/> */}
+                         <div onClick={this.onShowSetDomain} style={{textDecoration:'underline',color:'#8a8f99',cursor:'pointer'}}>点此设置该应用的域名</div>
                             <div style={styles.appContentTitleRight}>
                                 <Dropdown
                                     styles={{ width: '107px' }}
@@ -135,7 +140,8 @@ export default class AppContent extends React.Component {
                         </div>
                  </div>
                  <img onClick={this.onClickDelete} style={styles.delet} src={require('./img/ico-del.png')} alt=""/>
-            </div>
+             </div>
+             {setDomain}
         </div>)
     }
 }
