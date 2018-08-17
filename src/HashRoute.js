@@ -10,14 +10,15 @@ export default class HashRoute extends React.Component {
         this.login = async(info) => {
             sessionStorage.setItem('current_sid', info.sid);
             const userGroup = await this.getUserGroup();
-            window.DATA_ID = userGroup.manangers[0];
+            const DATA_ID = await G.api.usergroupgetinfo('', userGroup.id, 'DATA_ID');//数据区id
             const userType = await this.checnkMember(info.user,userGroup);
             this.setState(state => ({
                 isAuthenticated: true,
                 sid: info.sid,
                 user: info.user,
                 userGroup:userGroup,
-                userType:userType
+                userType: userType,
+                DATA_ID:DATA_ID
             }))
         }
         this.logout = () => {
@@ -29,7 +30,8 @@ export default class HashRoute extends React.Component {
                 sid: '',
                 user: null,
                 userGroup:null,
-                userType:''
+                userType: '',
+                DATA_ID:''
             }))
             
         }

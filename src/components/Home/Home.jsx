@@ -20,6 +20,7 @@ export default class Home extends React.Component{
             codeData:null,//打开具体代码文件信息
             fileInfo:null ,//上传文件
         }
+        this.getLeftAppData = this.getLeftAppData.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleAppClick = this.handleAppClick.bind(this);
         this.onUpdataVerList = this.onUpdataVerList.bind(this);
@@ -32,6 +33,14 @@ export default class Home extends React.Component{
     async componentDidMount() { 
        
         //获取我的应用数据
+        this.getLeftAppData();
+        //让第一个界面充满屏幕
+        this.setState({ wHeight: window.innerHeight })
+         //获取屏幕高度
+        window.onresize = () => { this.setState({ wHeight: window.innerHeight });};
+    }
+    //获取左边我的应用数据
+   async  getLeftAppData() { 
         const sid = sessionStorage.getItem('current_sid');
         const AppArr = await G.api.getvar(sid, "appinfos");
          if (AppArr.length >= 4) {
@@ -39,11 +48,6 @@ export default class Home extends React.Component{
          } else { 
             this.setState({myApps:AppArr})
           }
-        
-        //让第一个界面充满屏幕
-     this.setState({ wHeight: window.innerHeight })
-     //获取屏幕高度
-        window.onresize = () => { this.setState({ wHeight: window.innerHeight });};
     }
     componentWillUnmount() { 
         window.onresize = null;
@@ -131,7 +135,7 @@ export default class Home extends React.Component{
             ) : null;
         //右边模块
          //初始化右边模块
-        const rightArrs = [<HomeIntroduce />, <ApiManual />, <DefaultApps />, <NewAppList handleAppClick={this.handleAppClick} />, <CreateModal onDel={this.onDelFile} fileInfo={this.state.fileInfo} />, <AppContent handleAppClick={this.handleAppClick} handleClick={this.handleClick} onOpenCode={this.onOpenCode} onUpdataVerList={this.onUpdataVerList} apppContent={this.state.apppContent} appInfo={this.state.appInfo} />, <CodeContent onReturnAppConent={this.onReturnAppConent} codeData={this.state.codeData}/>];
+        const rightArrs = [<HomeIntroduce />, <ApiManual />, <DefaultApps />, <NewAppList handleAppClick={this.handleAppClick} />, <CreateModal onDel={this.onDelFile} getLeftAppData={this.getLeftAppData} fileInfo={this.state.fileInfo} />, <AppContent  getLeftAppData={this.getLeftAppData} handleAppClick={this.handleAppClick} handleClick={this.handleClick} onOpenCode={this.onOpenCode} onUpdataVerList={this.onUpdataVerList} apppContent={this.state.apppContent} appInfo={this.state.appInfo} />, <CodeContent onReturnAppConent={this.onReturnAppConent} codeData={this.state.codeData}/>];
         let rightItem = null;
         if (active.type===Number) { 
              rightItem = rightArrs[active.index - 1];

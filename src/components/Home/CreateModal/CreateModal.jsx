@@ -80,9 +80,10 @@ class CreateModal extends React.Component {
            
            await this.saveFileData(sid, auth.user.id, {name:fileInfo.name,fileId:fileid,describe:this.fileDescribe.value||'这个是'+fileInfo.name+'的源文件!'});
             this.fileDescribe.value = '';
-           
         }
+        this.props.getLeftAppData();
         this.props.onDel();
+       
     }
     async saveFileData(sid, userid, fileConent) { //将应用文件id存到数据库
         const fileId = fileConent.fileId;

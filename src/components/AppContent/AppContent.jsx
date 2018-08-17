@@ -90,6 +90,7 @@ export default class AppContent extends React.Component {
         if (istrue) {
               await G.api.uninstallapp(sid, this.props.appInfo.appName);
               this.props.handleClick({index:4,type:Number,appIndex:-1});
+              this.props.getLeftAppData();
         } 
     }
 
