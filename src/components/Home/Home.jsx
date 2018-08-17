@@ -6,11 +6,13 @@ import HomeIntroduce from './HomeIntroduce/HomeIntroduce.jsx';
 import ApiManual from './ApiManual/ApiManual.jsx';
 import AppContent from './../AppContent/AppContent.jsx';
 import CodeContent from './../CodeContent/CodeContent.jsx';
+import styled from 'styled-components';
 
 export default class Home extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            wHeight:0,
             active: {index:1,type:Number,appIndex:-1},
             myApps: [],//我的应用列表
             appInfo: {},//应用信息
@@ -37,7 +39,14 @@ export default class Home extends React.Component{
          } else { 
             this.setState({myApps:AppArr})
           }
-     
+        
+        //让第一个界面充满屏幕
+     this.setState({ wHeight: window.innerHeight })
+     //获取屏幕高度
+        window.onresize = () => { this.setState({ wHeight: window.innerHeight });};
+    }
+    componentWillUnmount() { 
+        window.onresize = null;
     }
     handleClick(active) {//切换页面
          this.setState({ active: active });
@@ -129,7 +138,7 @@ export default class Home extends React.Component{
         } else if(active.type==='appinfo'){
             rightItem = rightArrs[5];
         }
-        return (<div style={styles.background} >
+        return (<Background  style={styles.background} height={this.state.wHeight}>
             <div style={styles.left}>
                 <div style={styles.leftHeader}>
                     <div style={active.index == 1 ? styles.leftItemActive : styles.leftItem} onClick={() => { this.handleClick({index:1,type:Number,appIndex:-1})}}>
@@ -162,16 +171,15 @@ export default class Home extends React.Component{
                 </div>
             </div>
             <div style={styles.right}>{rightItem}</div>
-        </div>)
+        </Background>)
     }
 }
 Home.styles = {
     background: {
-        position: 'fixed',
+        position: 'absolute',
         display: 'flex',
         justifyContent: 'center',
         width: '100%',
-        height:'calc(100% - 1.4rem)',
         overflow:'hidden',
         backgroundColor: '#E7E8EC',
         minWidth: '1200px',
@@ -247,3 +255,9 @@ Home.styles = {
         flex: '4',
     }
 }
+const Background = styled.div.attrs({
+    height:props=>props.height+'px'
+})`
+    width:100%;
+    height:calc(${props => props.height} - 1.4rem);
+`;

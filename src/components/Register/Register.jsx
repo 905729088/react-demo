@@ -3,46 +3,23 @@ import { HLayout, VLayout } from '../ACommon/Layout.jsx'
 import AuthContext from '../../auth-context.js'
 
 import { Redirect } from 'react-router-dom'
-
+import styled from 'styled-components';
 export default class Register extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            name: '',
-            pass: '',
-            repass: '',
-            email: '',
+            wHeight:0
         }
-        this.handleInputChange = this.handleInputChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
+     
     }
-
-    handleInputChange(e) {
-        const value = e.target.value
-        const name = e.target.name
-        this.setState({
-            [name]: value
-        })
+    componentDidMount() {
+     //让第一个界面充满屏幕
+     this.setState({ wHeight: window.innerHeight })
+     //获取屏幕高度
+        window.onresize = () => { this.setState({ wHeight: window.innerHeight })};
     }
-    handleSubmit(e) {
-      //  console.log('state',this.state)
-        e.preventDefault();
-        alert("少年还不能注册哦");
-        // console.log(this.state.pass);
-        // if (this.state.name && this.state.pass) {
-        //     this.onRegister({ name: this.state.name, pass: this.state.pass })
-        // } else { 
-        //     alert('账户密码不能为空');
-        // }
-        
-    }
-    async onRegister(jsonMap) { 
-        jsonMap=JSON.stringify(jsonMap)
-       await G.api.register(jsonMap, id => {
-           console.log(id);
-        }, (name, err) => {
-            console.log(err);
-        });
+    componentWillUnmount() { 
+        window.onresize = null;
     }
     render() {
         const styles = Register.styles;
@@ -50,73 +27,42 @@ export default class Register extends React.Component {
             {auth => {
                 return auth.isAuthenticated ? <Redirect to={{ pathname: "/home" }} />
                     :
-                    <div style={styles.background}>
-                        <form onSubmit={this.handleSubmit} >
-                            <VLayout style={styles.RegisterForm}>
-                                <div style={styles.RegisterFormItem}>
-                                    <div  style={styles.RegisterFormItemHeader}>用户名</div>
-                                    <input style={styles.RegisterFormItemInput}  placeholder='输入用户名' type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
-                                </div>
-                                <div  style={styles.RegisterFormItem}>
-                                    <div  style={styles.RegisterFormItemHeader}>邮箱</div>
-                                    <input style={styles.RegisterFormItemInput} placeholder='输入邮箱' type="text" name="email" value={this.state.email} onChange={this.handleInputChange} />
-                                </div>
-                                <div  style={styles.RegisterFormItem}>
-                                    <div  style={styles.RegisterFormItemHeader}>密码</div>
-                                   <input style={styles.RegisterFormItemInput}  placeholder='输入密码' type="password"  name="pass" value={this.state.pass} onChange={this.handleInputChange} />
-                                </div>
-                                <div  style={styles.RegisterFormItem}>
-                                    <div  style={styles.RegisterFormItemHeader}>确认密码</div>
-                                    <input style={styles.RegisterFormItemInput} placeholder='确认密码' type="password"  name="repass" value={this.state.repass} onChange={this.handleInputChange} />
-                               </div>
-                                <div  style={styles.RegisterFormItem}>
-                                    <input  style={styles.RegisterFormItemSubmit} type="submit" value="立即注册" />
-                               </div>
-                            </VLayout>
-                        </form>
+                    <Background  style={styles.background} height={this.state.wHeight}> 
+                        <div  style={styles.center}>
+                            <div style={{fontSize: '22px',fontWeight:'bold'}}>欢迎参加内侧</div>
+                            <img style={{marginTop:'30px'}} src={require('./img/QRcode.png')} alt="" />
+                            <p style={{marginTop:'20px',fontSize:'14px',color:'#222'}}>欢迎加入我们，Leither OS 内测群</p>
                     </div>
+                    
+                    </Background>
             }}
         </AuthContext.Consumer>)
     }
 }
 Register.styles = {
     background: {
-        overflow:'hidden',
-    },
-    RegisterForm: {
-        margin: '100px auto',
-        padding:'20px 45px 50px 45px',
-        width:' 650px',
+        overflow: 'hidden',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        backgroundColor: '#071A32',
+        minHeight:'800px'
+    }, center: {
+        padding: '40px 40px 60px',
+        display: 'flex',
+        flexDirection:'column',
+        justifyContent: 'flex-start',
+        alignItems:'center',
+        width:' 432px',
         border:'1px solid #BBBBBB',
-        boxShadow: ' rgb(227, 233, 236) 0px 0px 4px 1px',
-        boxSizing:'border-box'
-    },
-    RegisterFormItem: {
-        marginTop: '30px',
-        width:'100%',
-    },
-    RegisterFormItemHeader: {
-        textAlign: 'left',
-        fontSize: '22px',
-        fontWeight:'bold'
-    },
-    RegisterFormItemInput: {
-        marginTop:'20px',
-        height: '50px',
-        width:'100%',
-        textAlign: 'left',
-        fontSize: '20px',
-        textIndent: '15px',
-        color:'#AAAAAA',
-        border:'1px solid #BBBBBB',
-    },
-    RegisterFormItemSubmit: {
-        height:'50px',
-        width: '100%',
-        backgroundColor: '#AAAAAA',
-        fontSize: '20px',
-        fontWeight:'bold',
-        lineHeight: '50px',
-        textAlign:'center'
+        boxShadow: '0px 3px 5px 0px rgba(13, 160, 86, 0.27)',
+        boxSizing: 'border-box',
+        backgroundColor:'#ffffff'
     }
 }
+const Background = styled.div.attrs({
+    height:props=>props.height+'px'
+})`
+    width:100%;
+    height:calc(${props => props.height} - 1.4rem);
+`;

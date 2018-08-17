@@ -3,6 +3,5 @@ import React from 'react'
 import HashRoute from './HashRoute.js'
 import './style.css'
 
-window['main'] = function () {
-    render( <HashRoute /> , document.getElementById('LeitherBody'))
-}
+
+render( <HashRoute /> , document.getElementById('LeitherBody'))
