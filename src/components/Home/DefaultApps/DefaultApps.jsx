@@ -26,7 +26,7 @@ class DefaultApps extends React.Component {
         
         if (appList) {
             row = appList.map((app,i) => 
-                <DefaultAppRow key={app.fileId} appInfo={app} index={i + 1} sid={this.props.auth.sid} />
+                <DefaultAppRow key={app.fileId} getLeftAppData={this.props.getLeftAppData} appInfo={app} index={i + 1} sid={this.props.auth.sid} />
             )
         }
         return (<div style={styles.background}>

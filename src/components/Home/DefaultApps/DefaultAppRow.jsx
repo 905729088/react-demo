@@ -16,7 +16,8 @@ export default class DefaultAppRow extends React.Component {
             const tempFileId = this.props.appInfo.fileId;
             const strArr = this.props.appInfo.name.split('.');
             const type=strArr[strArr.length-1]
-            await G.api.uploadapp(sid, tempFileId,type);
+            await G.api.uploadapp(sid, tempFileId, type);
+            this.props.getLeftAppData();
         }
        
     }

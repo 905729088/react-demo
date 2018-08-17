@@ -70,7 +70,6 @@ export default class Home extends React.Component{
     }
     //ApppContent的数据
     async getAsyncInfo(appName, appVer = 'last') {
-        console.log('ppppppp====>',appVer);
         const sid = sessionStorage.getItem('current_sid')
         if (appName && sid) {
             const versions = await G.api.getvar(sid, 'appversions', appName)
@@ -102,7 +101,6 @@ export default class Home extends React.Component{
         this.setState({ fileInfo: fileInfo });
     }
     onDelFile() {
-        console.log("删除");
         this.setState({ fileInfo: null });
     }
     //打开具体文件
@@ -135,7 +133,7 @@ export default class Home extends React.Component{
             ) : null;
         //右边模块
          //初始化右边模块
-        const rightArrs = [<HomeIntroduce />, <ApiManual />, <DefaultApps />, <NewAppList handleAppClick={this.handleAppClick} />, <CreateModal onDel={this.onDelFile} getLeftAppData={this.getLeftAppData} fileInfo={this.state.fileInfo} />, <AppContent  getLeftAppData={this.getLeftAppData} handleAppClick={this.handleAppClick} handleClick={this.handleClick} onOpenCode={this.onOpenCode} onUpdataVerList={this.onUpdataVerList} apppContent={this.state.apppContent} appInfo={this.state.appInfo} />, <CodeContent onReturnAppConent={this.onReturnAppConent} codeData={this.state.codeData}/>];
+        const rightArrs = [<HomeIntroduce />, <ApiManual />, <DefaultApps getLeftAppData={this.getLeftAppData} />, <NewAppList handleAppClick={this.handleAppClick} />, <CreateModal onDel={this.onDelFile} getLeftAppData={this.getLeftAppData} fileInfo={this.state.fileInfo} />, <AppContent  getLeftAppData={this.getLeftAppData} handleAppClick={this.handleAppClick} handleClick={this.handleClick} onOpenCode={this.onOpenCode} onUpdataVerList={this.onUpdataVerList} apppContent={this.state.apppContent} appInfo={this.state.appInfo} />, <CodeContent onReturnAppConent={this.onReturnAppConent} codeData={this.state.codeData}/>];
         let rightItem = null;
         if (active.type===Number) { 
              rightItem = rightArrs[active.index - 1];
