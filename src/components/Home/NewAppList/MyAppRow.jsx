@@ -49,7 +49,7 @@ export default class MyAppRow extends React.Component{
     render() {
         const styles = MyAppRow.styles;
         const appInfo = this.props.appInfo
-        const appUri = `http://${G.currentIP}/entry?author=${appInfo.author}&app=${appInfo.name}&ver=last`;
+        const appUri = `http://${G.ip}/entry?author=${appInfo.author}&app=${appInfo.name}&ver=last`;
          //阿拉伯转汉字
         const index = this.SectionToChinese(this.props.index);
         return (<div style={styles.background}>

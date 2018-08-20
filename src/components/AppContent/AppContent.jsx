@@ -4,28 +4,38 @@ import Dropdown from './Dropdown.jsx';
 import styled from 'styled-components'
 import SetDomain from './setDomain.jsx';
 import { G } from './../ACommon/Api';
-export default class AppContent extends React.Component {
+import AuthContext from './../../auth-context.js';
+import AppView from './AppView.jsx'
+ class AppContent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             versions: [],
             currentVer:this.props.appInfo.appVer,
             packages: [],
+            domain:{},//域名信息
             isSetDomain:false,//设置域名界面是否显示
+            isShowView:false, //是否显示预览见面
+            ip:null  //预览的ip地址
+
         };
         this.onClickselectAppVer = this.onClickselectAppVer.bind(this);
         this.onClickRelease = this.onClickRelease.bind(this);
         this.onClickDelete = this.onClickDelete.bind(this);
         this.onShowSetDomain = this.onShowSetDomain.bind(this);
+        this.onClickShowView = this.onClickShowView.bind(this);
+        this.onClickCloseView = this.onClickCloseView.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        //请求数据
         this.getAsyncInfo();
     }
     static getDerivedStateFromProps(nextProps, prevState) { 
         const versions = nextProps.apppContent.versions;
         const packages = nextProps.apppContent.packages;
-        return {versions,packages}
+        const domain = nextProps.domain;
+        return {versions,packages,domain}
     }
     async getAsyncInfo() {
        
@@ -94,7 +104,16 @@ export default class AppContent extends React.Component {
               this.props.getLeftAppData();
         } 
     }
-
+   
+     onClickShowView(ip) {//展现例子
+         const isShowView = true;
+        this.setState({ip,isShowView});
+     }
+     onClickCloseView() {//关闭例子
+         console.log("++");
+        const isShowView = false;
+        this.setState({isShowView});
+    }
     onShowSetDomain() { //显示和关闭设置域名界面
         this.setState({isSetDomain:!this.state.isSetDomain})
     }
@@ -116,22 +135,29 @@ export default class AppContent extends React.Component {
                 </div>
             </MyLink>
          ) : null
-         let setDomain = this.state.isSetDomain ? <SetDomain style={{ display: 'none' }} onShowSetDomain={this.onShowSetDomain} appName={appName}/>: null;
+        let setDomain = this.state.isSetDomain ? <SetDomain style={{ display: 'none' }} onShowSetDomain={this.onShowSetDomain} appName={appName}/>: null;
+        //预览界面
+         const appView = this.state.isShowView ? <AppView onClickCloseView={this.onClickCloseView} ip={this.state.ip} /> : null;
+
          return (<div style={styles.background}>
              <div style={{ position:'relative',paddingBottom:'50px',minHeight:'100%'}}>
                 <div style={styles.header}>我的应用/<span style={{ color: '#019f57' }}>{props.appInfo.appName}</span></div>
                 <div style={styles.line}></div>
                     <div style={styles.appContent}>
                         <div style={styles.appContentTitle}>
-                         <div onClick={this.onShowSetDomain} style={{textDecoration:'underline',color:'#8a8f99',cursor:'pointer'}}>点此设置该应用的域名</div>
-                            <div style={styles.appContentTitleRight}>
-                                <Dropdown
-                                    styles={{ width: '107px' }}
-                                    dataList={this.state.versions}
-                                    onClick={this.onClickselectAppVer}
-                                />
-                                <div style={styles.appContentRelease} onClick={this.onClickRelease}>发布版本</div>
-                            </div>
+                         <div style={styles.domain}>
+                                <span onClick={this.onShowSetDomain} style={{textDecoration:'underline',cursor:'pointer'}} >点此设置该应用的域名</span>
+                                <span onClick={()=>this.onClickShowView(this.state.domain.inner)} style={this.state.domain.inner?{marginLeft:'10px',cursor:'pointer'}:{display:'none'}}>内网访问：{this.state.domain.inner}</span>
+                                <span onClick={()=>this.onClickShowView(this.state.domain.out)} style={this.state.domain.out?{marginLeft:'10px',cursor:'pointer'}:{display:'none'}}>外网访问：{this.state.domain.out}</span>
+                         </div>
+                        <div style={styles.appContentTitleRight}>
+                            <Dropdown
+                                styles={{ width: '107px' }}
+                                dataList={this.state.versions}
+                                onClick={this.onClickselectAppVer}
+                            />
+                            <div style={styles.appContentRelease} onClick={this.onClickRelease}>发布版本</div>
+                        </div>
                         
                         </div>
                         <div style={styles.appContentMain}>
@@ -144,6 +170,7 @@ export default class AppContent extends React.Component {
                  <img onClick={this.onClickDelete} style={styles.delet} src={require('./img/ico-del.png')} alt=""/>
              </div>
              {setDomain}
+             {appView}
         </div>)
     }
 }
@@ -201,7 +228,12 @@ AppContent.styles = {
         textAlign: 'left',
         justifyContent: 'space-between',
         color: '#999999'
-    },appContentTitleRight: {
+    },
+    domain:{
+        disaply:'flex',
+        color:'#8a8f99',
+    },
+    appContentTitleRight: {
         display:'flex',
         justifyContent: 'space-between',
        
@@ -248,3 +280,9 @@ const MyLink = styled.div`
        background:#f6f8fa;
    }
 `
+
+export default  props => (
+    <AuthContext.Consumer>
+         {auth => <AppContent {...props} auth={auth}/>}
+    </AuthContext.Consumer>
+  );

@@ -8,7 +8,8 @@ import AppContent from './../AppContent/AppContent.jsx';
 import CodeContent from './../CodeContent/CodeContent.jsx';
 import styled from 'styled-components';
 import { G } from './../ACommon/Api';
-export default class Home extends React.Component{
+import AuthContext from './../../auth-context';
+class Home extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -17,6 +18,7 @@ export default class Home extends React.Component{
             myApps: [],//我的应用列表
             appInfo: {},//应用信息
             apppContent: {},//应用文件信息
+            domain: {},//域名信息
             codeData:null,//打开具体代码文件信息
             fileInfo:null ,//上传文件
         }
@@ -57,8 +59,19 @@ export default class Home extends React.Component{
     }
 
     async handleAppClick(active, appInfo) {//切换页面  //打开文件列表即进入ApppContent
-        const apppContent =await this.getAsyncInfo(appInfo.appName,appInfo.appVer);
-        this.setState({ active, appInfo,apppContent});
+        const apppContent = await this.getAsyncInfo(appInfo.appName, appInfo.appVer);
+        //获取域名
+        const sid=this.props.auth.sid;
+        const userId = this.props.auth.user.id;
+        const DATA_ID=this.props.auth.DATA_ID;
+        const innerNetwork=await G.api.hGet(sid,DATA_ID,'INNERNETWORK',userId+'#'+appInfo.appName);
+        const outNetwork = await G.api.hGet(sid, DATA_ID, 'OUTNETWORK', userId + '#' +appInfo.appName);
+        const domain = {
+            inner:innerNetwork,//内网
+            out:outNetwork //外网
+        }
+      
+        this.setState({ active,appInfo,apppContent,domain});
     }
     //更新版本列表
     onUpdataVerList(versions) { 
@@ -79,7 +92,9 @@ export default class Home extends React.Component{
         }
         
         
+        
     }
+    
     async getPackages(appName,ver) {
         const sid = sessionStorage.getItem('current_sid');
         const packageInfo = await G.api.getVar(sid, 'apppackage', appName, ver)
@@ -133,7 +148,7 @@ export default class Home extends React.Component{
             ) : null;
         //右边模块
          //初始化右边模块
-        const rightArrs = [<HomeIntroduce />, <ApiManual />, <DefaultApps getLeftAppData={this.getLeftAppData} />, <NewAppList handleAppClick={this.handleAppClick} />, <CreateModal onDel={this.onDelFile} getLeftAppData={this.getLeftAppData} fileInfo={this.state.fileInfo} />, <AppContent  getLeftAppData={this.getLeftAppData} handleAppClick={this.handleAppClick} handleClick={this.handleClick} onOpenCode={this.onOpenCode} onUpdataVerList={this.onUpdataVerList} apppContent={this.state.apppContent} appInfo={this.state.appInfo} />, <CodeContent onReturnAppConent={this.onReturnAppConent} codeData={this.state.codeData}/>];
+        const rightArrs = [<HomeIntroduce />, <ApiManual />, <DefaultApps getLeftAppData={this.getLeftAppData} />, <NewAppList handleAppClick={this.handleAppClick} />, <CreateModal onDel={this.onDelFile} getLeftAppData={this.getLeftAppData} fileInfo={this.state.fileInfo} />, <AppContent  getLeftAppData={this.getLeftAppData} handleAppClick={this.handleAppClick} handleClick={this.handleClick} onOpenCode={this.onOpenCode} onUpdataVerList={this.onUpdataVerList} apppContent={this.state.apppContent} appInfo={this.state.appInfo} domain={this.state.domain}/>, <CodeContent onReturnAppConent={this.onReturnAppConent} codeData={this.state.codeData}/>];
         let rightItem = null;
         if (active.type===Number) { 
              rightItem = rightArrs[active.index - 1];
@@ -263,3 +278,8 @@ const Background = styled.div.attrs({
     width:100%;
     height:calc(${props => props.height} - 1.4rem);
 `;
+export default  props => (
+    <AuthContext.Consumer>
+         {auth => <Home {...props} auth={auth}/>}
+    </AuthContext.Consumer>
+  );

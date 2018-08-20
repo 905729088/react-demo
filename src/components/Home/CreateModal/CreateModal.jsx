@@ -1,6 +1,6 @@
 import React from 'react'
 import AuthContext from '../../../auth-context.js'
-import Rotate from './MyWait.jsx';
+import Rotate from './../../ACommon/MyWait.jsx'
 import styled from 'styled-components'
 import {G} from './../../ACommon/Api'
 class CreateModal extends React.Component {

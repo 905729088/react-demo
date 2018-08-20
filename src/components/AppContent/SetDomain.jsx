@@ -18,8 +18,8 @@ class SetDomain extends React.Component{
         const sid=this.props.auth.sid;
         const userId = this.props.auth.user.id;
         const DATA_ID=this.props.auth.DATA_ID;
-        const nowInnerNetwork=await G.api.hget(sid,DATA_ID,'INNERNETWORK',userId+'#'+this.props.appName);
-        const nowOutNetwork=await G.api.hget(sid,DATA_ID,'OUTNETWORK',userId+'#'+this.props.appName);
+        const nowInnerNetwork=await G.api.hGet(sid,DATA_ID,'INNERNETWORK',userId+'#'+this.props.appName);
+        const nowOutNetwork=await G.api.hGet(sid,DATA_ID,'OUTNETWORK',userId+'#'+this.props.appName);
         this.setState({nowInnerNetwork,nowOutNetwork});
    }
 
@@ -43,20 +43,20 @@ class SetDomain extends React.Component{
                     return;
                }else{
                      //删除之前的域名
-                    const oldInnerNetwork=await G.api.hget(sid,DATA_ID,'INNERNETWORK',userId+'#'+this.props.appName);
+                    const oldInnerNetwork=await G.api.hGet(sid,DATA_ID,'INNERNETWORK',userId+'#'+this.props.appName);
 
                     if(oldInnerNetwork){
-                        await G.api.deldomain(sid,oldInnerNetwork);
+                        await G.api.delDomain(sid,oldInnerNetwork);
                     }
                     //设置域名
-                    await G.api.hset(sid,DATA_ID, 'INNERNETWORK',userId+'#'+this.props.appName,innerNetwork);//将域名存入
-                    const Appinfo=await G.api.getvar(sid, "appinfo",this.props.appName);
+                    await G.api.hSet(sid,DATA_ID, 'INNERNETWORK',userId+'#'+this.props.appName,innerNetwork);//将域名存入
+                    const Appinfo=await G.api.getVar(sid, "appinfo",this.props.appName);
                     const info={
                         app:this.props.appName,
                         ver:'last',
                         author:Appinfo.author
                     }
-                    await G.api.setdomain(sid,innerNetwork,info,()=>{
+                    await G.api.setDomain(sid,innerNetwork,info,()=>{
                         alert('域名设置成功');
                         this.setState({nowInnerNetwork:innerNetwork,isNowInnerNetwork:true});
                         
@@ -98,20 +98,20 @@ class SetDomain extends React.Component{
                 return;
             }else{
                  //删除之前的域名
-                const oldOutNetwork=await G.api.hget(sid,DATA_ID,'OUTNETWORK',userId+'#'+this.props.appName);
+                const oldOutNetwork=await G.api.hGet(sid,DATA_ID,'OUTNETWORK',userId+'#'+this.props.appName);
 
                 if(oldOutNetwork){
-                    await G.api.deldomain(sid,oldOutNetwork);
+                    await G.api.delDomain(sid,oldOutNetwork);
                 }
                 //设置域名
-                await G.api.hset(sid,DATA_ID, 'OUTNETWORK',userId+'#'+this.props.appName,outNetwork);//将域名存入
-                const Appinfo=await G.api.getvar(sid, "appinfo",this.props.appName);
+                await G.api.hSet(sid,DATA_ID, 'OUTNETWORK',userId+'#'+this.props.appName,outNetwork);//将域名存入
+                const Appinfo=await G.api.getVar(sid, "appinfo",this.props.appName);
                 const info={
                     app:this.props.appName,
                     ver:'last',
                     author:Appinfo.author
                 }
-                await G.api.setdomain(sid,outNetwork,info,()=>{
+                await G.api.setDomain(sid,outNetwork,info,()=>{
                     alert('域名设置成功');
                     this.setState({nowOutNetwork:outNetwork,isNowOutNetwork:true});
                     // console.log('');
@@ -129,7 +129,7 @@ class SetDomain extends React.Component{
     }
     async checkrepeat(sid,DATA_ID,key,setValue){
         let isRepeat=false;
-        const AllData=await G.api.hgetall(sid,DATA_ID, key);
+        const AllData=await G.api.hGetAll(sid,DATA_ID, key);
         for(let i=0;i<AllData.length;i++){
             if(AllData[i].value===setValue){
                 isRepeat=true;
