@@ -1,13 +1,22 @@
 import React from 'react'
 import Introduce from './../Introduce/Introduce.jsx'
-import Home from './../Home/Home.jsx'
-import Login from './../Login/Login.jsx'
 import CreateModal from './../Home/CreateModal/CreateModal.jsx'
 import AppContent from './../AppContent/AppContent.jsx'
 import CodeContent from './../CodeContent/CodeContent.jsx'
-import Register from './../Register/Register.jsx'
 import {Route,Redirect,Switch} from 'react-router-dom'
 import AuthContext from '../../auth-context.js'
+import asyncComponent from './async-component.js'
+
+const Home = asyncComponent(() =>
+    import(/* webpackChunkName: "page-home" */'./../Home/Home.jsx'))
+  
+const Login = asyncComponent(() =>
+    import(/* webpackChunkName: "page-login" */'./../Login/Login.jsx'))
+
+const Register = asyncComponent(() =>
+    import(/* webpackChunkName: "page-register" */'./../Register/Register.jsx'))
+  
+  
 
 export default class Container extends React.Component {
     render() {
