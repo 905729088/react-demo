@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import {G} from './../../ACommon/Api'
 export default class DefaultAppRow extends React.Component {
     constructor(props) {
         super(props)
@@ -16,7 +17,7 @@ export default class DefaultAppRow extends React.Component {
             const tempFileId = this.props.appInfo.fileId;
             const strArr = this.props.appInfo.name.split('.');
             const type=strArr[strArr.length-1]
-            await G.api.uploadapp(sid, tempFileId, type);
+            await G.api.uploadApp(sid, tempFileId, type);
             this.props.getLeftAppData();
         }
        

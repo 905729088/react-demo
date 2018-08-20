@@ -3,6 +3,7 @@ import { HLayout,VLayout } from '../ACommon/Layout.jsx'
 import AuthContext from '../../auth-context.js'
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
+import { G } from './../ACommon/Api.js';
 class Login extends React.Component{
     constructor(props){
         super(props)

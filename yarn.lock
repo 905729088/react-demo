@@ -586,6 +586,12 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@leither/l-api@^1.0.8-beta.5":
+  version "1.0.8-beta.5"
+  resolved "http://registry.npm.taobao.org/@leither/l-api/download/@leither/l-api-1.0.8-beta.5.tgz#382acec4c8b3e50d53a9d616447bb3907d65bec6"
+  dependencies:
+    hprose-html5 "^2.0.36"
+
 "@webassemblyjs/ast@1.5.13":
   version "1.5.13"
   resolved "http://registry.npm.taobao.org/@webassemblyjs/ast/download/@webassemblyjs/ast-1.5.13.tgz#81155a570bd5803a30ec31436bc2c9c0ede38f25"
@@ -2485,6 +2491,10 @@ hpack.js@^2.1.6:
     obuf "^1.0.0"
     readable-stream "^2.0.1"
     wbuf "^1.1.0"
+
+hprose-html5@^2.0.36:
+  version "2.0.36"
+  resolved "http://registry.npm.taobao.org/hprose-html5/download/hprose-html5-2.0.36.tgz#78e1610467c079b4ae849aedc65ffa112cdfd4a6"
 
 html-comment-regex@^1.1.0:
   version "1.1.1"

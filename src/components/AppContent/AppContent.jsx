@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Dropdown from './Dropdown.jsx';
 import styled from 'styled-components'
 import SetDomain from './setDomain.jsx';
+import { G } from './../ACommon/Api';
 export default class AppContent extends React.Component {
     constructor(props) {
         super(props)
@@ -31,7 +32,7 @@ export default class AppContent extends React.Component {
         const appName = this.props.appInfo.appName
         const sid = sessionStorage.getItem('current_sid')
         if (appName && sid) {
-            const versions = await G.api.getvar(sid, 'appversions', appName)
+            const versions = await G.api.getVar(sid, 'appversions', appName)
             const packages = await this.getPackages(this.props.appInfo.appVer)//this.props.match.params.appVer
             this.setState({
                 versions,
@@ -45,7 +46,7 @@ export default class AppContent extends React.Component {
        
         const appName = this.props.appInfo.appName
         const sid = sessionStorage.getItem('current_sid');
-        const packageInfo = await G.api.getvar(sid, 'apppackage', appName, ver)
+        const packageInfo = await G.api.getVar(sid, 'apppackage', appName, ver)
         if (packageInfo) {
             let obj = {};
             for (let key in packageInfo.entryTemplate) { 
@@ -78,7 +79,7 @@ export default class AppContent extends React.Component {
             const sid = sessionStorage.getItem('current_sid')
             const appName = this.props.appInfo.appName
             await G.api.version(sid, appName, 'lastver', '') //设置新的版本
-            const versions = await G.api.getvar(sid, 'appversions', appName);
+            const versions = await G.api.getVar(sid, 'appversions', appName);
             this.props.onUpdataVerList(versions);
         } 
           
@@ -88,7 +89,7 @@ export default class AppContent extends React.Component {
         const sid = sessionStorage.getItem('current_sid');
         const istrue = window.confirm('您确定要删除这个应用？');
         if (istrue) {
-              await G.api.uninstallapp(sid, this.props.appInfo.appName);
+              await G.api.unInstallApp(sid, this.props.appInfo.appName);
               this.props.handleClick({index:4,type:Number,appIndex:-1});
               this.props.getLeftAppData();
         } 

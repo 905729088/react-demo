@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import styled, { keyframes} from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+import {G} from  './../../ACommon/Api'
 export default class MyAppRow extends React.Component{
     constructor(props) {
         super(props)
@@ -11,7 +12,7 @@ export default class MyAppRow extends React.Component{
         const sid = this.props.sid;
         const istrue=window.confirm('您确定要删除这个应用？');
         if (istrue) {
-              await G.api.uninstallapp(sid, this.props.appInfo.name);
+              await G.api.unInstallApp(sid, this.props.appInfo.name);
               this.props.onClick();
         } 
       

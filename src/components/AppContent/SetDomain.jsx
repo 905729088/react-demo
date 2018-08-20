@@ -1,5 +1,6 @@
 import React from 'react';
 import AuthContext from '../../auth-context.js'
+import { G } from './../ACommon/Api';
 class SetDomain extends React.Component{
     constructor(props){
         super(props);

@@ -2,6 +2,7 @@ import React from 'react'
 import { HLayout } from '../ACommon/Layout.jsx';
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { G } from './../ACommon/Api'
 
 import CodeMirror from 'react-codemirror';
 import 'codemirror/lib/codemirror.css';
@@ -35,7 +36,7 @@ export default class CodeContent extends React.Component {
         // }
         // sessionStorage.setItem('current_fileId',packageid);
         const sid = sessionStorage.getItem('current_sid')
-        const uint8 = await G.api.getlfiledata(sid, packageid, 0, -1)
+        const uint8 = await G.api.getLFileData(sid, packageid, 0, -1)
         const code = new TextDecoder('utf-8').decode(uint8)
         this.lastCode = code;
         
@@ -52,8 +53,8 @@ export default class CodeContent extends React.Component {
             if (this.state.isButton) {
                 this.setState({isButton:false})
                 const sid = sessionStorage.getItem('current_sid');
-                const fileid = await G.api.createfilebydata(sid, content);
-                const appid = await G.api.uploadappfile(sid, this.props.codeData.appName, this.props.codeData.packageName, fileid)
+                const fileid = await G.api.createFileByData(sid, content);
+                const appid = await G.api.uploadAppFile(sid, this.props.codeData.appName, this.props.codeData.packageName, fileid)
                 this.props.onReturnAppConent({index:6,type:Number,appIndex:this.props.codeData.appIndex},true)
              }
            // console.log('====>更新');

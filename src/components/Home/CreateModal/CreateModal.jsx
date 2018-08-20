@@ -2,6 +2,7 @@ import React from 'react'
 import AuthContext from '../../../auth-context.js'
 import Rotate from './MyWait.jsx';
 import styled from 'styled-components'
+import {G} from './../../ACommon/Api'
 class CreateModal extends React.Component {
     constructor(props) {
         super(props)
@@ -46,7 +47,7 @@ class CreateModal extends React.Component {
     async uploadApp(auth, fileInfo,type) {
         const sid = auth.sid;
         const userType = auth.userType;
-        const tempFileId = await G.api.opentempfile(sid);
+        const tempFileId = await G.api.openTempFile(sid);
         console.log('临时Id',tempFileId);
      
         // await G.api.setlfiledata(sid, tempFileId, 0, await this.readBlob(fileInfo))
@@ -73,8 +74,8 @@ class CreateModal extends React.Component {
             }
            
         }, t / 10);
-        const fileid = await G.api.temp2lfile(sid,tempFileId)
-        const appid = await G.api.uploadapp(sid, fileid,type)
+        const fileid = await G.api.temp2LFile(sid,tempFileId)
+        const appid = await G.api.uploadApp(sid, fileid,type)
         this.setState({ content: '上传新的应用' });
         if (userType === "admin") { 
            
@@ -88,7 +89,7 @@ class CreateModal extends React.Component {
     async saveFileData(sid, userid, fileConent) { //将应用文件id存到数据库
         const fileId = fileConent.fileId;
         fileConent = JSON.stringify(fileConent);
-        await G.api.hset(sid,userid, '__H_File_ID__',userid+'#'+fileId ,fileConent); 
+        await G.api.hSet(sid,userid, '__H_File_ID__',userid+'#'+fileId ,fileConent); 
     }
     onFileChange() {
         const fileInfo = this.fileInput.files[0];
@@ -109,7 +110,7 @@ class CreateModal extends React.Component {
         const step = fileSize / 100;
         for (let i = 0; i < 100; i ++) {
             const dataNeedSend = typedArray.slice(i*step, step*(i+1))
-             await G.api.setlfiledata(sid, tempFileId, i*step, dataNeedSend)
+             await G.api.setLFileData(sid, tempFileId, i*step, dataNeedSend)
           if (percentCallback) {
             percentCallback(i)
           }

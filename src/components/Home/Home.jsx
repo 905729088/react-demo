@@ -7,7 +7,7 @@ import ApiManual from './ApiManual/ApiManual.jsx';
 import AppContent from './../AppContent/AppContent.jsx';
 import CodeContent from './../CodeContent/CodeContent.jsx';
 import styled from 'styled-components';
-
+import { G } from './../ACommon/Api';
 export default class Home extends React.Component{
     constructor(props) {
         super(props);
@@ -42,7 +42,7 @@ export default class Home extends React.Component{
     //获取左边我的应用数据
    async  getLeftAppData() { 
         const sid = sessionStorage.getItem('current_sid');
-        const AppArr = await G.api.getvar(sid, "appinfos");
+        const AppArr = await G.api.getVar(sid, "appinfos");
          if (AppArr.length >= 4) {
                 this.setState({myApps:AppArr.slice(0,4)})
          } else { 
@@ -72,7 +72,7 @@ export default class Home extends React.Component{
     async getAsyncInfo(appName, appVer = 'last') {
         const sid = sessionStorage.getItem('current_sid')
         if (appName && sid) {
-            const versions = await G.api.getvar(sid, 'appversions', appName)
+            const versions = await G.api.getVar(sid, 'appversions', appName)
             const packages = await this.getPackages(appName,appVer)//this.props.match.params.appVer
             const apppContent = { versions, packages };
             return apppContent;
@@ -82,7 +82,7 @@ export default class Home extends React.Component{
     }
     async getPackages(appName,ver) {
         const sid = sessionStorage.getItem('current_sid');
-        const packageInfo = await G.api.getvar(sid, 'apppackage', appName, ver)
+        const packageInfo = await G.api.getVar(sid, 'apppackage', appName, ver)
         if (packageInfo) {
             let obj = {};
             for (let key in packageInfo.entryTemplate) { 

@@ -1,6 +1,7 @@
 import React from 'react'
 import DefaultAppRow from './DefaultAppRow.jsx'
 import AuthContext from '../../../auth-context.js'
+import {G} from './../../ACommon/Api'
 class DefaultApps extends React.Component {
     constructor(props) {
         super(props)
@@ -11,7 +12,7 @@ class DefaultApps extends React.Component {
     }
     async getAppList() { 
         const sid = this.props.auth.sid
-        const strArr = await G.api.hgetall('',this.props.auth.DATA_ID, '__H_File_ID__');
+        const strArr = await G.api.hGetAll('',this.props.auth.DATA_ID, '__H_File_ID__');
         let appList = [];
         for (let val of strArr) { 
             let obj = JSON.parse(val.value);

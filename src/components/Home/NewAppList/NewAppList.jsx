@@ -1,6 +1,7 @@
 import React from 'react'
 import AuthContext from '../../../auth-context.js'
 import MyApps from './MyApps.jsx'
+import {G} from './../../ACommon/Api'
 
 
  class NewAppList extends React.Component {
@@ -17,7 +18,7 @@ import MyApps from './MyApps.jsx'
     }
     async getAppList() {
         const sid = this.props.auth.sid
-        const appList = await G.api.getvar(sid, 'appinfos')
+        const appList = await G.api.getVar(sid, 'appinfos')
         this.setState({
             appList
         })
