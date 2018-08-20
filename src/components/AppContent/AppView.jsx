@@ -15,7 +15,7 @@ export default class AppView extends React.Component{
         return (<div style={styles.background}>
             <div style={{ position: 'relative' }}>
                 <img onClick={this.props.onClickCloseView} style={{position:'absolute',right:'0px',top:'0px',cursor:'pointer'}} src={require('./img/close.png')} alt=""/>
-                <iframe style={styles.main} src={this.state.ip} frameBorder="0"></iframe>
+                <iframe style={styles.main} src={location.protocol+"//"+this.state.ip} frameBorder="0"></iframe>
             </div>
         </div>)
     }
