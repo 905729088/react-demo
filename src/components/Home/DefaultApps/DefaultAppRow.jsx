@@ -1,9 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
+import { G } from './../../ACommon/Api'
+import Rotate from './../../ACommon/MyWait.jsx';
 export default class DefaultAppRow extends React.Component {
     constructor(props) {
         super(props)
-
+        this.state = {
+            isCover:false
+        }
         this.onClickCopy = this.onClickCopy.bind(this);
         this.SectionToChinese = this.SectionToChinese.bind(this);
        
@@ -13,10 +17,13 @@ export default class DefaultAppRow extends React.Component {
         const istrue = window.confirm('您确定要克隆这个应用？');
         if (istrue) { 
             const sid = this.props.sid;
+            this.setState({isCover:true});
             const tempFileId = this.props.appInfo.fileId;
             const strArr = this.props.appInfo.name.split('.');
             const type=strArr[strArr.length-1]
-            await G.api.uploadapp(sid, tempFileId,type);
+            await G.api.uploadApp(sid, tempFileId, type);
+            this.props.getLeftAppData();
+            this.setState({isCover:false});
         }
        
     }
@@ -72,7 +79,9 @@ export default class DefaultAppRow extends React.Component {
                     <span>CLONE</span>
                 </MyCopy>
             </div>
-           
+            <div style={this.state.isCover ? styles.MyWait : {display:'none'}} >
+                <Rotate></Rotate>
+            </div>
         </div>)
     }
 }
@@ -134,6 +143,18 @@ DefaultAppRow.styles = {
         textAlign: 'center',
         lineHeight: '42px',
         cursor:'pointer'
+    }, MyWait: {
+        position: 'fixed',
+        zIndex: '999',
+        top: '0',
+        left: '0',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%',
+        textAlign: 'center',
+        background: 'rgba(0,0,0,0.2)' 
     }
 }
 const MyCopy = styled.div`

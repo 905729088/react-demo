@@ -6,18 +6,23 @@ import HomeIntroduce from './HomeIntroduce/HomeIntroduce.jsx';
 import ApiManual from './ApiManual/ApiManual.jsx';
 import AppContent from './../AppContent/AppContent.jsx';
 import CodeContent from './../CodeContent/CodeContent.jsx';
-
-export default class Home extends React.Component{
+import styled from 'styled-components';
+import { G } from './../ACommon/Api';
+import AuthContext from './../../auth-context';
+class Home extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            wHeight:0,
             active: {index:1,type:Number,appIndex:-1},
             myApps: [],//我的应用列表
             appInfo: {},//应用信息
             apppContent: {},//应用文件信息
+            domain: {},//域名信息
             codeData:null,//打开具体代码文件信息
             fileInfo:null ,//上传文件
         }
+        this.getLeftAppData = this.getLeftAppData.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleAppClick = this.handleAppClick.bind(this);
         this.onUpdataVerList = this.onUpdataVerList.bind(this);
@@ -30,22 +35,43 @@ export default class Home extends React.Component{
     async componentDidMount() { 
        
         //获取我的应用数据
+        this.getLeftAppData();
+        //让第一个界面充满屏幕
+        this.setState({ wHeight: window.innerHeight })
+         //获取屏幕高度
+        window.onresize = () => { this.setState({ wHeight: window.innerHeight });};
+    }
+    //获取左边我的应用数据
+   async  getLeftAppData() { 
         const sid = sessionStorage.getItem('current_sid');
-        const AppArr = await G.api.getvar(sid, "appinfos");
+        const AppArr = await G.api.getVar(sid, "appinfos");
          if (AppArr.length >= 4) {
                 this.setState({myApps:AppArr.slice(0,4)})
          } else { 
             this.setState({myApps:AppArr})
           }
-     
+    }
+    componentWillUnmount() { 
+        window.onresize = null;
     }
     handleClick(active) {//切换页面
          this.setState({ active: active });
     }
 
     async handleAppClick(active, appInfo) {//切换页面  //打开文件列表即进入ApppContent
-        const apppContent =await this.getAsyncInfo(appInfo.appName,appInfo.appVer);
-        this.setState({ active, appInfo,apppContent});
+        const apppContent = await this.getAsyncInfo(appInfo.appName, appInfo.appVer);
+        //获取域名
+        const sid=this.props.auth.sid;
+        const userId = this.props.auth.user.id;
+        const DATA_ID=this.props.auth.DATA_ID;
+        const innerNetwork=await G.api.hGet(sid,DATA_ID,'INNERNETWORK',userId+'#'+appInfo.appName);
+        const outNetwork = await G.api.hGet(sid, DATA_ID, 'OUTNETWORK', userId + '#' +appInfo.appName);
+        const domain = {
+            inner:innerNetwork,//内网
+            out:outNetwork //外网
+        }
+      
+        this.setState({ active,appInfo,apppContent,domain});
     }
     //更新版本列表
     onUpdataVerList(versions) { 
@@ -57,20 +83,21 @@ export default class Home extends React.Component{
     }
     //ApppContent的数据
     async getAsyncInfo(appName, appVer = 'last') {
-        console.log('ppppppp====>',appVer);
         const sid = sessionStorage.getItem('current_sid')
         if (appName && sid) {
-            const versions = await G.api.getvar(sid, 'appversions', appName)
+            const versions = await G.api.getVar(sid, 'appversions', appName)
             const packages = await this.getPackages(appName,appVer)//this.props.match.params.appVer
             const apppContent = { versions, packages };
             return apppContent;
         }
         
         
+        
     }
+    
     async getPackages(appName,ver) {
         const sid = sessionStorage.getItem('current_sid');
-        const packageInfo = await G.api.getvar(sid, 'apppackage', appName, ver)
+        const packageInfo = await G.api.getVar(sid, 'apppackage', appName, ver)
         if (packageInfo) {
             let obj = {};
             for (let key in packageInfo.entryTemplate) { 
@@ -89,7 +116,6 @@ export default class Home extends React.Component{
         this.setState({ fileInfo: fileInfo });
     }
     onDelFile() {
-        console.log("删除");
         this.setState({ fileInfo: null });
     }
     //打开具体文件
@@ -122,14 +148,14 @@ export default class Home extends React.Component{
             ) : null;
         //右边模块
          //初始化右边模块
-        const rightArrs = [<HomeIntroduce />, <ApiManual />, <DefaultApps />, <NewAppList handleAppClick={this.handleAppClick} />, <CreateModal onDel={this.onDelFile} fileInfo={this.state.fileInfo} />, <AppContent handleAppClick={this.handleAppClick} handleClick={this.handleClick} onOpenCode={this.onOpenCode} onUpdataVerList={this.onUpdataVerList} apppContent={this.state.apppContent} appInfo={this.state.appInfo} />, <CodeContent onReturnAppConent={this.onReturnAppConent} codeData={this.state.codeData}/>];
+        const rightArrs = [<HomeIntroduce />, <ApiManual />, <DefaultApps getLeftAppData={this.getLeftAppData} />, <NewAppList handleAppClick={this.handleAppClick} />, <CreateModal onDel={this.onDelFile} getLeftAppData={this.getLeftAppData} fileInfo={this.state.fileInfo} />, <AppContent  getLeftAppData={this.getLeftAppData} handleAppClick={this.handleAppClick} handleClick={this.handleClick} onOpenCode={this.onOpenCode} onUpdataVerList={this.onUpdataVerList} apppContent={this.state.apppContent} appInfo={this.state.appInfo} domain={this.state.domain}/>, <CodeContent onReturnAppConent={this.onReturnAppConent} codeData={this.state.codeData}/>];
         let rightItem = null;
         if (active.type===Number) { 
              rightItem = rightArrs[active.index - 1];
         } else if(active.type==='appinfo'){
             rightItem = rightArrs[5];
         }
-        return (<div style={styles.background} >
+        return (<Background  style={styles.background} height={this.state.wHeight}>
             <div style={styles.left}>
                 <div style={styles.leftHeader}>
                     <div style={active.index == 1 ? styles.leftItemActive : styles.leftItem} onClick={() => { this.handleClick({index:1,type:Number,appIndex:-1})}}>
@@ -162,16 +188,15 @@ export default class Home extends React.Component{
                 </div>
             </div>
             <div style={styles.right}>{rightItem}</div>
-        </div>)
+        </Background>)
     }
 }
 Home.styles = {
     background: {
-        position: 'fixed',
+        position: 'absolute',
         display: 'flex',
         justifyContent: 'center',
         width: '100%',
-        height:'calc(100% - 1.4rem)',
         overflow:'hidden',
         backgroundColor: '#E7E8EC',
         minWidth: '1200px',
@@ -247,3 +272,14 @@ Home.styles = {
         flex: '4',
     }
 }
+const Background = styled.div.attrs({
+    height:props=>props.height+'px'
+})`
+    width:100%;
+    height:calc(${props => props.height} - 1.4rem);
+`;
+export default  props => (
+    <AuthContext.Consumer>
+         {auth => <Home {...props} auth={auth}/>}
+    </AuthContext.Consumer>
+  );

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import styled, { keyframes} from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+import {G} from  './../../ACommon/Api'
 export default class MyAppRow extends React.Component{
     constructor(props) {
         super(props)
@@ -11,7 +12,7 @@ export default class MyAppRow extends React.Component{
         const sid = this.props.sid;
         const istrue=window.confirm('您确定要删除这个应用？');
         if (istrue) {
-              await G.api.uninstallapp(sid, this.props.appInfo.name);
+              await G.api.unInstallApp(sid, this.props.appInfo.name);
               this.props.onClick();
         } 
       
@@ -48,7 +49,7 @@ export default class MyAppRow extends React.Component{
     render() {
         const styles = MyAppRow.styles;
         const appInfo = this.props.appInfo
-        const appUri = `http://${G.currentIP}/entry?author=${appInfo.author}&app=${appInfo.name}&ver=last`;
+        const appUri = `http://${G.ip}/entry?author=${appInfo.author}&app=${appInfo.name}&ver=last`;
          //阿拉伯转汉字
         const index = this.SectionToChinese(this.props.index);
         return (<div style={styles.background}>

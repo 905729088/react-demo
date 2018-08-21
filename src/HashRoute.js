@@ -4,20 +4,22 @@ import Header from './components/Header/Header.jsx'
 import Container from './components/ACommon/Container.jsx'
 import AuthContext from './auth-context.js'
 import Footer from './components/Footer/Footer.jsx'
+import { G } from './components/ACommon/Api';
 export default class HashRoute extends React.Component {
     constructor(props) {
         super(props)
         this.login = async(info) => {
             sessionStorage.setItem('current_sid', info.sid);
             const userGroup = await this.getUserGroup();
-            window.DATA_ID = userGroup.manangers[0];
+            const DATA_ID = await G.api.userGroupGetInfo('', userGroup.id, 'DATA_ID');//数据区id
             const userType = await this.checnkMember(info.user,userGroup);
             this.setState(state => ({
                 isAuthenticated: true,
                 sid: info.sid,
                 user: info.user,
                 userGroup:userGroup,
-                userType:userType
+                userType: userType,
+                DATA_ID:DATA_ID
             }))
         }
         this.logout = () => {
@@ -29,7 +31,8 @@ export default class HashRoute extends React.Component {
                 sid: '',
                 user: null,
                 userGroup:null,
-                userType:''
+                userType: '',
+                DATA_ID:''
             }))
             
         }
@@ -45,7 +48,7 @@ export default class HashRoute extends React.Component {
     }
     async getUserGroup() {//获取用户组 
         let userGroup = null;
-        await G.api.getvar('', 'usergroup', 'GLOBAL_USER', 'name', (data) => { 
+        await G.api.getVar('', 'usergroup', 'GLOBAL_USER', 'name', (data) => { 
             userGroup = data;
         }, (name, err) => { 
             userGroup = null;

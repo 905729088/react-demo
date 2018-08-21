@@ -1,13 +1,16 @@
 import React from 'react'
 import { HLayout,VLayout } from '../ACommon/Layout.jsx'
 import AuthContext from '../../auth-context.js'
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
+import styled from 'styled-components';
+import { G } from './../ACommon/Api.js';
 class Login extends React.Component{
     constructor(props){
         super(props)
         this.state = {
             name: '',
-            password: ''
+            password: '',
+            wHeight:0
         }
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -18,6 +21,13 @@ class Login extends React.Component{
         if (msg) { 
             this.onLogin(this.props.auth.login,msg.name,msg.pass);
         }
+     //让第一个界面充满屏幕
+     this.setState({ wHeight: window.innerHeight })
+     //获取屏幕高度
+        window.onresize = () => { this.setState({ wHeight: window.innerHeight }); console.log('123');};
+    }
+    componentWillUnmount() { 
+        window.onresize = null;
     }
     handleInputChange(e) {
         const value = e.target.value
@@ -49,31 +59,29 @@ class Login extends React.Component{
     render() {
         const styles = Login.styles;
         return (
-            <div style={styles.background}>
-                        <VLayout style={styles.center}>
-                        <form onSubmit={this.handleSubmit.bind(this, this.props.auth.login)}>
-                            <VLayout style={styles.loginForm}>
-                                    <div style={styles.loginHeader}>
-                                        <p>登录</p>
-                                    </div>
-                                    <div style={styles.loginFormItem}>
-                                        <div style={styles.loginFormItemHeader}>用户名</div>
-                                        <input style={styles.loginFormItemInput} placeholder='输入用户名' type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
-                                    </div>
-                                    <div style={styles.loginFormItem}>
-                                        <div style={styles.loginFormItemHeader} >密码</div>
-                                        <div><input style={styles.loginFormItemInput} placeholder='输入密码' type="password" name="password" value={this.state.password} onChange={this.handleInputChange} /></div>
-                                        <div style={styles.loginFormItemForget}>
-                                            <span>忘记密码？</span>
-                                        </div>
-                                    </div>
-                                    <div style={styles.loginFormItem}>
-                                        <input style={styles.loginFormItemSubmit} type="submit" value="登陆" />
-                                    </div>
-                                </VLayout>
-                            </form>
-                </VLayout>
-                    </div>
+         <Background style={styles.background} height={this.state.wHeight}>
+                <form onSubmit={this.handleSubmit.bind(this, this.props.auth.login)}>
+                    <VLayout style={styles.loginForm}>
+                            <div style={styles.loginHeader}>
+                                <p>登录</p>
+                            </div>
+                            <div style={styles.loginFormItem}>
+                                <div style={styles.loginFormItemHeader}>用户名</div>
+                                <input style={styles.loginFormItemInput} placeholder='输入用户名' type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
+                            </div>
+                            <div style={styles.loginFormItem}>
+                                <div style={styles.loginFormItemHeader} >密码</div>
+                                <div><input style={styles.loginFormItemInput} placeholder='输入密码' type="password" name="password" value={this.state.password} onChange={this.handleInputChange} /></div>
+                                <div style={styles.loginFormItemForget}>
+                                    <span>忘记密码？</span>
+                                </div>
+                            </div>
+                            <div style={styles.loginFormItem}>
+                                <input style={styles.loginFormItemSubmit} type="submit" value="登陆" />
+                            </div>
+                        </VLayout>
+                    </form>
+            </Background>
         )
     }
 }
@@ -90,25 +98,25 @@ export default  props => (
 
 Login.styles = {
     background: {
-        overflow:'hidden',
-        width: '100%',
-    },
-    center: {
-        margin:'160px auto 0',
-        width: '486px',
+        overflow: 'hidden',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        backgroundColor: '#071A32',
+        minHeight:'800px'
     },
     loginHeader: {
         fontSize: '28px',
         textAlign:'center'
     },
     loginForm: {
-        marginTop: '45px',
         padding:'20px 45px',
         width:' 484px',
         height: '464px',
         border:'1px solid #BBBBBB',
-        boxShadow: ' rgb(227, 233, 236) 0px 0px 4px 1px',
-        boxSizing:'border-box'
+        boxShadow: '0px 3px 5px 0px rgba(13, 160, 86, 0.27)',
+        boxSizing: 'border-box',
+        backgroundColor:'#ffffff'
     },
     loginFormItem: {
         position:'relative',
@@ -143,11 +151,18 @@ Login.styles = {
     loginFormItemSubmit: {
         height:'50px',
         width: '100%',
-        backgroundColor: '#1FA0FE',
+        backgroundColor: '#0da056',
         fontSize: '20px',
         fontWeight:'bold',
         lineHeight: '50px',
         textAlign: 'center',
-        color:'#ffffff'
+        color: '#ffffff',
+        borderRadius:'4px'
     },
 }
+const Background = styled.div.attrs({
+    height:props=>props.height+'px'
+})`
+    width:100%;
+    height:calc(${props => props.height} - 1.4rem);
+`;

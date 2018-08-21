@@ -19,10 +19,7 @@ class Introduce extends React.Component{
         this.checkWheel = this.checkWheel.bind(this);
     }
     componentDidMount() {
-        const msg = JSON.parse(sessionStorage.getItem('current_pass'));
-        if (msg) { 
-            this.onIntroduce(this.props.auth.login,msg.name,msg.pass);
-        }
+       
         //鼠标滚动事件
         this.onaddWheel(this.checkWheel);
         //让第一个界面充满屏幕

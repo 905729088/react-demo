@@ -1,6 +1,7 @@
 import React from 'react'
 import DefaultAppRow from './DefaultAppRow.jsx'
 import AuthContext from '../../../auth-context.js'
+import {G} from './../../ACommon/Api'
 class DefaultApps extends React.Component {
     constructor(props) {
         super(props)
@@ -11,7 +12,7 @@ class DefaultApps extends React.Component {
     }
     async getAppList() { 
         const sid = this.props.auth.sid
-        const strArr = await G.api.hgetall('', window.DATA_ID, '__H_File_ID__');
+        const strArr = await G.api.hGetAll('',this.props.auth.DATA_ID, '__H_File_ID__');
         let appList = [];
         for (let val of strArr) { 
             let obj = JSON.parse(val.value);
@@ -26,7 +27,7 @@ class DefaultApps extends React.Component {
         
         if (appList) {
             row = appList.map((app,i) => 
-                <DefaultAppRow key={app.fileId} appInfo={app} index={i + 1} sid={this.props.auth.sid} />
+                <DefaultAppRow key={app.fileId} getLeftAppData={this.props.getLeftAppData} appInfo={app} index={i + 1} sid={this.props.auth.sid} />
             )
         }
         return (<div style={styles.background}>
