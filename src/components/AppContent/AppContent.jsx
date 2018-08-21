@@ -28,7 +28,7 @@ export default class AppContent extends React.Component {
     }
     async getAsyncInfo() {
        
-        const appName = this.props.appInfo.appName
+        const appName = this.props.appInfo.appName;
         const sid = sessionStorage.getItem('current_sid')
         if (appName && sid) {
             const versions = await G.api.getvar(sid, 'appversions', appName)
