@@ -13,7 +13,8 @@ class Home extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            wHeight:0,
+            wHeight: 0,
+            wWidth:0,
             active: {index:1,type:Number,appIndex:-1},
             myApps: [],//我的应用列表
             appInfo: {},//应用信息
@@ -37,9 +38,9 @@ class Home extends React.Component{
         //获取我的应用数据
         this.getLeftAppData();
         //让第一个界面充满屏幕
-        this.setState({ wHeight: window.innerHeight })
+        this.setState({ wHeight: window.innerHeight,wWidth:window.innerWidth})
          //获取屏幕高度
-        window.onresize = () => { this.setState({ wHeight: window.innerHeight });};
+        window.onresize = () => { this.setState({ wHeight: window.innerHeight ,wWidth:window.innerWidth});};
     }
     //获取左边我的应用数据
    async  getLeftAppData() { 
@@ -60,6 +61,7 @@ class Home extends React.Component{
 
     async handleAppClick(active, appInfo) {//切换页面  //打开文件列表即进入ApppContent
         const apppContent = await this.getAsyncInfo(appInfo.appName, appInfo.appVer);
+        console.log("我在切换");
         //获取域名
         const sid=this.props.auth.sid;
         const userId = this.props.auth.user.id;
@@ -155,7 +157,7 @@ class Home extends React.Component{
         } else if(active.type==='appinfo'){
             rightItem = rightArrs[5];
         }
-        return (<Background  style={styles.background} height={this.state.wHeight}>
+        return (<Background  style={styles.background} height={this.state.wHeight} width={this.state.wWidth}>
             <div style={styles.left}>
                 <div style={styles.leftHeader}>
                     <div style={active.index == 1 ? styles.leftItemActive : styles.leftItem} onClick={() => { this.handleClick({index:1,type:Number,appIndex:-1})}}>
@@ -268,14 +270,16 @@ Home.styles = {
         boxShadow: '0px 7px 10px 0px rgba(34, 34, 34, 0.09)'
     },
     right: {
-        paddingTop:'1px',
+        paddingTop: '1px',
+        maxWidth:'1500px',
         flex: '4',
     }
 }
 const Background = styled.div.attrs({
-    height:props=>props.height+'px'
+    height: props => props.height + 'px',
+    width:props=>props.width+'px'
 })`
-    width:100%;
+    width:${props => props.width};
     height:calc(${props => props.height} - 1.4rem);
 `;
 export default  props => (

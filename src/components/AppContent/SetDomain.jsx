@@ -14,7 +14,7 @@ class SetDomain extends React.Component{
         this.onSetOutNetWork=this.onSetOutNetWork.bind(this);
     }
    async componentDidMount () {
-       console.log("初始化");
+      
         const sid=this.props.auth.sid;
         const userId = this.props.auth.user.id;
         const DATA_ID=this.props.auth.DATA_ID;
@@ -59,7 +59,7 @@ class SetDomain extends React.Component{
                     await G.api.setDomain(sid,innerNetwork,info,()=>{
                         alert('域名设置成功');
                         this.setState({nowInnerNetwork:innerNetwork,isNowInnerNetwork:true});
-                        
+                        this.props.upDataDomain();
                         // console.log('');
                     },(name,err)=>{
                         console.log('域名设置失败',err);
@@ -113,7 +113,8 @@ class SetDomain extends React.Component{
                 }
                 await G.api.setDomain(sid,outNetwork,info,()=>{
                     alert('域名设置成功');
-                    this.setState({nowOutNetwork:outNetwork,isNowOutNetwork:true});
+                    this.setState({ nowOutNetwork: outNetwork, isNowOutNetwork: true });
+                    this.props.upDataDomain();
                     // console.log('');
                 },(name,err)=>{
                     console.log('域名设置失败',err);
@@ -138,7 +139,6 @@ class SetDomain extends React.Component{
                 isRepeat=false;
             }
         }
-        console.log(AllData);
         return isRepeat;
     }
     render() {

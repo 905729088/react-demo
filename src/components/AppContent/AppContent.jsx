@@ -25,6 +25,7 @@ import AppView from './AppView.jsx'
         this.onShowSetDomain = this.onShowSetDomain.bind(this);
         this.onClickShowView = this.onClickShowView.bind(this);
         this.onClickCloseView = this.onClickCloseView.bind(this);
+        this.upDataDomain = this.upDataDomain.bind(this);
     }
 
     async componentDidMount() {
@@ -110,13 +111,21 @@ import AppView from './AppView.jsx'
         this.setState({ip,isShowView});
      }
      onClickCloseView() {//关闭例子
-         console.log("++");
-        const isShowView = false;
+        
+         const isShowView = false;
         this.setState({isShowView});
     }
-    onShowSetDomain() { //显示和关闭设置域名界面
+     onShowSetDomain() { //显示和关闭设置域名界面
+         if (this.state.isSetDomain) { 
+             console.log("关闭");
+         }
         this.setState({isSetDomain:!this.state.isSetDomain})
-    }
+     }
+     upDataDomain() { //更新域名
+        const active = { index: 6, type: 'appinfo', appIndex: this.props.appInfo.appIndex };
+        const appInfo = { appName: this.props.appInfo.appName, appVer: this.state.currentVer ,appIndex:this.props.appInfo.appIndex};
+        this.props.handleAppClick(active,appInfo);
+      }
      render() {
        
         const props = this.props;
@@ -135,7 +144,7 @@ import AppView from './AppView.jsx'
                 </div>
             </MyLink>
          ) : null
-        let setDomain = this.state.isSetDomain ? <SetDomain style={{ display: 'none' }} onShowSetDomain={this.onShowSetDomain} appName={appName}/>: null;
+         let setDomain = this.state.isSetDomain ? <SetDomain style={{ display: 'none' }} onShowSetDomain={this.onShowSetDomain} upDataDomain={this.upDataDomain} appName={appName}/>: null;
         //预览界面
          const appView = this.state.isShowView ? <AppView onClickCloseView={this.onClickCloseView} ip={this.state.ip} /> : null;
 

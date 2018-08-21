@@ -160,6 +160,7 @@ CodeContent.styles = {
         height:'100%'
     },
     codeContentMainContent: {
+        overflow:'hidden',
         position:'relative',
         height:'547px',
         border: '1px solid #dadbe0',
@@ -203,5 +204,6 @@ const TextConent = styled.div`
     & .CodeMirror{
         width:100%;
         height:546px;
+        white-space:wrap;
       }
 `
