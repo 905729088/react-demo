@@ -8,15 +8,13 @@ import AuthContext from '../../auth-context.js'
 import asyncComponent from './async-component.js'
 
 const Home = asyncComponent(() =>
-    import(/* webpackChunkName: "page-home" */'./../Home/Home.jsx'))
+    import(/* webpackChunkName: "page-home" */'./../Home/ConnectHome.jsx'))
   
 const Login = asyncComponent(() =>
     import(/* webpackChunkName: "page-login" */'./../Login/Login.jsx'))
 
 const Register = asyncComponent(() =>
     import(/* webpackChunkName: "page-register" */'./../Register/Register.jsx'))
-  
-  
 
 export default class Container extends React.Component {
     render() {

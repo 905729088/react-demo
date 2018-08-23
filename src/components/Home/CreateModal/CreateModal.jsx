@@ -1,20 +1,23 @@
 import React from 'react'
 import AuthContext from '../../../auth-context.js'
-import Rotate from './../../ACommon/MyWait.jsx'
+import Rotate from './../../ACommon/Waiting/MyWait.jsx'
 import styled from 'styled-components'
-import {G} from './../../ACommon/Api'
+import { G } from './../../ACommon/Api';
+import {CreateModelFile_DATA,Fetch_HomeMyApp_Data} from './../../ACommon/action/index.js'
+
 class CreateModal extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            content: '上传新的应用',
             index: 0,
             indexStae: false,
-            fileInfo: null
+            fileInfo: null,
+            isRelease:true
         };
         this.handleBack = this.handleBack.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.onFileChange = this.onFileChange.bind(this);
+        
     }
     static getDerivedStateFromProps(nextProps, prevState) { 
      
@@ -28,14 +31,16 @@ class CreateModal extends React.Component {
 
     handleSubmit(auth, e) {
         e.preventDefault()
-        const fileInfo = this.state.fileInfo;
-        if (fileInfo) {
+        const fileInfo = this.props.file;
+        if (fileInfo && this.state.isRelease) {
+            this.setState({isRelease:false});
             const strArr = fileInfo.name.split('.');
             const type = strArr[strArr.length - 1];
             if (type === 'tar' || type === 'zip') {
                 this.uploadApp(auth, fileInfo,type)
             } else { 
                 alert('请上传zip或者tar结尾的文件')
+                this.setState({isRelease:true});
             }
            
         } else { 
@@ -76,14 +81,16 @@ class CreateModal extends React.Component {
         }, t / 10);
         const fileid = await G.api.temp2LFile(sid,tempFileId)
         const appid = await G.api.uploadApp(sid, fileid,type)
-        this.setState({ content: '上传新的应用' });
         if (userType === "admin") { 
            
            await this.saveFileData(sid, auth.user.id, {name:fileInfo.name,fileId:fileid,describe:this.fileDescribe.value||'这个是'+fileInfo.name+'的源文件!'});
             this.fileDescribe.value = '';
         }
-        this.props.getLeftAppData();
+        
+        this.props.dispatch(CreateModelFile_DATA(null));
+        this.props.dispatch(Fetch_HomeMyApp_Data(this.props.auth.sid));
         this.props.onDel();
+        this.setState({isRelease:true});
        
     }
     async saveFileData(sid, userid, fileConent) { //将应用文件id存到数据库
@@ -93,7 +100,6 @@ class CreateModal extends React.Component {
     }
     onFileChange() {
         const fileInfo = this.fileInput.files[0];
-        this.setState({content:fileInfo.name});
     }
     readBlob(blob) {
         const reader = new FileReader()
@@ -120,8 +126,7 @@ class CreateModal extends React.Component {
     
     render() {
         const styles = CreateModal.styles;
-        const fileInfo = this.state.fileInfo;
-        console.log("gggg===>",this.state.fileInfo);
+        const fileInfo = this.props.file;
        
         const fileItem = fileInfo ? ( <div style={styles.item}>
             <div style={styles.right}>
@@ -146,7 +151,7 @@ class CreateModal extends React.Component {
                     <div style={styles.header}>我的上传</div>
                     <div style={styles.line}></div>
                     {fileItem}
-                    <div style={this.state.indexStae ? { position: 'absolute', zIndex: '999', top: '0', left: '0',display:'flex',justifyContent:'center',alignItems:'center', width: '100%', height: '100%',textAlign:'center', background: 'rgba(0,0,0,0.2)' } : {display:'none'}}>
+                    <div style={this.state.indexStae ? { position: 'fixed', zIndex: '999', top: '0', left: '0',display:'flex',justifyContent:'center',alignItems:'center', width: '100%', height: '100%',textAlign:'center', background: 'rgba(0,0,0,0.2)' } : {display:'none'}}>
                         <span style={{position: 'absolute',left:'50%',top:'50%',transform:'translate(-50%,-50%)',fontSize:'18px',fontWeight:'bold'}}>{this.state.index}%</span>
                             <Rotate></Rotate>
                     </div>

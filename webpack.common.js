@@ -32,11 +32,12 @@ module.exports = {
     },
     optimization: {
         splitChunks: {
-            chunks: 'all',
+            chunks: 'initial',
             cacheGroups: {
                 vendors: {
                     filename: 'vendor.[chunkhash:8].js',
-                    test: /(react|react-dom|styled-components|react-router|react-router-dom|react-codemirror)/,
+                    chunks: 'initial',
+                    test: /(react|react-dom|styled-components|react-router|react-router-dom|react-codemirror|react-redux|redux)/,
                 }
             }
         },

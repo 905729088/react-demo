@@ -1,14 +1,17 @@
 import React from 'react'
 import NewAppList from './NewAppList/NewAppList.jsx'
-import DefaultApps from './DefaultApps/DefaultApps.jsx'
-import CreateModal from './CreateModal/CreateModal.jsx';
+// import DefaultApps from './DefaultApps/DefaultApps.jsx'
+ import ConnectDefaultApp from './DefaultApps/ConnectDefaultApp.jsx';
+//import CreateModal from './CreateModal/CreateModal.jsx';
+import ConnectCreateModal from './CreateModal/ConnectCreateModal.jsx';
 import HomeIntroduce from './HomeIntroduce/HomeIntroduce.jsx';
 import ApiManual from './ApiManual/ApiManual.jsx';
-import AppContent from './../AppContent/AppContent.jsx';
+import ConnectAppContent from './../AppContent/ConnectAppContent.jsx';
 import CodeContent from './../CodeContent/CodeContent.jsx';
 import styled from 'styled-components';
 import { G } from './../ACommon/Api';
 import AuthContext from './../../auth-context';
+import {CreateModelFile_DATA,Fetch_HomeMyApp_Data,Fetch_AppContentApp_File_List,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
 class Home extends React.Component{
     constructor(props) {
         super(props);
@@ -21,12 +24,10 @@ class Home extends React.Component{
             apppContent: {},//应用文件信息
             domain: {},//域名信息
             codeData:null,//打开具体代码文件信息
-            fileInfo:null ,//上传文件
         }
-        this.getLeftAppData = this.getLeftAppData.bind(this);
+      
         this.handleClick = this.handleClick.bind(this);
         this.handleAppClick = this.handleAppClick.bind(this);
-        this.onUpdataVerList = this.onUpdataVerList.bind(this);
         this.getAsyncInfo = this.getAsyncInfo.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
         this.onDelFile = this.onDelFile.bind(this);
@@ -34,23 +35,12 @@ class Home extends React.Component{
         this.onReturnAppConent = this.onReturnAppConent.bind(this);
     }
     async componentDidMount() { 
-       
         //获取我的应用数据
-        this.getLeftAppData();
+        this.props.dispatch(Fetch_HomeMyApp_Data(this.props.auth.sid));
         //让第一个界面充满屏幕
         this.setState({ wHeight: window.innerHeight,wWidth:window.innerWidth})
          //获取屏幕高度
         window.onresize = () => { this.setState({ wHeight: window.innerHeight ,wWidth:window.innerWidth});};
-    }
-    //获取左边我的应用数据
-   async  getLeftAppData() { 
-        const sid = sessionStorage.getItem('current_sid');
-        const AppArr = await G.api.getVar(sid, "appinfos");
-         if (AppArr.length >= 4) {
-                this.setState({myApps:AppArr.slice(0,4)})
-         } else { 
-            this.setState({myApps:AppArr})
-          }
     }
     componentWillUnmount() { 
         window.onresize = null;
@@ -61,7 +51,9 @@ class Home extends React.Component{
 
     async handleAppClick(active, appInfo) {//切换页面  //打开文件列表即进入ApppContent
         const apppContent = await this.getAsyncInfo(appInfo.appName, appInfo.appVer);
-        console.log("我在切换");
+        this.props.dispatch(Fetch_AppContentApp_File_List(appInfo.appName, appInfo.appVer));
+        this.props.dispatch(Fetch_AppContentApp_Version_List(appInfo.appName));
+        this.props.dispatch(Fetch_AppContentApp_Doamin(appInfo.appName,this.props.auth.user.id,this.props.auth.DATA_ID));
         //获取域名
         const sid=this.props.auth.sid;
         const userId = this.props.auth.user.id;
@@ -74,14 +66,6 @@ class Home extends React.Component{
         }
       
         this.setState({ active,appInfo,apppContent,domain});
-    }
-    //更新版本列表
-    onUpdataVerList(versions) { 
-        const packages = this.state.apppContent.packages;
-        const apppContent = { versions, packages };
-      
-        this.setState({ apppContent });
-       
     }
     //ApppContent的数据
     async getAsyncInfo(appName, appVer = 'last') {
@@ -114,8 +98,8 @@ class Home extends React.Component{
     }
     //上传文件
     onFileChange() {
-        const fileInfo = this.fileInput.files[0];
-        this.setState({ fileInfo: fileInfo });
+        const file = this.fileInput.files[0];
+        this.props.dispatch(CreateModelFile_DATA(file));
     }
     onDelFile() {
         this.setState({ fileInfo: null });
@@ -139,10 +123,9 @@ class Home extends React.Component{
     render() {
         const styles = Home.styles;
         const active = this.state.active;
-      
         //左边模块
-        const myApps = this.state.myApps.length > 0 ?
-            this.state.myApps.map((app, i) => (
+        const myApps = this.props.myApps?
+            this.props.myApps.map((app, i) => (
                 <div
                     style={active.appIndex == i ? styles.leftItemActive : styles.leftItem}
                     onClick={() => { this.handleAppClick({ index: 6, type: 'appinfo', appIndex: i }, { appName: app.name, appVer: 'last' ,appIndex:i}) }}
@@ -150,7 +133,7 @@ class Home extends React.Component{
             ) : null;
         //右边模块
          //初始化右边模块
-        const rightArrs = [<HomeIntroduce />, <ApiManual />, <DefaultApps getLeftAppData={this.getLeftAppData} />, <NewAppList handleAppClick={this.handleAppClick} />, <CreateModal onDel={this.onDelFile} getLeftAppData={this.getLeftAppData} fileInfo={this.state.fileInfo} />, <AppContent  getLeftAppData={this.getLeftAppData} handleAppClick={this.handleAppClick} handleClick={this.handleClick} onOpenCode={this.onOpenCode} onUpdataVerList={this.onUpdataVerList} apppContent={this.state.apppContent} appInfo={this.state.appInfo} domain={this.state.domain}/>, <CodeContent onReturnAppConent={this.onReturnAppConent} codeData={this.state.codeData}/>];
+        const rightArrs = [<HomeIntroduce />, <ApiManual />, <ConnectDefaultApp />, <NewAppList handleAppClick={this.handleAppClick} />, <ConnectCreateModal onDel={this.onDelFile}  fileInfo={this.state.fileInfo} />, <ConnectAppContent handleAppClick={this.handleAppClick} handleClick={this.handleClick} onOpenCode={this.onOpenCode}  apppContent={this.state.apppContent} appInfo={this.state.appInfo} domain={this.state.domain}/>, <CodeContent onReturnAppConent={this.onReturnAppConent} codeData={this.state.codeData}/>];
         let rightItem = null;
         if (active.type===Number) { 
              rightItem = rightArrs[active.index - 1];

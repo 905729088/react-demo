@@ -5,11 +5,22 @@ import Container from './components/ACommon/Container.jsx'
 import AuthContext from './auth-context.js'
 import Footer from './components/Footer/Footer.jsx'
 import { G } from './components/ACommon/Api';
+import { createStore, applyMiddleware } from 'redux';
+import redux from './components/ACommon/reducers'
+import { Provider } from 'react-redux'
+import { createLogger } from 'redux-logger'
+import thunk from 'redux-thunk'
+
+
+
+const store = createStore(redux, applyMiddleware(thunk, createLogger()))
 export default class HashRoute extends React.Component {
     constructor(props) {
         super(props)
         this.login = async(info) => {
             sessionStorage.setItem('current_sid', info.sid);
+            window.localStorage.setItem('APP_SID', info.sid);
+            window.localStorage.setItem('APP_UID', info.user.id);
             const userGroup = await this.getUserGroup();
             const DATA_ID = await G.api.userGroupGetInfo('', userGroup.id, 'DATA_ID');//数据区id
             const userType = await this.checnkMember(info.user,userGroup);
@@ -23,9 +34,10 @@ export default class HashRoute extends React.Component {
             }))
         }
         this.logout = () => {
-            sessionStorage.removeItem('current_sid')
-            sessionStorage.removeItem('current_pass')
-            window.DATA_ID = '';
+            sessionStorage.removeItem('current_sid');
+            sessionStorage.removeItem('current_pass');
+            window.localStorage.removeItem('APP_SID');
+            window.localStorage.removeItem('APP_UID');
             this.setState(state => ({
                 isAuthenticated: false,
                 sid: '',
@@ -65,15 +77,18 @@ export default class HashRoute extends React.Component {
     }
     render() {
        
-        return ( <AuthContext.Provider value = {this.state} >
-            <Router>
-                <div> 
-                    <Header />
-                    <Container />
-                    <Footer />
-                    
-                </div>
-            </Router>
-        </AuthContext.Provider> )
+        return (
+            <Provider store={store}>
+                <AuthContext.Provider value={this.state} >
+                    <Router >
+                        <div> 
+                            <Header />
+                            <Container />
+                            <Footer />
+                        </div>
+                    </Router>
+                </AuthContext.Provider>
+            </Provider>
+             )
         }
-    }
+}

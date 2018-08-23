@@ -6,17 +6,17 @@ import SetDomain from './setDomain.jsx';
 import { G } from './../ACommon/Api';
 import AuthContext from './../../auth-context.js';
 import AppView from './AppView.jsx'
+import {Fetch_HomeMyApp_Data,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
+import Waiting from './../ACommon/Waiting/Waiting.jsx';
  class AppContent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            versions: [],
             currentVer:this.props.appInfo.appVer,
-            packages: [],
-            domain:{},//域名信息
             isSetDomain:false,//设置域名界面是否显示
             isShowView:false, //是否显示预览见面
-            ip:null  //预览的ip地址
+            ip: null,  //预览的ip地址
+            isCover:false
 
         };
         this.onClickselectAppVer = this.onClickselectAppVer.bind(this);
@@ -26,54 +26,12 @@ import AppView from './AppView.jsx'
         this.onClickShowView = this.onClickShowView.bind(this);
         this.onClickCloseView = this.onClickCloseView.bind(this);
         this.upDataDomain = this.upDataDomain.bind(this);
-    }
 
-    async componentDidMount() {
-        //请求数据
-        this.getAsyncInfo();
-    }
-    static getDerivedStateFromProps(nextProps, prevState) { 
-        const versions = nextProps.apppContent.versions;
-        const packages = nextProps.apppContent.packages;
-        const domain = nextProps.domain;
-        return {versions,packages,domain}
-    }
-    async getAsyncInfo() {
-       
-        const appName = this.props.appInfo.appName;
-        const sid = sessionStorage.getItem('current_sid')
-        if (appName && sid) {
-            const versions = await G.api.getVar(sid, 'appversions', appName)
-            const packages = await this.getPackages(this.props.appInfo.appVer)//this.props.match.params.appVer
-            this.setState({
-                versions,
-                packages
-            })
-        }
-
-        
-    }
-    async getPackages(ver) {
-       
-        const appName = this.props.appInfo.appName
-        const sid = sessionStorage.getItem('current_sid');
-        const packageInfo = await G.api.getVar(sid, 'apppackage', appName, ver)
-        if (packageInfo) {
-            let obj = {};
-            for (let key in packageInfo.entryTemplate) { 
-                obj[key] = packageInfo.entryTemplate[key];
-            }
-            for (let key in packageInfo.name2ID) { 
-                obj[key] = packageInfo.name2ID[key];
-            }
-            return obj;
-        }
-        return []
+        console.log("====>",this.props);
     }
     onClickselectAppVer(val) { //选择版本后重新跳转路由
         //console.log(this.props.match.params.appName,this.props.match.params.appVer,this.props.history);
         if (val !== this.props.appInfo.appVer) {
-            this.getAsyncInfo();
             this.setState({
                 currentVer:val
             })
@@ -90,8 +48,7 @@ import AppView from './AppView.jsx'
             const sid = sessionStorage.getItem('current_sid')
             const appName = this.props.appInfo.appName
             await G.api.version(sid, appName, 'lastver', '') //设置新的版本
-            const versions = await G.api.getVar(sid, 'appversions', appName);
-            this.props.onUpdataVerList(versions);
+            this.props.dispatch(Fetch_AppContentApp_Version_List(appName));
         } 
           
     }
@@ -100,9 +57,11 @@ import AppView from './AppView.jsx'
         const sid = sessionStorage.getItem('current_sid');
         const istrue = window.confirm('您确定要删除这个应用？');
         if (istrue) {
-              await G.api.unInstallApp(sid, this.props.appInfo.appName);
-              this.props.handleClick({index:4,type:Number,appIndex:-1});
-              this.props.getLeftAppData();
+            this.setState({isCover:true});
+            await G.api.unInstallApp(sid, this.props.appInfo.appName);
+            this.setState({isCover:false});
+            this.props.handleClick({index:4,type:Number,appIndex:-1});
+            this.props.dispatch(Fetch_HomeMyApp_Data(this.props.auth.sid));
         } 
     }
    
@@ -122,23 +81,21 @@ import AppView from './AppView.jsx'
         this.setState({isSetDomain:!this.state.isSetDomain})
      }
      upDataDomain() { //更新域名
-        const active = { index: 6, type: 'appinfo', appIndex: this.props.appInfo.appIndex };
-        const appInfo = { appName: this.props.appInfo.appName, appVer: this.state.currentVer ,appIndex:this.props.appInfo.appIndex};
-        this.props.handleAppClick(active,appInfo);
+         this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.appInfo.appName, this.props.auth.user.id, this.props.auth.DATA_ID));
       }
      render() {
        
         const props = this.props;
         const styles = AppContent.styles
         const currentVer = this.state.currentVer
-        const packages = this.state.packages;
-        const packageNames = Object.keys(packages)
+        const appFileList = this.props.appFileList;
+        const appFileNameList = Object.keys(appFileList);
         const appName = this.props.appInfo.appName;
-        let packageDoms = '...'
-        packageDoms = packageNames && packageNames.length? packageNames.map((name, i) =>
+        let appFileListDom = '...'
+        appFileListDom = appFileNameList && appFileNameList.length? appFileNameList.map((name, i) =>
             <MyLink style={styles.appContentMainitem} key={i}>
                 <div style={styles.appContentMainitemFileName} onClick={() => {
-                    this.props.onOpenCode({ index: 7, type: Number, appIndex: this.props.appInfo.appIndex }, { appName: appName, appVer: currentVer, packageid: packages[name],packageName:name==="main"?name+'.html':name ,appIndex:this.props.appInfo.appIndex})
+                    this.props.onOpenCode({ index: 7, type: Number, appIndex: this.props.appInfo.appIndex }, { appName: appName, appVer: currentVer, packageid: appFileList[name],packageName:name==="main"?name+'.html':name ,appIndex:this.props.appInfo.appIndex})
                 }}>
                     <span>{name==="main"?name+'.html':name}</span>
                 </div>
@@ -148,6 +105,13 @@ import AppView from './AppView.jsx'
         //预览界面
          const appView = this.state.isShowView ? <AppView onClickCloseView={this.onClickCloseView} ip={this.state.ip} /> : null;
 
+         const appDomain = this.props.appDomain;
+         let innerDomain = null;
+         let outDomain = null;
+         if (appDomain) { 
+             innerDomain = appDomain.inner ? <span onClick={() => this.onClickShowView(appDomain.inner)} style={{ marginLeft: '10px', cursor: 'pointer' }}>内网访问：{appDomain.inner}</span> : null;
+             outDomain = appDomain.out ? <span onClick={() => this.onClickShowView(appDomain.out)} style={{ marginLeft: '10px', cursor: 'pointer' }}>外网访问：{appDomain.out}</span> : null;
+         };
          return (<div style={styles.background}>
              <div style={{ position:'relative',paddingBottom:'50px',minHeight:'100%'}}>
                 <div style={styles.header}>我的应用/<span style={{ color: '#019f57' }}>{props.appInfo.appName}</span></div>
@@ -156,13 +120,13 @@ import AppView from './AppView.jsx'
                         <div style={styles.appContentTitle}>
                          <div style={styles.domain}>
                                 <span onClick={this.onShowSetDomain} style={{textDecoration:'underline',cursor:'pointer'}} >点此设置该应用的域名</span>
-                                <span onClick={()=>this.onClickShowView(this.state.domain.inner)} style={this.state.domain.inner?{marginLeft:'10px',cursor:'pointer'}:{display:'none'}}>内网访问：{this.state.domain.inner}</span>
-                                <span onClick={()=>this.onClickShowView(this.state.domain.out)} style={this.state.domain.out?{marginLeft:'10px',cursor:'pointer'}:{display:'none'}}>外网访问：{this.state.domain.out}</span>
+                             {innerDomain}
+                             {outDomain}
                          </div>
                         <div style={styles.appContentTitleRight}>
                             <Dropdown
                                 styles={{ width: '107px' }}
-                                dataList={this.state.versions}
+                                dataList={this.props.appVersionList}
                                 onClick={this.onClickselectAppVer}
                             />
                             <div style={styles.appContentRelease} onClick={this.onClickRelease}>发布版本</div>
@@ -173,13 +137,16 @@ import AppView from './AppView.jsx'
                             <div style={styles.appContentMainitemTitle} >
                                 {props.appInfo.appName}
                             </div>
-                            {packageDoms}
+                            {appFileListDom}
                         </div>
                  </div>
                  <img onClick={this.onClickDelete} style={styles.delet} src={require('./img/ico-del.png')} alt=""/>
              </div>
              {setDomain}
              {appView}
+             <div style={this.state.isCover ? { display: 'block' } : {display:'none'}}>
+                 <Waiting/>
+             </div>
         </div>)
     }
 }
