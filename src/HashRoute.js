@@ -1,7 +1,7 @@
 import {HashRouter as Router} from "react-router-dom"
 import React from 'react'
-import Header from './components/Header/Header.jsx'
-import Container from './components/ACommon/Container.jsx'
+import Header from './components/Header/ConnectHeader.jsx'
+import Container from './components/ACommon/Container/Container.jsx'
 import AuthContext from './auth-context.js'
 import Footer from './components/Footer/Footer.jsx'
 import { G } from './components/ACommon/Api';
@@ -21,6 +21,7 @@ export default class HashRoute extends React.Component {
             sessionStorage.setItem('current_sid', info.sid);
             window.localStorage.setItem('APP_SID', info.sid);
             window.localStorage.setItem('APP_UID', info.user.id);
+          
             const userGroup = await this.getUserGroup();
             const DATA_ID = await G.api.userGroupGetInfo('', userGroup.id, 'DATA_ID');//数据区id
             const userType = await this.checnkMember(info.user,userGroup);
@@ -28,7 +29,6 @@ export default class HashRoute extends React.Component {
                 isAuthenticated: true,
                 sid: info.sid,
                 user: info.user,
-                userGroup:userGroup,
                 userType: userType,
                 DATA_ID:DATA_ID
             }))
@@ -42,7 +42,6 @@ export default class HashRoute extends React.Component {
                 isAuthenticated: false,
                 sid: '',
                 user: null,
-                userGroup:null,
                 userType: '',
                 DATA_ID:''
             }))

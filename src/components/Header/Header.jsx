@@ -3,6 +3,7 @@ import AuthContext from '../../auth-context.js'
 import { HLayout } from '../ACommon/Layout.jsx'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import {onLogout} from './../ACommon/action/index.js'
 export default class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -14,6 +15,7 @@ export default class Header extends React.Component {
         this.setState({ isLogout:!this.state.isLogout})
     }
     changeState(auth) { 
+        this.props.dispatch(onLogout());
         auth.logout();
         this.setState({ isLogout:false})
     }
@@ -21,10 +23,10 @@ export default class Header extends React.Component {
         
     }
     render() {
-        const styles = Header.styles
+        const styles = Header.styles;
         return (<AuthContext.Consumer>
             {auth => {
-                const setDom = auth.isAuthenticated ? <div style={styles.main}>
+                const setDom = this.props.isLogin ? <div style={styles.main}>
                     <div style={styles.mainLeft}>
                         <img src={require('./img/li2.png')} />
                         <img style={{marginLeft:'10px'}} src={require('./img/Leither2.png')}/>
@@ -32,7 +34,7 @@ export default class Header extends React.Component {
                     <div style={styles.userInfo} onClick={this.handleClick} >
                         <img  style={{ marginRight: '16px', verticalAlign: 'middle' }} src={require('./img/ico-lidang.png')} alt="" />
                         <img  style={{ marginRight: '9px', verticalAlign: 'middle' }} src={require('./img/ico-user.png')} alt="" />
-                        <span style={{ verticalAlign: 'middle' }}>{auth.user.name}</span>
+                        <span style={{ verticalAlign: 'middle' }}>{this.props.userInfo.name}</span>
                     </div>
                     <div style={this.state.isLogout ? styles.mainMenu : {display:'none'}}>
                         <i style={styles.mainMenuT}></i>
@@ -50,7 +52,7 @@ export default class Header extends React.Component {
                         </div>
                     </div>
                     ;
-                return (<div style={auth.isAuthenticated ? styles.background2 : styles.background1}>
+                return (<div style={this.props.isLogin ? styles.background2 : styles.background1}>
                     {setDom}
                 </div>)
             }}

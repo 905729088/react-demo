@@ -1,9 +1,9 @@
 import React from 'react'
 import { HLayout,VLayout } from '../ACommon/Layout.jsx'
-import AuthContext from '../../auth-context.js'
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { G } from './../ACommon/Api.js';
+import {onLogin} from './../ACommon/action/index.js'
 class Login extends React.Component{
     constructor(props){
         super(props)
@@ -13,8 +13,8 @@ class Login extends React.Component{
             wHeight:0
         }
         this.handleInputChange = this.handleInputChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onLogin = this.onLogin.bind(this);
     }
     componentDidMount() {
         const msg = JSON.parse(sessionStorage.getItem('current_pass'));
@@ -44,10 +44,11 @@ class Login extends React.Component{
         this.onLogin(login,name,pass);
     }
     onLogin(login,name,pass) { 
-        sessionStorage.setItem('current_pass', JSON.stringify({name:name,pass:pass}));
+       
         if (name && pass) {
             G.api.login(name, pass, 'byname').then(user => {
-                login(user)
+                this.props.dispatch(onLogin(name,pass,user));
+                //login(user)
             }).catch((err) => {
                 console.error(err)
                 alert('用户名或密码错误！')
@@ -60,7 +61,7 @@ class Login extends React.Component{
         const styles = Login.styles;
         return (
          <Background style={styles.background} height={this.state.wHeight}>
-                <form onSubmit={this.handleSubmit.bind(this, this.props.auth.login)}>
+                <form onSubmit={this.handleSubmit.bind(this)}>
                     <VLayout style={styles.loginForm}>
                             <div style={styles.loginHeader}>
                                 <p>登录</p>
@@ -86,15 +87,12 @@ class Login extends React.Component{
     }
 }
 
-export default  props => (
-    <AuthContext.Consumer>
-         {auth => { 
-                return auth.isAuthenticated ? <Redirect to={{ pathname: "/home" }} />
+export default props => 
+    (
+        props.isLogin ? <Redirect to={{ pathname: "/home" }} />
                     :
-                 <Login {...props} auth={auth}/>
-            }}
-    </AuthContext.Consumer>
-  );
+                    <Login {...props}  /> )
+;
 
 Login.styles = {
     background: {

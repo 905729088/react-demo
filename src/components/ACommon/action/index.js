@@ -1,10 +1,23 @@
 import { G } from "./../Api.js";
+export const LOGIN_USER_INFO = 'LOGIN_USER_INFO';//login 用户的登录信息
+export const LOGIN_ISLOGIN = 'LOGIN_ISLOGIN';//login 用户是否登录
+
 export const DAFAULTAPP_DATA = 'DAFAULTAPP_DATA';//应用库数据
 export const HOME_MYAPP_DATA = 'HOME_MYAPP_DATA';//HOME左侧我的应用数据
 export const CREATEMODAL_FILE_DATA = 'CREATEMODAL_FILE_DATA';//ConnectCreateModal上传的文件
 export const APPCONTENT_APP_FILE_LIST = "APPCONTENT_APP_FILE_LIST";//AppContent 的应用文件列表
 export const APPCONTENT_APP_VERSION_LIST = "APPCONTENT_APP_VERSION_LIST";//AppContent 的应用文件列表
 export const APPCONTENT_APP_DOAMIN = "APPCONTENT_APP_DOAMIN";//AppContent 的应用域名
+
+export const Login_IsLogin = (isLogin) => ({
+    type: LOGIN_ISLOGIN,
+    isLogin
+});
+
+export const LoginUser_Info = (userInfo) => ({//用户登录信息
+    type: LOGIN_USER_INFO,
+    userInfo
+});
 
 export const DefaultApp_Data = (appList) => ({
     type: DAFAULTAPP_DATA,
@@ -33,6 +46,53 @@ export const AppContentApp_Domain= (domain) => ({
     type:APPCONTENT_APP_DOAMIN,
     appDomain
 });
+
+export const onLogin = (name,pass,info) => async (dispatch) => {//登录
+    const userGroup=await G.api.getVar('', 'usergroup', 'GLOBAL_USER', 'name');
+    const DATA_ID = await G.api.userGroupGetInfo('', userGroup.id, 'DATA_ID');//数据区id
+    const userInfo = {
+        sid: info.sid,//登录的sid
+        name: info.user.name,//name
+        userId: info.user.id,//用户的userId
+        DATA_ID:DATA_ID//数据区id
+    };
+    sessionStorage.setItem('current_pass', JSON.stringify({ name: name, pass: pass }));  
+    dispatch({
+      type: LOGIN_USER_INFO,
+      userInfo
+    })
+    dispatch({
+        type: LOGIN_ISLOGIN,
+        isLogin:true
+      })
+   
+}
+
+export const onLogout = () => async (dispatch) => {//登出
+
+    sessionStorage.removeItem('current_sid');
+    sessionStorage.removeItem('current_pass');
+    window.localStorage.removeItem('APP_SID');
+    window.localStorage.removeItem('APP_UID');
+
+    const userInfo = {
+        sid: null,//登录的sid
+        name: null,//name
+        userId: null,//用户的userId
+        DATA_ID:null//数据区id
+    };
+    dispatch({
+      type: LOGIN_USER_INFO,
+      userInfo
+    })
+    dispatch({
+        type: LOGIN_ISLOGIN,
+        isLogin:false
+      })
+   
+}
+
+
 export const Fetch_DefaultApp_Data = (DATA_ID) => async (dispatch) => {//请求应用库数据
     const strArr = await G.api.hGetAll('',DATA_ID, '__H_File_ID__');
     let appList = [];
@@ -46,7 +106,7 @@ export const Fetch_DefaultApp_Data = (DATA_ID) => async (dispatch) => {//请求�
     })
 }
   
-export const Fetch_HomeMyApp_Data = (sid) => async (dispatch) => {//请求应用库数据
+export const Fetch_HomeMyApp_Data = (sid) => async (dispatch) => {//请求home中我的应用数据
     const AppArr = await G.api.getVar(sid, "appinfos");
     let myApps =null;
     if (AppArr.length >= 4) {
