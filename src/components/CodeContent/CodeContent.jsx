@@ -28,14 +28,7 @@ export default class CodeContent extends React.Component {
     async getCode() {
         let packageid = this.props.codeData.packageid;
         console.log('文本内容',packageid);
-        // if (this.props.location.state) {
-
-        //     packageid= this.props.codeData.packageid;
-        // } else { 
-        //     packageid = sessionStorage.getItem('current_fileId');
-        // }
-        // sessionStorage.setItem('current_fileId',packageid);
-        const sid = sessionStorage.getItem('current_sid')
+        const sid = this.props.sid;
         const uint8 = await G.api.getLFileData(sid, packageid, 0, -1)
         const code = new TextDecoder('utf-8').decode(uint8)
         this.lastCode = code;
@@ -52,7 +45,7 @@ export default class CodeContent extends React.Component {
         } else {
             if (this.state.isButton) {
                 this.setState({isButton:false})
-                const sid = sessionStorage.getItem('current_sid');
+                const sid = this.props.sid;
                 const fileid = await G.api.createFileByData(sid, content);
                 const appid = await G.api.uploadAppFile(sid, this.props.codeData.appName, this.props.codeData.packageName, fileid)
                 this.props.onReturnAppConent({index:6,type:Number,appIndex:this.props.codeData.appIndex},true)

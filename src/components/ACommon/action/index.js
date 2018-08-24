@@ -3,6 +3,7 @@ export const LOGIN_USER_INFO = 'LOGIN_USER_INFO';//login 用户的登录信息
 export const LOGIN_ISLOGIN = 'LOGIN_ISLOGIN';//login 用户是否登录
 
 export const DAFAULTAPP_DATA = 'DAFAULTAPP_DATA';//应用库数据
+export const MYAPPS_DATA = 'MYAPPS_DATA';//我的应用数据
 export const HOME_MYAPP_DATA = 'HOME_MYAPP_DATA';//HOME左侧我的应用数据
 export const CREATEMODAL_FILE_DATA = 'CREATEMODAL_FILE_DATA';//ConnectCreateModal上传的文件
 export const APPCONTENT_APP_FILE_LIST = "APPCONTENT_APP_FILE_LIST";//AppContent 的应用文件列表
@@ -24,6 +25,11 @@ export const DefaultApp_Data = (appList) => ({
     appList
 });
 
+export const MyApps_Data = (myApps) => ({
+    type: MYAPPS_DATA,
+    myApps
+});
+
 export const HomeMyApp_Data = (myApps) => ({
     type: HOME_MYAPP_DATA,
     myApps
@@ -42,7 +48,7 @@ export const AppContentApp_Version_List= (appVersionList) => ({
     type:APPCONTENT_APP_VERSION_LIST,
     appVersionList
 });
-export const AppContentApp_Domain= (domain) => ({
+export const AppContentApp_Domain= (appDomain) => ({
     type:APPCONTENT_APP_DOAMIN,
     appDomain
 });
@@ -125,6 +131,10 @@ export const Fetch_HomeMyApp_Data = (sid) => async (dispatch) => {//请求home�
       type: HOME_MYAPP_DATA,
       myApps
     })
+    dispatch({
+        type: MYAPPS_DATA,
+        myApps:AppArr
+      })
 }
   
 export const Fetch_AppContentApp_File_List = (appName,appVer = 'last') => async (dispatch) => {//请求获取应用文件信息列表

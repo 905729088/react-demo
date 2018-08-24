@@ -48,8 +48,8 @@ class Login extends React.Component{
        
         if (name && pass) {
             G.api.login(name, pass, 'byname').then(user => {
-                this.props.dispatch(onLogin(name,pass,user));
-                login(user)
+                this.props.dispatch(onLogin(name,pass,user));//redux数据更换
+                login(user);//上下文登录状态改变
             }).catch((err) => {
                 console.error(err)
                 alert('用户名或密码错误！')

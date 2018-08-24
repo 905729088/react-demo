@@ -1,11 +1,10 @@
 import React from 'react'
-import AuthContext from '../../../auth-context.js'
 import Rotate from './../../ACommon/Waiting/MyWait.jsx'
 import styled from 'styled-components'
 import { G } from './../../ACommon/Api';
 import {CreateModelFile_DATA,Fetch_HomeMyApp_Data} from './../../ACommon/action/index.js'
 
-class CreateModal extends React.Component {
+export default class CreateModal extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -17,6 +16,7 @@ class CreateModal extends React.Component {
         this.handleBack = this.handleBack.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.onFileChange = this.onFileChange.bind(this);
+        this.uploadApp = this.uploadApp.bind(this);
         
     }
     static getDerivedStateFromProps(nextProps, prevState) { 
@@ -29,15 +29,14 @@ class CreateModal extends React.Component {
         this.props.history.goBack()
     }
 
-    handleSubmit(auth, e) {
+    handleSubmit(fileInfo,e) {
         e.preventDefault()
-        const fileInfo = this.props.file;
         if (fileInfo && this.state.isRelease) {
             this.setState({isRelease:false});
             const strArr = fileInfo.name.split('.');
             const type = strArr[strArr.length - 1];
             if (type === 'tar' || type === 'zip') {
-                this.uploadApp(auth, fileInfo,type)
+                this.uploadApp(fileInfo,type)
             } else { 
                 alert('请上传zip或者tar结尾的文件')
                 this.setState({isRelease:true});
@@ -49,9 +48,9 @@ class CreateModal extends React.Component {
        
     }
 
-    async uploadApp(auth, fileInfo,type) {
-        const sid = auth.sid;
-        const userType = auth.userType;
+    async uploadApp(fileInfo,type) {
+        const sid = this.props.sid;
+        const userType = this.props.userType;
         const tempFileId = await G.api.openTempFile(sid);
         console.log('临时Id',tempFileId);
      
@@ -83,12 +82,12 @@ class CreateModal extends React.Component {
         const appid = await G.api.uploadApp(sid, fileid,type)
         if (userType === "admin") { 
            
-           await this.saveFileData(sid, auth.user.id, {name:fileInfo.name,fileId:fileid,describe:this.fileDescribe.value||'这个是'+fileInfo.name+'的源文件!'});
+           await this.saveFileData(sid, this.props.userId, {name:fileInfo.name,fileId:fileid,describe:this.fileDescribe.value||'这个是'+fileInfo.name+'的源文件!'});
             this.fileDescribe.value = '';
         }
         
         this.props.dispatch(CreateModelFile_DATA(null));
-        this.props.dispatch(Fetch_HomeMyApp_Data(this.props.auth.sid));
+        this.props.dispatch(Fetch_HomeMyApp_Data(this.props.sid));
         this.props.onDel();
         this.setState({isRelease:true});
        
@@ -140,7 +139,7 @@ class CreateModal extends React.Component {
                     </DIV>
                 </div>
                 <div style={styles.button} >
-                    <Button  onClick={this.handleSubmit.bind(this, this.props.auth)}>
+                    <Button  onClick={this.handleSubmit.bind(this,this.props.file)}>
                         <span>发布</span>
                     </Button>
                 </div>
@@ -261,8 +260,3 @@ const DIV = styled.div`
             }
         }
 `
-export default  props => (
-    <AuthContext.Consumer>
-         {auth => <CreateModal {...props} auth={auth}/>}
-    </AuthContext.Consumer>
-  );

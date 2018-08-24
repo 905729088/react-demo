@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import DefaultApps from './DefaultApps.jsx';
+import MyApps from './MyApps.jsx';
 const mapStateToProps = (state) => {
   return ({
-    appList: state.DefaultAppData.appList,
+    myApps: state.MyAppsData.myApps,
     sid: state.LoginData.userInfo.sid,
     DATA_ID: state.LoginData.userInfo.DATA_ID,
   });
@@ -10,4 +10,4 @@ const mapStateToProps = (state) => {
   
   
   
-  export default connect(mapStateToProps)(DefaultApps)
+  export default connect(mapStateToProps)(MyApps)

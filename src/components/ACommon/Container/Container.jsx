@@ -40,11 +40,10 @@ export default class Container extends React.Component {
     }
 }
 
-const PrivateRoute = ({ component: Component, isLogin:isLogin,...rest }) => (
+const PrivateRoute = ({ component: Component,...rest }) => (
   <Route
     {...rest}
         render={props => {
-            console.log('===aaaaaaaaaaaaaaaaaaaaaaaaaaaa>',isLogin);
            return  <AuthContext.Consumer>
                 {auth => (
                     auth.isAuthenticated ? (

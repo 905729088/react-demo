@@ -4,11 +4,10 @@ import Dropdown from './Dropdown.jsx';
 import styled from 'styled-components'
 import SetDomain from './setDomain.jsx';
 import { G } from './../ACommon/Api';
-import AuthContext from './../../auth-context.js';
 import AppView from './AppView.jsx'
 import {Fetch_HomeMyApp_Data,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
 import Waiting from './../ACommon/Waiting/Waiting.jsx';
- class AppContent extends React.Component {
+export default class AppContent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -61,7 +60,7 @@ import Waiting from './../ACommon/Waiting/Waiting.jsx';
             await G.api.unInstallApp(sid, this.props.appInfo.appName);
             this.setState({isCover:false});
             this.props.handleClick({index:4,type:Number,appIndex:-1});
-            this.props.dispatch(Fetch_HomeMyApp_Data(this.props.auth.sid));
+            this.props.dispatch(Fetch_HomeMyApp_Data(this.props.sid));
         } 
     }
    
@@ -81,7 +80,7 @@ import Waiting from './../ACommon/Waiting/Waiting.jsx';
         this.setState({isSetDomain:!this.state.isSetDomain})
      }
      upDataDomain() { //更新域名
-         this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.appInfo.appName, this.props.auth.user.id, this.props.auth.DATA_ID));
+         this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.appInfo.appName, this.props.userId, this.props.DATA_ID));
       }
      render() {
        
@@ -256,9 +255,3 @@ const MyLink = styled.div`
        background:#f6f8fa;
    }
 `
-
-export default  props => (
-    <AuthContext.Consumer>
-         {auth => <AppContent {...props} auth={auth}/>}
-    </AuthContext.Consumer>
-  );

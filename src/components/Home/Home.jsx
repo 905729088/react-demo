@@ -10,9 +10,8 @@ import ConnectAppContent from './../AppContent/ConnectAppContent.jsx';
 import CodeContent from './../CodeContent/CodeContent.jsx';
 import styled from 'styled-components';
 import { G } from './../ACommon/Api';
-import AuthContext from './../../auth-context';
 import {CreateModelFile_DATA,Fetch_HomeMyApp_Data,Fetch_AppContentApp_File_List,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
-class Home extends React.Component{
+export default class Home extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -36,7 +35,7 @@ class Home extends React.Component{
     }
     async componentDidMount() { 
         //获取我的应用数据
-        this.props.dispatch(Fetch_HomeMyApp_Data(this.props.auth.sid));
+        this.props.dispatch(Fetch_HomeMyApp_Data(this.props.sid));
         //让第一个界面充满屏幕
         this.setState({ wHeight: window.innerHeight,wWidth:window.innerWidth})
          //获取屏幕高度
@@ -53,11 +52,11 @@ class Home extends React.Component{
         const apppContent = await this.getAsyncInfo(appInfo.appName, appInfo.appVer);
         this.props.dispatch(Fetch_AppContentApp_File_List(appInfo.appName, appInfo.appVer));
         this.props.dispatch(Fetch_AppContentApp_Version_List(appInfo.appName));
-        this.props.dispatch(Fetch_AppContentApp_Doamin(appInfo.appName,this.props.auth.user.id,this.props.auth.DATA_ID));
+        this.props.dispatch(Fetch_AppContentApp_Doamin(appInfo.appName,this.props.userId,this.props.DATA_ID));
         //获取域名
-        const sid=this.props.auth.sid;
-        const userId = this.props.auth.user.id;
-        const DATA_ID=this.props.auth.DATA_ID;
+        const sid=this.props.sid;
+        const userId = this.props.userId;
+        const DATA_ID = this.props.DATA_ID;
         const innerNetwork=await G.api.hGet(sid,DATA_ID,'INNERNETWORK',userId+'#'+appInfo.appName);
         const outNetwork = await G.api.hGet(sid, DATA_ID, 'OUTNETWORK', userId + '#' +appInfo.appName);
         const domain = {
@@ -69,7 +68,7 @@ class Home extends React.Component{
     }
     //ApppContent的数据
     async getAsyncInfo(appName, appVer = 'last') {
-        const sid = sessionStorage.getItem('current_sid')
+        const sid = this.props.sid;
         if (appName && sid) {
             const versions = await G.api.getVar(sid, 'appversions', appName)
             const packages = await this.getPackages(appName,appVer)//this.props.match.params.appVer
@@ -265,8 +264,3 @@ const Background = styled.div.attrs({
     width:${props => props.width};
     height:calc(${props => props.height} - 1.4rem);
 `;
-export default  props => (
-    <AuthContext.Consumer>
-         {auth => <Home {...props} auth={auth}/>}
-    </AuthContext.Consumer>
-  );

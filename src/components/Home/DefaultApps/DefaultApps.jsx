@@ -1,13 +1,12 @@
 import React from 'react'
 import ConnectDefaultAppRow from './ConnectDefaultAppRow.jsx'
-import AuthContext from '../../../auth-context.js'
 import {Fetch_DefaultApp_Data} from './../../ACommon/action/index.js'
-class DefaultApps extends React.Component {
+export default class DefaultApps extends React.Component {
     constructor(props) {
         super(props)
     }
     componentDidMount() { 
-        this.props.dispatch(Fetch_DefaultApp_Data(this.props.auth.DATA_ID));
+        this.props.dispatch(Fetch_DefaultApp_Data(this.props.DATA_ID));
     }
     render() {
 
@@ -17,7 +16,7 @@ class DefaultApps extends React.Component {
         
         if (appList) {
             row = appList.map((app,i) => 
-                <ConnectDefaultAppRow key={app.fileId} appInfo={app} index={i + 1} sid={this.props.auth.sid} />
+                <ConnectDefaultAppRow key={app.fileId} appInfo={app} index={i + 1} sid={this.props.sid} />
             )
         }
         return (<div style={styles.background}>
@@ -55,8 +54,3 @@ DefaultApps.styles = {
         marginTop: '50px',
     },
 }
-export default  props => (
-    <AuthContext.Consumer>
-         {auth => <DefaultApps {...props} auth={auth}/>}
-    </AuthContext.Consumer>
-  );

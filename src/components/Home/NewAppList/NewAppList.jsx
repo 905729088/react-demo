@@ -1,28 +1,13 @@
 import React from 'react'
-import AuthContext from '../../../auth-context.js'
-import MyApps from './MyApps.jsx'
+import ConnectMyApps from './ConnectMyApps.jsx'
 import {G} from './../../ACommon/Api'
 
 
- class NewAppList extends React.Component {
+export default class NewAppList extends React.Component {
     constructor(props) { 
         super(props)
-        this.state = { appList: null };
-        this.handleClick = this.handleClick.bind(this);
     }
-    componentDidMount() {
-        this.getAppList()
-    }
-    handleClick() { 
-        this.getAppList();
-    }
-    async getAppList() {
-        const sid = this.props.auth.sid
-        const appList = await G.api.getVar(sid, 'appinfos')
-        this.setState({
-            appList
-        })
-    }
+   
     render() {
         const styles = NewAppList.styles;
        
@@ -30,7 +15,7 @@ import {G} from './../../ACommon/Api'
             <div style={styles.background} >
                 <div style={styles.header}>我的应用</div>
                 <div style={styles.line}></div>
-                <MyApps sid={this.props.auth.sid} handleAppClick={this.props.handleAppClick} user={this.props.auth.user} appList={this.state.appList} onClick={this.handleClick}></MyApps>
+                <ConnectMyApps handleAppClick={this.props.handleAppClick} ></ConnectMyApps>
             </div >
            )
     }
@@ -57,8 +42,3 @@ NewAppList.styles = {
         backgroundColor:'#E7E8EC'
     }
 }
-export default  props => (
-    <AuthContext.Consumer>
-         {auth => <NewAppList {...props} auth={auth}/>}
-    </AuthContext.Consumer>
-  );
