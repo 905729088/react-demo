@@ -3,7 +3,8 @@ import { HLayout,VLayout } from '../ACommon/Layout.jsx'
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { G } from './../ACommon/Api.js';
-import {onLogin} from './../ACommon/action/index.js'
+import { onLogin } from './../ACommon/action/index.js'
+import AuthContext from '../../auth-context.js'
 class Login extends React.Component{
     constructor(props){
         super(props)
@@ -48,7 +49,7 @@ class Login extends React.Component{
         if (name && pass) {
             G.api.login(name, pass, 'byname').then(user => {
                 this.props.dispatch(onLogin(name,pass,user));
-                //login(user)
+                login(user)
             }).catch((err) => {
                 console.error(err)
                 alert('用户名或密码错误！')
@@ -61,7 +62,7 @@ class Login extends React.Component{
         const styles = Login.styles;
         return (
          <Background style={styles.background} height={this.state.wHeight}>
-                <form onSubmit={this.handleSubmit.bind(this)}>
+                <form onSubmit={this.handleSubmit.bind(this,this.props.auth.login)}>
                     <VLayout style={styles.loginForm}>
                             <div style={styles.loginHeader}>
                                 <p>登录</p>
@@ -87,13 +88,15 @@ class Login extends React.Component{
     }
 }
 
-export default props => 
-    (
-        props.isLogin ? <Redirect to={{ pathname: "/home" }} />
+export default  props => (
+    <AuthContext.Consumer>
+         {auth => { 
+                return auth.isAuthenticated ? <Redirect to={{ pathname: "/home" }} />
                     :
-                    <Login {...props}  /> )
-;
-
+                 <Login {...props} auth={auth}/>
+            }}
+    </AuthContext.Consumer>
+  );
 Login.styles = {
     background: {
         overflow: 'hidden',

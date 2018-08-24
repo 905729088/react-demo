@@ -47,13 +47,18 @@ export const AppContentApp_Domain= (domain) => ({
     appDomain
 });
 
-export const onLogin = (name,pass,info) => async (dispatch) => {//登录
-    const userGroup=await G.api.getVar('', 'usergroup', 'GLOBAL_USER', 'name');
+export const onLogin = (name, pass, info) => async (dispatch) => {//登录
+   
+    const userGroup = await G.api.getVar('', 'usergroup', 'GLOBAL_USER', 'name');
+    const adminGroup = userGroup.manangers;  
+    const result = adminGroup.findIndex((value)=>value==info.user.id);
+    const userType =result == -1 ? 'user' : 'admin';//用户类型
     const DATA_ID = await G.api.userGroupGetInfo('', userGroup.id, 'DATA_ID');//数据区id
     const userInfo = {
         sid: info.sid,//登录的sid
         name: info.user.name,//name
         userId: info.user.id,//用户的userId
+        userType:userType,
         DATA_ID:DATA_ID//数据区id
     };
     sessionStorage.setItem('current_pass', JSON.stringify({ name: name, pass: pass }));  
@@ -70,15 +75,17 @@ export const onLogin = (name,pass,info) => async (dispatch) => {//登录
 
 export const onLogout = () => async (dispatch) => {//登出
 
-    sessionStorage.removeItem('current_sid');
+   
     sessionStorage.removeItem('current_pass');
-    window.localStorage.removeItem('APP_SID');
-    window.localStorage.removeItem('APP_UID');
+    // window.localStorage.removeItem('APP_SID');
+    // window.localStorage.removeItem('APP_UID');
+    // sessionStorage.removeItem('current_sid');
 
     const userInfo = {
         sid: null,//登录的sid
         name: null,//name
         userId: null,//用户的userId
+        userType:null,
         DATA_ID:null//数据区id
     };
     dispatch({

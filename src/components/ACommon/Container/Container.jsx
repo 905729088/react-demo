@@ -22,9 +22,8 @@ export default class Container extends React.Component {
        
         return(<AuthContext.Consumer>
             {auth => {
-                const setDom = this.props.isLogin ? <Redirect to={{pathname: "/home"}}/>:null
+                const setDom = auth.isAuthenticated ? <Redirect to={{pathname: "/home"}}/>:null
                 return (<div>
-                   
                     <Switch>
                         <Route exact path="/" component={Introduce} />
                         <Route path="/login" component={Login} />
@@ -35,7 +34,6 @@ export default class Container extends React.Component {
                         <PrivateRoute path="/treeCode/:appName/:appVer/:packageName" component={CodeContent} isLogin={this.props.isLogin}/>
                         {setDom}
                     </Switch>
-                   
                 </div>)
             }}
         </AuthContext.Consumer>)
