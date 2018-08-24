@@ -46,7 +46,7 @@ export default class Dropdown extends React.Component {
         const styles = Dropdown.styles
         const list = this.state.dataList;
         mystyle = this.props.styles;
-        let itemList = list.length!=0?list.map(val => (
+        let itemList = list?list.map(val => (
             <MyOptin style={styles.option} key={val} onClick={() => { 
             this.handleClick(val);
             }}>{val}</MyOptin>)):null;

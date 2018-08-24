@@ -18,43 +18,40 @@ export default class HashRoute extends React.Component {
     constructor(props) {
         super(props)
         this.login = async(info) => {
-            sessionStorage.setItem('current_sid', info.sid);
-            window.localStorage.setItem('APP_SID', info.sid);
-            window.localStorage.setItem('APP_UID', info.user.id);
+            // sessionStorage.setItem('current_sid', info.sid);
+            // window.localStorage.setItem('APP_SID', info.sid);
+            // window.localStorage.setItem('APP_UID', info.user.id);
           
-            const userGroup = await this.getUserGroup();
-            const DATA_ID = await G.api.userGroupGetInfo('', userGroup.id, 'DATA_ID');//数据区id
-            const userType = await this.checnkMember(info.user,userGroup);
+            // const userGroup = await this.getUserGroup();
+            // const DATA_ID = await G.api.userGroupGetInfo('', userGroup.id, 'DATA_ID');//数据区id
+            // const userType = await this.checnkMember(info.user,userGroup);
             this.setState(state => ({
                 isAuthenticated: true,
-                sid: info.sid,
-                user: info.user,
-                userType: userType,
-                DATA_ID:DATA_ID
+                // sid: info.sid,
+                // user: info.user,
+                // userType: userType,
+                // DATA_ID:DATA_ID
             }))
         }
         this.logout = () => {
-            sessionStorage.removeItem('current_sid');
-            sessionStorage.removeItem('current_pass');
-            window.localStorage.removeItem('APP_SID');
-            window.localStorage.removeItem('APP_UID');
+           
             this.setState(state => ({
                 isAuthenticated: false,
-                sid: '',
-                user: null,
-                userType: '',
-                DATA_ID:''
+                // sid: '',
+                // user: null,
+                // userType: '',
+                // DATA_ID:''
             }))
             
         }
         this.state = {
             isAuthenticated: false,//false
-            sid:'',
-            user: null,//null
+            // sid:'',
+            // user: null,//null
             login: this.login,
             logout: this.logout,
-            userGroup:null,
-            userType:''
+            // userGroup:null,
+            // userType:''
         }
     }
     async getUserGroup() {//获取用户组 

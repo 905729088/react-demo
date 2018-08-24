@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import AppContent from './CodeContent.jsx';
+import CodeContent from './CodeContent.jsx';
 const mapStateToProps = (state) => {
   return ({
     sid: state.LoginData.userInfo.sid,

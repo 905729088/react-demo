@@ -26,7 +26,7 @@ export default class AppContent extends React.Component {
         this.onClickCloseView = this.onClickCloseView.bind(this);
         this.upDataDomain = this.upDataDomain.bind(this);
 
-        console.log("====>",this.props);
+       
     }
     onClickselectAppVer(val) { //选择版本后重新跳转路由
         //console.log(this.props.match.params.appName,this.props.match.params.appVer,this.props.history);
@@ -44,16 +44,16 @@ export default class AppContent extends React.Component {
     async onClickRelease() {//发布版本 
         const istrue=window.confirm('您确定要发布新的版本？');
         if (istrue) {
-            const sid = sessionStorage.getItem('current_sid')
+            const sid = this.props.sid;
             const appName = this.props.appInfo.appName
             await G.api.version(sid, appName, 'lastver', '') //设置新的版本
-            this.props.dispatch(Fetch_AppContentApp_Version_List(appName));
+            this.props.dispatch(Fetch_AppContentApp_Version_List(sid,appName));
         } 
           
     }
 
     async onClickDelete() { 
-        const sid = sessionStorage.getItem('current_sid');
+        const sid = this.props.sid;
         const istrue = window.confirm('您确定要删除这个应用？');
         if (istrue) {
             this.setState({isCover:true});
@@ -83,12 +83,11 @@ export default class AppContent extends React.Component {
          this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.appInfo.appName, this.props.userId, this.props.DATA_ID));
       }
      render() {
-       
         const props = this.props;
         const styles = AppContent.styles
         const currentVer = this.state.currentVer
-        const appFileList = this.props.appFileList;
-        const appFileNameList = Object.keys(appFileList);
+         const appFileList = this.props.appFileList;
+        const appFileNameList = appFileList?Object.keys(appFileList):null;
         const appName = this.props.appInfo.appName;
         let appFileListDom = '...'
         appFileListDom = appFileNameList && appFileNameList.length? appFileNameList.map((name, i) =>
@@ -100,7 +99,7 @@ export default class AppContent extends React.Component {
                 </div>
             </MyLink>
          ) : null
-         let setDomain = this.state.isSetDomain ? <SetDomain style={{ display: 'none' }} onShowSetDomain={this.onShowSetDomain} upDataDomain={this.upDataDomain} appName={appName}/>: null;
+         let setDomain = this.state.isSetDomain ? <SetDomain style={{ display: 'none' }} onShowSetDomain={this.onShowSetDomain} upDataDomain={this.upDataDomain} appName={appName} sid={this.props.sid} userId={this.props.userId} DATAID={this.props.DATA_ID} />: null;
         //预览界面
          const appView = this.state.isShowView ? <AppView onClickCloseView={this.onClickCloseView} ip={this.state.ip} /> : null;
 

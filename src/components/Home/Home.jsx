@@ -1,13 +1,11 @@
 import React from 'react'
 import NewAppList from './NewAppList/NewAppList.jsx'
-// import DefaultApps from './DefaultApps/DefaultApps.jsx'
  import ConnectDefaultApp from './DefaultApps/ConnectDefaultApp.jsx';
-//import CreateModal from './CreateModal/CreateModal.jsx';
 import ConnectCreateModal from './CreateModal/ConnectCreateModal.jsx';
 import HomeIntroduce from './HomeIntroduce/HomeIntroduce.jsx';
 import ApiManual from './ApiManual/ApiManual.jsx';
 import ConnectAppContent from './../AppContent/ConnectAppContent.jsx';
-import CodeContent from './../CodeContent/CodeContent.jsx';
+import CodeContent from './../CodeContent/ConnectCodeContent.jsx';
 import styled from 'styled-components';
 import { G } from './../ACommon/Api';
 import {CreateModelFile_DATA,Fetch_HomeMyApp_Data,Fetch_AppContentApp_File_List,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
@@ -35,7 +33,10 @@ export default class Home extends React.Component{
     }
     async componentDidMount() { 
         //获取我的应用数据
-        this.props.dispatch(Fetch_HomeMyApp_Data(this.props.sid));
+        if (this.props.userInfo) { 
+            this.props.dispatch(Fetch_HomeMyApp_Data(this.props.userInfo.sid));
+        }
+      
         //让第一个界面充满屏幕
         this.setState({ wHeight: window.innerHeight,wWidth:window.innerWidth})
          //获取屏幕高度
@@ -45,30 +46,23 @@ export default class Home extends React.Component{
         window.onresize = null;
     }
     handleClick(active) {//切换页面
+        if (active.index===4) { 
+            this.props.dispatch(Fetch_HomeMyApp_Data(this.props.userInfo.sid));//获取我的应用数据
+        }
          this.setState({ active: active });
     }
 
     async handleAppClick(active, appInfo) {//切换页面  //打开文件列表即进入ApppContent
-        const apppContent = await this.getAsyncInfo(appInfo.appName, appInfo.appVer);
-        this.props.dispatch(Fetch_AppContentApp_File_List(appInfo.appName, appInfo.appVer));
-        this.props.dispatch(Fetch_AppContentApp_Version_List(appInfo.appName));
-        this.props.dispatch(Fetch_AppContentApp_Doamin(appInfo.appName,this.props.userId,this.props.DATA_ID));
-        //获取域名
-        const sid=this.props.sid;
-        const userId = this.props.userId;
-        const DATA_ID = this.props.DATA_ID;
-        const innerNetwork=await G.api.hGet(sid,DATA_ID,'INNERNETWORK',userId+'#'+appInfo.appName);
-        const outNetwork = await G.api.hGet(sid, DATA_ID, 'OUTNETWORK', userId + '#' +appInfo.appName);
-        const domain = {
-            inner:innerNetwork,//内网
-            out:outNetwork //外网
-        }
-      
-        this.setState({ active,appInfo,apppContent,domain});
+        console.log('q',this.props.userInfo);
+
+        this.props.dispatch(Fetch_AppContentApp_File_List(this.props.userInfo.sid,appInfo.appName, appInfo.appVer));
+        this.props.dispatch(Fetch_AppContentApp_Version_List(this.props.userInfo.sid,appInfo.appName));
+        this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.userInfo.sid,appInfo.appName,this.props.userInfo.userId,this.props.userInfo.DATA_ID));
+        this.setState({ active,appInfo});
     }
     //ApppContent的数据
     async getAsyncInfo(appName, appVer = 'last') {
-        const sid = this.props.sid;
+        const sid = this.props.userInfo.sid;
         if (appName && sid) {
             const versions = await G.api.getVar(sid, 'appversions', appName)
             const packages = await this.getPackages(appName,appVer)//this.props.match.params.appVer
@@ -81,7 +75,7 @@ export default class Home extends React.Component{
     }
     
     async getPackages(appName,ver) {
-        const sid = sessionStorage.getItem('current_sid');
+        const sid = this.props.userInfo.sid;
         const packageInfo = await G.api.getVar(sid, 'apppackage', appName, ver)
         if (packageInfo) {
             let obj = {};
@@ -109,14 +103,7 @@ export default class Home extends React.Component{
     };
     //codeContnet 返回AppContent
     async onReturnAppConent(active, isUpdata) { 
-      
-        if (isUpdata) {
-            const apppContent = await this.getAsyncInfo(this.state.appInfo.appName);
-            this.setState({active,apppContent});
-           
-        } else { 
-            this.setState({active});
-        }
+        this.setState({active});
         
     }
     render() {

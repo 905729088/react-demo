@@ -1,7 +1,7 @@
 import React from 'react';
 import AuthContext from '../../auth-context.js'
 import { G } from './../ACommon/Api';
-class SetDomain extends React.Component{
+export default class SetDomain extends React.Component{
     constructor(props){
         super(props);
         this.state={
@@ -14,10 +14,9 @@ class SetDomain extends React.Component{
         this.onSetOutNetWork=this.onSetOutNetWork.bind(this);
     }
    async componentDidMount () {
-      
-        const sid=this.props.auth.sid;
-        const userId = this.props.auth.user.id;
-        const DATA_ID=this.props.auth.DATA_ID;
+        const sid=this.props.sid;
+        const userId = this.props.userId;
+        const DATA_ID=this.props.DATAID;
         const nowInnerNetwork=await G.api.hGet(sid,DATA_ID,'INNERNETWORK',userId+'#'+this.props.appName);
         const nowOutNetwork=await G.api.hGet(sid,DATA_ID,'OUTNETWORK',userId+'#'+this.props.appName);
         this.setState({nowInnerNetwork,nowOutNetwork});
@@ -33,9 +32,9 @@ class SetDomain extends React.Component{
             const regExp=/vzhan.cn$/;
             const isTrue=regExp.test(innerNetwork)
            if(isTrue){
-               const sid=this.props.auth.sid;
-               const userId = this.props.auth.user.id;
-               const DATA_ID=this.props.auth.DATA_ID;
+               const sid=this.props.sid;
+               const userId = this.props.userId;
+               const DATA_ID=this.props.DATAID;
                const isRepeat=await this.checkrepeat(sid,DATA_ID,'INNERNETWORK',innerNetwork);
                if(isRepeat){
                     this.setState({isNowInnerNetwork:true});
@@ -88,9 +87,9 @@ class SetDomain extends React.Component{
         const regExp=/vzhan.cn$/;
         const isTrue=regExp.test(outNetwork);
         if(!isTrue){
-            const sid=this.props.auth.sid;
-            const userId = this.props.auth.user.id;
-            const DATA_ID=this.props.auth.DATA_ID;
+            const sid=this.props.sid;
+            const userId = this.props.userId;
+            const DATA_ID=this.props.DATAID;
             const isRepeat=await this.checkrepeat(sid,DATA_ID,'OUTNETWORK',outNetwork);
             if(isRepeat){
                 this.setState({isNowOutNetwork:true});
@@ -221,8 +220,3 @@ SetDomain.styles = {
         cursor:'pointer'
     }
 }
-export default  props => (
-    <AuthContext.Consumer>
-         {auth => <SetDomain {...props} auth={auth}/>}
-    </AuthContext.Consumer>
-  );

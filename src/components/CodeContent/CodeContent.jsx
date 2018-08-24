@@ -10,6 +10,7 @@ import 'codemirror/addon/edit/closetag';
 import 'codemirror/mode/sql/sql';
 import 'codemirror/addon/hint/show-hint.css';  
 import 'codemirror/addon/hint/show-hint.js'; 
+import {Fetch_AppContentApp_File_List} from './../ACommon/action/index.js'
 export default class CodeContent extends React.Component {
     constructor(props) {
         super(props)
@@ -22,7 +23,7 @@ export default class CodeContent extends React.Component {
     }
 
     componentDidMount() {
-        this.getCode()
+       this.getCode()
     }
 
     async getCode() {
@@ -47,7 +48,8 @@ export default class CodeContent extends React.Component {
                 this.setState({isButton:false})
                 const sid = this.props.sid;
                 const fileid = await G.api.createFileByData(sid, content);
-                const appid = await G.api.uploadAppFile(sid, this.props.codeData.appName, this.props.codeData.packageName, fileid)
+                const appid = await G.api.uploadAppFile(sid, this.props.codeData.appName, this.props.codeData.packageName, fileid);
+                this.props.dispatch(Fetch_AppContentApp_File_List(sid,this.props.codeData.appName,this.props.codeData.appVer));
                 this.props.onReturnAppConent({index:6,type:Number,appIndex:this.props.codeData.appIndex},true)
              }
            // console.log('====>更新');
@@ -74,7 +76,6 @@ export default class CodeContent extends React.Component {
 		});
 	}
     render() {
-       
         const styles = CodeContent.styles;
         const codeData = this.props.codeData;
         const appName = codeData.appName;

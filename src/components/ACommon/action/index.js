@@ -137,10 +137,10 @@ export const Fetch_HomeMyApp_Data = (sid) => async (dispatch) => {//请求home�
       })
 }
   
-export const Fetch_AppContentApp_File_List = (appName,appVer = 'last') => async (dispatch) => {//请求获取应用文件信息列表
-    const sid = sessionStorage.getItem('current_sid');
+export const Fetch_AppContentApp_File_List = (sid,appName,appVer = 'last') => async (dispatch) => {//请求获取应用文件信息列表
     let appFileList = {};
     const packageInfo = await G.api.getVar(sid, 'apppackage', appName, appVer)
+   
     if (packageInfo) {
         for (let key in packageInfo.entryTemplate) { 
             appFileList[key] = packageInfo.entryTemplate[key];
@@ -155,8 +155,7 @@ export const Fetch_AppContentApp_File_List = (appName,appVer = 'last') => async 
     })
 }
 
-export const Fetch_AppContentApp_Version_List = (appName) => async (dispatch) => {//请求获取应用版本列表
-    const sid = sessionStorage.getItem('current_sid');
+export const Fetch_AppContentApp_Version_List = (sid,appName) => async (dispatch) => {//请求获取应用版本列表
     const appVersionList = await G.api.getVar(sid, 'appversions', appName)
     dispatch({
       type:APPCONTENT_APP_VERSION_LIST,
@@ -164,15 +163,15 @@ export const Fetch_AppContentApp_Version_List = (appName) => async (dispatch) =>
     })
 }
 
-export const Fetch_AppContentApp_Doamin = (appName,userId,DATA_ID) => async (dispatch) => {//请求获取应用域名
+export const Fetch_AppContentApp_Doamin = (sid,appName,userId,DATA_ID) => async (dispatch) => {//请求获取应用域名
     //获取域名
-    const sid = sessionStorage.getItem('current_sid');
     const innerNetwork=await G.api.hGet(sid,DATA_ID,'INNERNETWORK',userId+'#'+appName);
     const outNetwork = await G.api.hGet(sid, DATA_ID, 'OUTNETWORK', userId + '#' +appName);
     const appDomain = {
         inner:innerNetwork,//内网
         out:outNetwork //外网
     }
+    console.log('域名',appDomain);
     dispatch({
       type:APPCONTENT_APP_DOAMIN,
       appDomain
