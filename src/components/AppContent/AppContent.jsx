@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import SetDomain from './setDomain.jsx';
 import { G } from './../ACommon/Api';
 import AppView from './AppView.jsx'
-import {Fetch_HomeMyApp_Data,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
+import {CodeContent_Data,Fetch_HomeMyApp_Data,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
 import Waiting from './../ACommon/Waiting/Waiting.jsx';
 export default class AppContent extends React.Component {
     constructor(props) {
@@ -25,8 +25,12 @@ export default class AppContent extends React.Component {
         this.onClickShowView = this.onClickShowView.bind(this);
         this.onClickCloseView = this.onClickCloseView.bind(this);
         this.upDataDomain = this.upDataDomain.bind(this);
-
+        this.onClickOpenCode = this.onClickOpenCode.bind(this);//进入CodeContent界面
        
+    }
+    onClickOpenCode(name, packageid) { 
+        this.props.dispatch(CodeContent_Data( { appName: this.props.appInfo.appName, appVer: this.props.appInfo.appVer, packageid: packageid,packageName:name==="main"?name+'.html':name ,appIndex:this.props.appInfo.appIndex}));
+        this.props.handleClick({index:7,type:Number,appIndex: this.props.appInfo.appIndex});
     }
     onClickselectAppVer(val) { //选择版本后重新跳转路由
         //console.log(this.props.match.params.appName,this.props.match.params.appVer,this.props.history);
@@ -92,9 +96,7 @@ export default class AppContent extends React.Component {
         let appFileListDom = '...'
         appFileListDom = appFileNameList && appFileNameList.length? appFileNameList.map((name, i) =>
             <MyLink style={styles.appContentMainitem} key={i}>
-                <div style={styles.appContentMainitemFileName} onClick={() => {
-                    this.props.onOpenCode({ index: 7, type: Number, appIndex: this.props.appInfo.appIndex }, { appName: appName, appVer: currentVer, packageid: appFileList[name],packageName:name==="main"?name+'.html':name ,appIndex:this.props.appInfo.appIndex})
-                }}>
+                <div style={styles.appContentMainitemFileName} onClick={() => { this.onClickOpenCode(name,appFileList[name]) }}>
                     <span>{name==="main"?name+'.html':name}</span>
                 </div>
             </MyLink>

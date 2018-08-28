@@ -18,32 +18,36 @@ export default class Home extends React.Component{
             active: {index:1,type:Number,appIndex:-1},
             myApps: [],//我的应用列表
             appInfo: {},//应用信息
-            apppContent: {},//应用文件信息
-            domain: {},//域名信息
-            codeData:null,//打开具体代码文件信息
         }
-      
+        this.getData = this.getData.bind(this);//我的应用数据请求
         this.handleClick = this.handleClick.bind(this);
         this.handleAppClick = this.handleAppClick.bind(this);
-        this.getAsyncInfo = this.getAsyncInfo.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
-        this.onDelFile = this.onDelFile.bind(this);
-        this.onOpenCode = this.onOpenCode.bind(this);
         this.onReturnAppConent = this.onReturnAppConent.bind(this);
     }
     async componentDidMount() { 
         //获取我的应用数据
-        if (this.props.userInfo) { 
-            this.props.dispatch(Fetch_HomeMyApp_Data(this.props.userInfo.sid));
-        }
-      
+        this.getData();
+       
+       // console.log('000000000000000000=====>',this.props);
         //让第一个界面充满屏幕
         this.setState({ wHeight: window.innerHeight,wWidth:window.innerWidth})
          //获取屏幕高度
         window.onresize = () => { this.setState({ wHeight: window.innerHeight ,wWidth:window.innerWidth});};
     }
+
+    getData() { 
+        if (this.props.userInfo) {
+            clearTimeout(this.timer);
+            this.props.dispatch(Fetch_HomeMyApp_Data(this.props.userInfo.sid))
+        } else { 
+            this.timer = setTimeout(() => { this.getData()});
+        }
+       
+    }
     componentWillUnmount() { 
         window.onresize = null;
+        clearTimeout(this.timer);
     }
     handleClick(active) {//切换页面
         if (active.index===4) { 
@@ -53,25 +57,11 @@ export default class Home extends React.Component{
     }
 
     async handleAppClick(active, appInfo) {//切换页面  //打开文件列表即进入ApppContent
-        console.log('q',this.props.userInfo);
 
         this.props.dispatch(Fetch_AppContentApp_File_List(this.props.userInfo.sid,appInfo.appName, appInfo.appVer));
         this.props.dispatch(Fetch_AppContentApp_Version_List(this.props.userInfo.sid,appInfo.appName));
         this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.userInfo.sid,appInfo.appName,this.props.userInfo.userId,this.props.userInfo.DATA_ID));
         this.setState({ active,appInfo});
-    }
-    //ApppContent的数据
-    async getAsyncInfo(appName, appVer = 'last') {
-        const sid = this.props.userInfo.sid;
-        if (appName && sid) {
-            const versions = await G.api.getVar(sid, 'appversions', appName)
-            const packages = await this.getPackages(appName,appVer)//this.props.match.params.appVer
-            const apppContent = { versions, packages };
-            return apppContent;
-        }
-        
-        
-        
     }
     
     async getPackages(appName,ver) {
@@ -94,13 +84,6 @@ export default class Home extends React.Component{
         const file = this.fileInput.files[0];
         this.props.dispatch(CreateModelFile_DATA(file));
     }
-    onDelFile() {
-        this.setState({ fileInfo: null });
-    }
-    //打开具体文件
-    onOpenCode(active, codeData) { 
-        this.setState({ active,codeData});
-    };
     //codeContnet 返回AppContent
     async onReturnAppConent(active, isUpdata) { 
         this.setState({active});
@@ -119,7 +102,7 @@ export default class Home extends React.Component{
             ) : null;
         //右边模块
          //初始化右边模块
-        const rightArrs = [<HomeIntroduce />, <ApiManual />, <ConnectDefaultApp />, <NewAppList handleAppClick={this.handleAppClick} />, <ConnectCreateModal onDel={this.onDelFile}  fileInfo={this.state.fileInfo} />, <ConnectAppContent handleAppClick={this.handleAppClick} handleClick={this.handleClick} onOpenCode={this.onOpenCode}  apppContent={this.state.apppContent} appInfo={this.state.appInfo} domain={this.state.domain}/>, <CodeContent onReturnAppConent={this.onReturnAppConent} codeData={this.state.codeData}/>];
+        const rightArrs = [<HomeIntroduce />, <ApiManual />, <ConnectDefaultApp />, <NewAppList handleAppClick={this.handleAppClick} />, <ConnectCreateModal />, <ConnectAppContent handleAppClick={this.handleAppClick} handleClick={this.handleClick}  appInfo={this.state.appInfo}/>, <CodeContent onReturnAppConent={this.onReturnAppConent}/>];
         let rightItem = null;
         if (active.type===Number) { 
              rightItem = rightArrs[active.index - 1];

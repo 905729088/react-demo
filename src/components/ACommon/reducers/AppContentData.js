@@ -1,7 +1,12 @@
-import { APPCONTENT_APP_FILE_LIST,APPCONTENT_APP_VERSION_LIST,APPCONTENT_APP_DOAMIN} from '../action';
+import { APPCONTENT_APP_FILE_LIST,APPCONTENT_APP_VERSION_LIST,APPCONTENT_APP_DOAMIN,APPCONTENT_APP_INFO} from '../action';
 
 const AppContentData = (state=[],action) => { 
     switch (action.type) { 
+        case APPCONTENT_APP_INFO:
+        return {
+            ...state,
+            info: action.info,
+        }
         case APPCONTENT_APP_FILE_LIST:
             return {
                 ...state,

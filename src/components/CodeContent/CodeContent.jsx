@@ -27,8 +27,8 @@ export default class CodeContent extends React.Component {
     }
 
     async getCode() {
-        let packageid = this.props.codeData.packageid;
-        console.log('文本内容',packageid);
+        let packageid = this.props.codeContentData.packageid;
+        console.log('文本内容',this.props);
         const sid = this.props.sid;
         const uint8 = await G.api.getLFileData(sid, packageid, 0, -1)
         const code = new TextDecoder('utf-8').decode(uint8)
@@ -41,16 +41,16 @@ export default class CodeContent extends React.Component {
         const content = this.editor.getCodeMirror().getValue();//获取编辑器的值
         if (this.lastCode === content) {
             //console.log('====>不更新');
-            this.props.onReturnAppConent({index:6,type:Number,appIndex:this.props.codeData.appIndex},false)
+            this.props.onReturnAppConent({index:6,type:Number,appIndex:this.props.codeContentData.appIndex},false)
            // this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
         } else {
             if (this.state.isButton) {
                 this.setState({isButton:false})
                 const sid = this.props.sid;
                 const fileid = await G.api.createFileByData(sid, content);
-                const appid = await G.api.uploadAppFile(sid, this.props.codeData.appName, this.props.codeData.packageName, fileid);
-                this.props.dispatch(Fetch_AppContentApp_File_List(sid,this.props.codeData.appName,this.props.codeData.appVer));
-                this.props.onReturnAppConent({index:6,type:Number,appIndex:this.props.codeData.appIndex},true)
+                const appid = await G.api.uploadAppFile(sid, this.props.codeContentData.appName, this.props.codeContentData.packageName, fileid);
+                this.props.dispatch(Fetch_AppContentApp_File_List(sid,this.props.codeContentData.appName,this.props.codeContentData.appVer));
+                this.props.onReturnAppConent({index:6,type:Number,appIndex:this.props.codeContentData.appIndex},true)
              }
            // console.log('====>更新');
            
@@ -77,8 +77,8 @@ export default class CodeContent extends React.Component {
 	}
     render() {
         const styles = CodeContent.styles;
-        const codeData = this.props.codeData;
-        const appName = codeData.appName;
+        const codeContentData = this.props.codeContentData;
+        const appName = codeContentData.appName;
         const options = {
                 lineNumbers: true,
                 mode: {name: "text/x-mysql"}, 
@@ -89,18 +89,18 @@ export default class CodeContent extends React.Component {
        
      
         return (<div style={styles.background}>
-            <div style={styles.header}>我的应用/<span style={{ color: '#019f57' }}>{appName}/{codeData.packageName}</span></div>
+            <div style={styles.header}>我的应用/<span style={{ color: '#019f57' }}>{appName}/{codeContentData.packageName}</span></div>
             <div style={styles.line}></div>
             <div style={styles.Content}>
                 <div style={styles.codeContentMainHeader}>
-                    <div style={styles.codeContentMainHeaderLeft}><span>{codeData.packageName}</span></div>
+                    <div style={styles.codeContentMainHeaderLeft}><span>{codeContentData.packageName}</span></div>
                 </div>
                 <TextConent style={styles.codeContentMainContent}>
                     <CodeMirror value={this.state.content} onChange={this.updateCode} options={options} ref={(editor) => { this.editor = editor }} />
                 </TextConent>
                 <HLayout style={{marginTop:'20px'}}>
                     <div style={styles.btnSubmit} onClick={this.onSubmit}>提交</div> 
-                    <div style={styles.btnReturn} onClick={()=>this.props.onReturnAppConent({index:6,type:Number,appIndex:codeData.appIndex})}>取消</div> 
+                    <div style={styles.btnReturn} onClick={()=>this.props.onReturnAppConent({index:6,type:Number,appIndex:codeContentData.appIndex})}>取消</div> 
                 </HLayout>
             </div>
         </div>)

@@ -6,9 +6,12 @@ export const DAFAULTAPP_DATA = 'DAFAULTAPP_DATA';//应用库数据
 export const MYAPPS_DATA = 'MYAPPS_DATA';//我的应用数据
 export const HOME_MYAPP_DATA = 'HOME_MYAPP_DATA';//HOME左侧我的应用数据
 export const CREATEMODAL_FILE_DATA = 'CREATEMODAL_FILE_DATA';//ConnectCreateModal上传的文件
+export const APPCONTENT_APP_INFO = 'APPCONTENT_APP_INFO';//AppContent 所需要的文件信息
 export const APPCONTENT_APP_FILE_LIST = "APPCONTENT_APP_FILE_LIST";//AppContent 的应用文件列表
 export const APPCONTENT_APP_VERSION_LIST = "APPCONTENT_APP_VERSION_LIST";//AppContent 的应用文件列表
 export const APPCONTENT_APP_DOAMIN = "APPCONTENT_APP_DOAMIN";//AppContent 的应用域名
+
+export const CODECONENET_DATA = "CODECONENET_DATA";//codeContent 请求文件需要的文件信息
 
 export const Login_IsLogin = (isLogin) => ({
     type: LOGIN_ISLOGIN,
@@ -40,6 +43,11 @@ export const CreateModelFile_DATA = (file) => ({
     file
 });
 
+export const AppContentApp_Info= (info) => ({
+    type:APPCONTENT_APP_INFO,
+    info
+});
+
 export const AppContentApp_File_List= (appFileList) => ({
     type:APPCONTENT_APP_FILE_LIST,
     appFileList
@@ -51,6 +59,11 @@ export const AppContentApp_Version_List= (appVersionList) => ({
 export const AppContentApp_Domain= (appDomain) => ({
     type:APPCONTENT_APP_DOAMIN,
     appDomain
+});
+
+export const CodeContent_Data= (codeContentData) => ({
+    type:CODECONENET_DATA,
+    codeContentData
 });
 
 export const onLogin = (name, pass, info) => async (dispatch) => {//登录
@@ -67,7 +80,9 @@ export const onLogin = (name, pass, info) => async (dispatch) => {//登录
         userType:userType,
         DATA_ID:DATA_ID//数据区id
     };
-    sessionStorage.setItem('current_pass', JSON.stringify({ name: name, pass: pass }));  
+    sessionStorage.setItem('current_pass', JSON.stringify({ name: name, pass: pass }));  //存密码预登陆
+    localStorage.setItem('APP_SID', info.sid);//为应用提供sid
+    localStorage.setItem('APP_UID', info.user.id);//为应用提供UID
     dispatch({
       type: LOGIN_USER_INFO,
       userInfo
@@ -83,10 +98,8 @@ export const onLogout = () => async (dispatch) => {//登出
 
    
     sessionStorage.removeItem('current_pass');
-    // window.localStorage.removeItem('APP_SID');
-    // window.localStorage.removeItem('APP_UID');
-    // sessionStorage.removeItem('current_sid');
-
+    localStorage.removeItem('APP_SID');
+    localStorage.removeItem('APP_UID');
     const userInfo = {
         sid: null,//登录的sid
         name: null,//name

@@ -88,7 +88,6 @@ export default class CreateModal extends React.Component {
         
         this.props.dispatch(CreateModelFile_DATA(null));
         this.props.dispatch(Fetch_HomeMyApp_Data(this.props.sid));
-        this.props.onDel();
         this.setState({isRelease:true});
        
     }

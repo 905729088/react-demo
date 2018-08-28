@@ -5,6 +5,7 @@ import HomeData from './HOMEDATA.js';
 import CreateModalData from './CreateModalData.js';
 import AppContentData from './AppContentData.js';
 import MyAppsData from './MyAppsData.js';
+import CodeContentData from './CodeContentData.js';
 
 const rootReducers = combineReducers({
     LoginData,
@@ -12,7 +13,8 @@ const rootReducers = combineReducers({
     MyAppsData,
     DefaultAppData,
     CreateModalData,
-    AppContentData
+    AppContentData,
+    CodeContentData
 });
 
 export default rootReducers;
