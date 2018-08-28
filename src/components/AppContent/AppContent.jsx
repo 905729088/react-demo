@@ -5,13 +5,12 @@ import styled from 'styled-components'
 import SetDomain from './setDomain.jsx';
 import { G } from './../ACommon/Api';
 import AppView from './AppView.jsx'
-import {CodeContent_Data,Fetch_HomeMyApp_Data,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
+import {AppContentApp_Info,CodeContent_Data,Fetch_AppContentApp_File_List,Fetch_HomeMyApp_Data,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
 import Waiting from './../ACommon/Waiting/Waiting.jsx';
 export default class AppContent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentVer:this.props.appInfo.appVer,
             isSetDomain:false,//设置域名界面是否显示
             isShowView:false, //是否显示预览见面
             ip: null,  //预览的ip地址
@@ -29,19 +28,16 @@ export default class AppContent extends React.Component {
        
     }
     onClickOpenCode(name, packageid) { 
-        this.props.dispatch(CodeContent_Data( { appName: this.props.appInfo.appName, appVer: this.props.appInfo.appVer, packageid: packageid,packageName:name==="main"?name+'.html':name ,appIndex:this.props.appInfo.appIndex}));
-        this.props.handleClick({index:7,type:Number,appIndex: this.props.appInfo.appIndex});
+        this.props.dispatch(CodeContent_Data( { appName: this.props.info.appName, appVer: this.props.info.appVer, packageid: packageid,packageName:name==="main"?name+'.html':name ,appIndex:this.props.info.appIndex}));
+        this.props.handleClick({index:7,type:Number,appIndex: this.props.info.appIndex});
     }
     onClickselectAppVer(val) { //选择版本后重新跳转路由
         //console.log(this.props.match.params.appName,this.props.match.params.appVer,this.props.history);
-        if (val !== this.props.appInfo.appVer) {
-            this.setState({
-                currentVer:val
-            })
-            const active = { index: 6, type: 'appinfo', appIndex: this.props.appInfo.appIndex };
-            const appInfo = { appName: this.props.appInfo.appName, appVer: val ,appIndex:this.props.appInfo.appIndex};
-           
-            this.props.handleAppClick(active,appInfo);
+        if (val !== this.props.info.appVer) {
+            const active = { index: 6, type: 'appinfo', appIndex: this.props.info.appIndex };
+            const appInfo = { appName: this.props.info.appName, appVer: val ,appIndex:this.props.info.appIndex};
+            this.props.dispatch(AppContentApp_Info(appInfo));
+            this.props.dispatch(Fetch_AppContentApp_File_List(this.props.sid,this.props.info.appName, val));
         }
     }
 
@@ -49,7 +45,7 @@ export default class AppContent extends React.Component {
         const istrue=window.confirm('您确定要发布新的版本？');
         if (istrue) {
             const sid = this.props.sid;
-            const appName = this.props.appInfo.appName
+            const appName = this.props.info.appName
             await G.api.version(sid, appName, 'lastver', '') //设置新的版本
             this.props.dispatch(Fetch_AppContentApp_Version_List(sid,appName));
         } 
@@ -61,7 +57,7 @@ export default class AppContent extends React.Component {
         const istrue = window.confirm('您确定要删除这个应用？');
         if (istrue) {
             this.setState({isCover:true});
-            await G.api.unInstallApp(sid, this.props.appInfo.appName);
+            await G.api.unInstallApp(sid, this.props.info.appName);
             this.setState({isCover:false});
             this.props.handleClick({index:4,type:Number,appIndex:-1});
             this.props.dispatch(Fetch_HomeMyApp_Data(this.props.sid));
@@ -84,15 +80,14 @@ export default class AppContent extends React.Component {
         this.setState({isSetDomain:!this.state.isSetDomain})
      }
      upDataDomain() { //更新域名
-         this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.appInfo.appName, this.props.userId, this.props.DATA_ID));
+         this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.info.appName, this.props.userId, this.props.DATA_ID));
       }
      render() {
         const props = this.props;
         const styles = AppContent.styles
-        const currentVer = this.state.currentVer
          const appFileList = this.props.appFileList;
         const appFileNameList = appFileList?Object.keys(appFileList):null;
-        const appName = this.props.appInfo.appName;
+        const appName = this.props.info.appName;
         let appFileListDom = '...'
         appFileListDom = appFileNameList && appFileNameList.length? appFileNameList.map((name, i) =>
             <MyLink style={styles.appContentMainitem} key={i}>
@@ -114,7 +109,7 @@ export default class AppContent extends React.Component {
          };
          return (<div style={styles.background}>
              <div style={{ position:'relative',paddingBottom:'50px',minHeight:'100%'}}>
-                <div style={styles.header}>我的应用/<span style={{ color: '#019f57' }}>{props.appInfo.appName}</span></div>
+                <div style={styles.header}>我的应用/<span style={{ color: '#019f57' }}>{props.info.appName}</span></div>
                 <div style={styles.line}></div>
                     <div style={styles.appContent}>
                         <div style={styles.appContentTitle}>
@@ -135,7 +130,7 @@ export default class AppContent extends React.Component {
                         </div>
                         <div style={styles.appContentMain}>
                             <div style={styles.appContentMainitemTitle} >
-                                {props.appInfo.appName}
+                                {props.info.appName}
                             </div>
                             {appFileListDom}
                         </div>

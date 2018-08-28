@@ -8,7 +8,7 @@ import ConnectAppContent from './../AppContent/ConnectAppContent.jsx';
 import CodeContent from './../CodeContent/ConnectCodeContent.jsx';
 import styled from 'styled-components';
 import { G } from './../ACommon/Api';
-import {CreateModelFile_DATA,Fetch_HomeMyApp_Data,Fetch_AppContentApp_File_List,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
+import {CreateModelFile_DATA,Fetch_HomeMyApp_Data,AppContentApp_Info,Fetch_AppContentApp_File_List,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
 export default class Home extends React.Component{
     constructor(props) {
         super(props);
@@ -17,7 +17,6 @@ export default class Home extends React.Component{
             wWidth:0,
             active: {index:1,type:Number,appIndex:-1},
             myApps: [],//我的应用列表
-            appInfo: {},//应用信息
         }
         this.getData = this.getData.bind(this);//我的应用数据请求
         this.handleClick = this.handleClick.bind(this);
@@ -57,11 +56,11 @@ export default class Home extends React.Component{
     }
 
     async handleAppClick(active, appInfo) {//切换页面  //打开文件列表即进入ApppContent
-
+        this.props.dispatch(AppContentApp_Info(appInfo));
         this.props.dispatch(Fetch_AppContentApp_File_List(this.props.userInfo.sid,appInfo.appName, appInfo.appVer));
         this.props.dispatch(Fetch_AppContentApp_Version_List(this.props.userInfo.sid,appInfo.appName));
         this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.userInfo.sid,appInfo.appName,this.props.userInfo.userId,this.props.userInfo.DATA_ID));
-        this.setState({ active,appInfo});
+        this.setState({ active});
     }
     
     async getPackages(appName,ver) {
@@ -85,7 +84,7 @@ export default class Home extends React.Component{
         this.props.dispatch(CreateModelFile_DATA(file));
     }
     //codeContnet 返回AppContent
-    async onReturnAppConent(active, isUpdata) { 
+    async onReturnAppConent(active) { 
         this.setState({active});
         
     }
@@ -102,7 +101,7 @@ export default class Home extends React.Component{
             ) : null;
         //右边模块
          //初始化右边模块
-        const rightArrs = [<HomeIntroduce />, <ApiManual />, <ConnectDefaultApp />, <NewAppList handleAppClick={this.handleAppClick} />, <ConnectCreateModal />, <ConnectAppContent handleAppClick={this.handleAppClick} handleClick={this.handleClick}  appInfo={this.state.appInfo}/>, <CodeContent onReturnAppConent={this.onReturnAppConent}/>];
+        const rightArrs = [<HomeIntroduce />, <ApiManual />, <ConnectDefaultApp />, <NewAppList handleAppClick={this.handleAppClick} />, <ConnectCreateModal />, <ConnectAppContent  handleClick={this.handleClick}/>, <CodeContent onReturnAppConent={this.onReturnAppConent}/>];
         let rightItem = null;
         if (active.type===Number) { 
              rightItem = rightArrs[active.index - 1];

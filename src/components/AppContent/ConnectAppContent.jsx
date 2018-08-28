@@ -6,6 +6,7 @@ const mapStateToProps = (state) => {
     sid: state.LoginData.userInfo.sid,
     userId: state.LoginData.userInfo.userId,
     DATA_ID: state.LoginData.userInfo.DATA_ID,
+    info:state.AppContentData.info,
     appFileList: state.AppContentData.appFileList,
     appVersionList: state.AppContentData.appVersionList,
     appDomain:state.AppContentData.appDomain,
