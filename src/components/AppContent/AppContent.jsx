@@ -27,15 +27,21 @@ export default class AppContent extends React.Component {
         this.onClickOpenCode = this.onClickOpenCode.bind(this);//进入CodeContent界面
        
     }
+    componentDidMount() { 
+
+        this.props.dispatch(Fetch_AppContentApp_File_List(this.props.sid,this.props.info.appName, this.props.info.appVer));
+        this.props.dispatch(Fetch_AppContentApp_Version_List(this.props.sid,this.props.info.appName));
+        this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.sid,this.props.info.appName,this.props.userId,this.props.DATA_ID));
+    }
     onClickOpenCode(name, packageid) { 
-        this.props.dispatch(CodeContent_Data( { appName: this.props.info.appName, appVer: this.props.info.appVer, packageid: packageid,packageName:name==="main"?name+'.html':name ,appIndex:this.props.info.appIndex}));
-        this.props.handleClick({index:7,type:Number,appIndex: this.props.info.appIndex});
+        this.props.dispatch(CodeContent_Data( { appName: this.props.info.appName, appVer: this.props.info.appVer, packageid: packageid,packageName:name==="main"?name+'.html':name }));
+        this.props.history.push('/home/CodeContent/'+name)
     }
     onClickselectAppVer(val) { //选择版本后重新跳转路由
         //console.log(this.props.match.params.appName,this.props.match.params.appVer,this.props.history);
         if (val !== this.props.info.appVer) {
-            const active = { index: 6, type: 'appinfo', appIndex: this.props.info.appIndex };
-            const appInfo = { appName: this.props.info.appName, appVer: val ,appIndex:this.props.info.appIndex};
+            const active = { index: 6, type: 'appinfo' };
+            const appInfo = { appName: this.props.info.appName, appVer: val };
             this.props.dispatch(AppContentApp_Info(appInfo));
             this.props.dispatch(Fetch_AppContentApp_File_List(this.props.sid,this.props.info.appName, val));
         }
@@ -59,7 +65,7 @@ export default class AppContent extends React.Component {
             this.setState({isCover:true});
             await G.api.unInstallApp(sid, this.props.info.appName);
             this.setState({isCover:false});
-            this.props.handleClick({index:4,type:Number,appIndex:-1});
+            this.props.history.push('/home/NewAppList')
             this.props.dispatch(Fetch_HomeMyApp_Data(this.props.sid));
         } 
     }
@@ -79,8 +85,8 @@ export default class AppContent extends React.Component {
          }
         this.setState({isSetDomain:!this.state.isSetDomain})
      }
-     upDataDomain() { //更新域名
-         this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.info.appName, this.props.userId, this.props.DATA_ID));
+    upDataDomain() { //更新域名
+         this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.sid,this.props.info.appName, this.props.userId, this.props.DATA_ID));
       }
      render() {
         const props = this.props;

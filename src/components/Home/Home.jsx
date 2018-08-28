@@ -9,20 +9,21 @@ import CodeContent from './../CodeContent/ConnectCodeContent.jsx';
 import styled from 'styled-components';
 import { G } from './../ACommon/Api';
 import {CreateModelFile_DATA,Fetch_HomeMyApp_Data,AppContentApp_Info,Fetch_AppContentApp_File_List,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
+
+import { Route, Redirect, Switch } from 'react-router-dom'
+import {Link,NavLink} from 'react-router-dom'
 export default class Home extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
             wHeight: 0,
             wWidth:0,
-            active: {index:1,type:Number,appIndex:-1},
-            myApps: [],//我的应用列表
+            active: 1,
         }
         this.getData = this.getData.bind(this);//我的应用数据请求
         this.handleClick = this.handleClick.bind(this);
         this.handleAppClick = this.handleAppClick.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
-        this.onReturnAppConent = this.onReturnAppConent.bind(this);
     }
     async componentDidMount() { 
         //获取我的应用数据
@@ -48,99 +49,83 @@ export default class Home extends React.Component{
         window.onresize = null;
         clearTimeout(this.timer);
     }
-    handleClick(active) {//切换页面
-        if (active.index===4) { 
-            this.props.dispatch(Fetch_HomeMyApp_Data(this.props.userInfo.sid));//获取我的应用数据
-        }
-         this.setState({ active: active });
+    handleClick(index) {//切换页面
+         this.setState({ active: index });
     }
 
-    async handleAppClick(active, appInfo) {//切换页面  //打开文件列表即进入ApppContent
-        this.props.dispatch(AppContentApp_Info(appInfo));
-        this.props.dispatch(Fetch_AppContentApp_File_List(this.props.userInfo.sid,appInfo.appName, appInfo.appVer));
-        this.props.dispatch(Fetch_AppContentApp_Version_List(this.props.userInfo.sid,appInfo.appName));
-        this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.userInfo.sid,appInfo.appName,this.props.userInfo.userId,this.props.userInfo.DATA_ID));
-        this.setState({ active});
+    async handleAppClick(info) {//切换页面  //打开文件列表即进入ApppContent
+        this.setState({ active: 0 });
+        this.props.dispatch(AppContentApp_Info(info));
+        this.props.dispatch(Fetch_AppContentApp_File_List(this.props.userInfo.sid,info.appName, info.appVer));
+        this.props.dispatch(Fetch_AppContentApp_Version_List(this.props.userInfo.sid,info.appName));
+        this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.userInfo.sid,info.appName,this.props.userInfo.userId,this.props.userInfo.DATA_ID));
     }
     
-    async getPackages(appName,ver) {
-        const sid = this.props.userInfo.sid;
-        const packageInfo = await G.api.getVar(sid, 'apppackage', appName, ver)
-        if (packageInfo) {
-            let obj = {};
-            for (let key in packageInfo.entryTemplate) { 
-                obj[key] = packageInfo.entryTemplate[key];
-            }
-            for (let key in packageInfo.name2ID) { 
-                obj[key] = packageInfo.name2ID[key];
-            }
-            return obj;
-        }
-        return []
-    }
     //上传文件
     onFileChange() {
         const file = this.fileInput.files[0];
         this.props.dispatch(CreateModelFile_DATA(file));
     }
-    //codeContnet 返回AppContent
-    async onReturnAppConent(active) { 
-        this.setState({active});
-        
-    }
+    
     render() {
         const styles = Home.styles;
         const active = this.state.active;
         //左边模块
         const myApps = this.props.myApps?
             this.props.myApps.map((app, i) => (
-                <div
-                    style={active.appIndex == i ? styles.leftItemActive : styles.leftItem}
-                    onClick={() => { this.handleAppClick({ index: 6, type: 'appinfo', appIndex: i }, { appName: app.name, appVer: 'last' ,appIndex:i}) }}
-                    key={app.iD} >{app.name}</div>)
+                <NavLink
+                    to={"/home/AppContent/" + app.name}
+                    style={this.props.selectApp&&active===0?(this.props.selectApp.appName===app.name?styles.leftItemActive:styles.leftItem):styles.leftItem}
+                    onClick={() => { this.handleAppClick({ appName: app.name, appVer: 'last' }) }}
+                    key={app.iD} >{app.name}</NavLink>)
             ) : null;
         //右边模块
          //初始化右边模块
-        const rightArrs = [<HomeIntroduce />, <ApiManual />, <ConnectDefaultApp />, <NewAppList handleAppClick={this.handleAppClick} />, <ConnectCreateModal />, <ConnectAppContent  handleClick={this.handleClick}/>, <CodeContent onReturnAppConent={this.onReturnAppConent}/>];
-        let rightItem = null;
-        if (active.type===Number) { 
-             rightItem = rightArrs[active.index - 1];
-        } else if(active.type==='appinfo'){
-            rightItem = rightArrs[5];
-        }
+        const rightArrs = [<HomeIntroduce />, <ApiManual />, <ConnectDefaultApp />, <NewAppList handleAppClick={this.handleAppClick} />, <ConnectCreateModal />, <ConnectAppContent />, <CodeContent/>];
         return (<Background  style={styles.background} height={this.state.wHeight} width={this.state.wWidth}>
             <div style={styles.left}>
                 <div style={styles.leftHeader}>
-                    <div style={active.index == 1 ? styles.leftItemActive : styles.leftItem} onClick={() => { this.handleClick({index:1,type:Number,appIndex:-1})}}>
-                        <img style={{ marginRight: '15px' }} src={active.index ==1?require('./img/ico-home-active.png'):require('./img/ico-home.png')}  alt="" />
+                    <NavLink to="/home/Introduce" style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(1)}}  >
+                        <img style={{ marginRight: '15px' }} src={active ==1?require('./img/ico-home-active.png'):require('./img/ico-home.png')}  alt="" />
                         <span>首页</span>
-                    </div>
-                    <div style={active.index ==2 ? styles.leftItemActive : styles.leftItem} onClick={() => { this.handleClick({index:2,type:Number,appIndex:-1})}}>
-                        <img style={{ marginRight: '15px' }} src={active.index ==2?require('./img/ico-text-active.png'):require('./img/ico-text.png')} alt="" />
+                    </NavLink>
+                    <NavLink to="/home/ApiManual"  style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(2)}} >
+                        <img style={{ marginRight: '15px' }} src={active ==2?require('./img/ico-text-active.png'):require('./img/ico-text.png')} alt="" />
                         <span>API手册</span>
-                    </div>
-                    <div style={active.index ==3 ? styles.leftItemActive : styles.leftItem} onClick={() => { this.handleClick({index:3,type:Number,appIndex:-1})}}>
-                        <img style={{ marginRight: '15px' }} src={active.index ==3?require('./img/ico-app-active.png'):require('./img/ico-app.png')} alt="" />
+                    </NavLink>
+                    <NavLink to="/home/ConnectDefaultApp" style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(3)}} >
+                        <img style={{ marginRight: '15px' }} src={active ==3?require('./img/ico-app-active.png'):require('./img/ico-app.png')} alt="" />
                         <span>应用库</span>
-                    </div>
+                    </NavLink>
                 </div>
                 <div style={styles.leftApps}>
                     <div style={styles.leftAppsTitle}>
                         我的应用
                     </div>
                     {myApps}
-                    <div style={styles.leftAppsMore} onClick={() => { this.handleClick({index:4,type:Number,appIndex:-1})}} >
+                    <Link to="/home/NewAppList" style={styles.leftAppsMore}  onClick={() => { this.handleClick(-1)}} >
                         <span>查看更多</span>
-                    </div>
+                    </Link>
                 </div>
-                <div style={styles.upload} onClick={() => { this.handleClick({index:5,type:Number,appIndex:-1})}}>
+                <div style={styles.upload} onClick={()=>this.props.history.push('/home/ConnectCreateModal')}  onClick={() => { this.handleClick(-1)}}>
                      <label htmlFor="getfile" style={styles.contentFileMain}>
                         <img src={require('./img/upload.png')} alt="" />
                     </label>
                     <input id='getfile' type="file" style={{ display: 'none' }} onChange={this.onFileChange} ref={input => {this.fileInput = input}} />
                 </div>
             </div>
-            <div style={styles.right}>{rightItem}</div>
+            <div  style={styles.right}>
+                <Switch>
+                    <Route exact path="/home/Introduce" component={HomeIntroduce} />
+                    <Route path="/home/ApiManual" component={ApiManual} />
+                    <Route path="/home/ConnectDefaultApp" component={ConnectDefaultApp} />
+                    <Route path="/home/NewAppList" component={NewAppList} />
+                    <Route path="/home/ConnectCreateModal" component={ConnectCreateModal} />
+                    <Route path="/home/AppContent" component={ConnectAppContent} />
+                    <Route path="/home/CodeContent" component={CodeContent} />
+                    <Redirect from='/home' to='/home/Introduce' />
+                </Switch>
+            </div>
         </Background>)
     }
 }
@@ -197,6 +182,7 @@ Home.styles = {
         color: '#019f57',
         lineHeight:'46px'
     }, leftAppsMore: {
+        display:'block',
         marginBottom:'1px',
         paddingLeft: "20px",
         height: '46px',
@@ -204,9 +190,10 @@ Home.styles = {
         backgroundColor:'#ffffff',
         cursor: 'pointer',
         lineHeight: '46px',
-        textDecoration:'underline'
+        textDecoration: 'underline',
     },
     upload: {
+        display:'block',
         width:'118px',
         margin:'30px 15%',
         height:'42px',

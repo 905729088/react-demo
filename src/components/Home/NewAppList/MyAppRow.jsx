@@ -5,21 +5,9 @@ import {G} from  './../../ACommon/Api'
 export default class MyAppRow extends React.Component{
     constructor(props) {
         super(props)
-        this.onClickDelete = this.onClickDelete.bind(this);
-        this.onClickY = this.onClickY.bind(this);
     }
-    async onClickDelete() { 
-        const sid = this.props.sid;
-        const istrue=window.confirm('您确定要删除这个应用？');
-        if (istrue) {
-              await G.api.unInstallApp(sid, this.props.appInfo.name);
-              this.props.onClick();
-        } 
-      
-    }
-    onClickY() { 
-        console.log(this.props.index)
-    }
+
+   
     SectionToChinese(section) {
         const chnNumChar = ["零","一","二","三","四","五","六","七","八","九"];
         const chnUnitSection = ["","万","亿","万亿","亿亿"];
@@ -67,7 +55,7 @@ export default class MyAppRow extends React.Component{
                     </div>
                 </div>
                 <div style={styles.button} >
-                    <Button style={styles.buttonM} onClick={() => this.props.handleAppClick({ index: 6, type: 'appinfo', appIndex: this.props.index-1 }, { appName: appInfo.name, appVer: 'last',appIndex:this.props.index-1})}>
+                    <Button style={styles.buttonM} onClick={() => this.props.handleAppClick({appName: appInfo.name, appVer: 'last'})}>
                         <span>修改</span>
                     </Button>
                     <Button  onClick={this.onClickCopy}>

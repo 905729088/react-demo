@@ -1,7 +1,5 @@
 import React from 'react'
 import ConnectMyApps from './ConnectMyApps.jsx'
-import {G} from './../../ACommon/Api'
-
 
 export default class NewAppList extends React.Component {
     constructor(props) { 
@@ -10,12 +8,12 @@ export default class NewAppList extends React.Component {
    
     render() {
         const styles = NewAppList.styles;
-       
+        console.log("");
         return (
             <div style={styles.background} >
                 <div style={styles.header}>我的应用</div>
                 <div style={styles.line}></div>
-                <ConnectMyApps handleAppClick={this.props.handleAppClick} ></ConnectMyApps>
+                <ConnectMyApps handleAppClick={this.props.handleAppClick} history={this.props.history}></ConnectMyApps>
             </div >
            )
     }
