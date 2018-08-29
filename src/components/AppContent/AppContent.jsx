@@ -80,9 +80,6 @@ export default class AppContent extends React.Component {
         this.setState({isShowView});
     }
      onShowSetDomain() { //显示和关闭设置域名界面
-         if (this.state.isSetDomain) { 
-             console.log("关闭");
-         }
         this.setState({isSetDomain:!this.state.isSetDomain})
      }
     upDataDomain() { //更新域名

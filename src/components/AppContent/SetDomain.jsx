@@ -58,6 +58,7 @@ export default class SetDomain extends React.Component{
                         alert('域名设置成功');
                         this.setState({nowInnerNetwork:innerNetwork,isNowInnerNetwork:true});
                         this.props.upDataDomain();
+                        this.props.onShowSetDomain();
                         // console.log('');
                     },(name,err)=>{
                         console.log('域名设置失败',err);
@@ -113,6 +114,7 @@ export default class SetDomain extends React.Component{
                     alert('域名设置成功');
                     this.setState({ nowOutNetwork: outNetwork, isNowOutNetwork: true });
                     this.props.upDataDomain();
+                    this.props.onShowSetDomain();
                     // console.log('');
                 },(name,err)=>{
                     console.log('域名设置失败',err);
