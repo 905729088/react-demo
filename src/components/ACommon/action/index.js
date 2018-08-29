@@ -81,8 +81,6 @@ export const onLogin = (name, pass, info) => async (dispatch) => {//登录
         DATA_ID:DATA_ID//数据区id
     };
     sessionStorage.setItem('current_pass', JSON.stringify({ name: name, pass: pass }));  //存密码预登陆
-    localStorage.setItem('APP_SID', info.sid);//为应用提供sid
-    localStorage.setItem('APP_UID', info.user.id);//为应用提供UID
     dispatch({
       type: LOGIN_USER_INFO,
       userInfo
@@ -184,7 +182,6 @@ export const Fetch_AppContentApp_Doamin = (sid,appName,userId,DATA_ID) => async 
         inner:innerNetwork,//内网
         out:outNetwork //外网
     }
-    console.log('域名',appDomain);
     dispatch({
       type:APPCONTENT_APP_DOAMIN,
       appDomain

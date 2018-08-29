@@ -40,8 +40,8 @@ export default class CodeContent extends React.Component {
     async onSubmit() { 
         const content = this.editor.getCodeMirror().getValue();//获取编辑器的值
         if (this.lastCode === content) {
-            //console.log('====>不更新');
-            this.props.history.push('/home/ConnectAppContent/'+this.props.codeContentData.packageName)
+            console.log('====>不更新');
+            this.props.history.push('/home/AppContent/'+this.props.codeContentData.packageName)
            // this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
         } else {
             if (this.state.isButton) {
@@ -50,7 +50,7 @@ export default class CodeContent extends React.Component {
                 const fileid = await G.api.createFileByData(sid, content);
                 const appid = await G.api.uploadAppFile(sid, this.props.codeContentData.appName, this.props.codeContentData.packageName, fileid);
                 this.props.dispatch(Fetch_AppContentApp_File_List(sid, this.props.codeContentData.appName, this.props.codeContentData.appVer));
-                this.props.history.push('/home/ConnectAppContent/'+this.props.codeContentData.packageName)
+                this.props.history.push('/home/AppContent/' + this.props.codeContentData.packageName);
                
              }
            // console.log('====>更新');
@@ -101,7 +101,7 @@ export default class CodeContent extends React.Component {
                 </TextConent>
                 <HLayout style={{marginTop:'20px'}}>
                     <div style={styles.btnSubmit} onClick={this.onSubmit}>提交</div> 
-                    <div style={styles.btnReturn} onClick={()=> this.props.history.push('/home/ConnectAppContent/'+this.props.codeContentData.packageName)}>取消</div> 
+                    <div style={styles.btnReturn} onClick={()=> this.props.history.push('/home/AppContent/'+this.props.codeContentData.packageName)}>取消</div> 
                 </HLayout>
             </div>
         </div>)

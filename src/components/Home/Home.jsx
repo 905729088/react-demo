@@ -65,6 +65,7 @@ export default class Home extends React.Component{
     onFileChange() {
         const file = this.fileInput.files[0];
         this.props.dispatch(CreateModelFile_DATA(file));
+        
     }
     
     render() {
@@ -107,7 +108,7 @@ export default class Home extends React.Component{
                         <span>查看更多</span>
                     </Link>
                 </div>
-                <div style={styles.upload} onClick={()=>this.props.history.push('/home/ConnectCreateModal')}  onClick={() => { this.handleClick(-1)}}>
+                <div style={styles.upload} onClick={() => { this.props.history.push('/home/ConnectCreateModal');this.handleClick(-1) }}>
                      <label htmlFor="getfile" style={styles.contentFileMain}>
                         <img src={require('./img/upload.png')} alt="" />
                     </label>
