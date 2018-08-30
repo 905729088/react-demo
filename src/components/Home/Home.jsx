@@ -7,8 +7,7 @@ import ApiManual from './ApiManual/ApiManual.jsx';
 import ConnectAppContent from './../AppContent/ConnectAppContent.jsx';
 import CodeContent from './../CodeContent/ConnectCodeContent.jsx';
 import styled from 'styled-components';
-import { G } from './../ACommon/Api';
-import {CreateModelFile_DATA,Fetch_HomeMyApp_Data,AppContentApp_Info,Fetch_AppContentApp_File_List,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
+import {CreateModelFile_DATA,Fetch_Home_HelloWorld,Fetch_HomeMyApp_Data,AppContentApp_Info,Fetch_AppContentApp_File_List,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
 
 import { Route, Redirect, Switch } from 'react-router-dom'
 import {Link,NavLink} from 'react-router-dom'
@@ -28,7 +27,6 @@ export default class Home extends React.Component{
     async componentDidMount() { 
         //获取我的应用数据
         this.getData();
-       
        // console.log('000000000000000000=====>',this.props);
         //让第一个界面充满屏幕
         this.setState({ wHeight: window.innerHeight,wWidth:window.innerWidth})
@@ -37,9 +35,15 @@ export default class Home extends React.Component{
     }
 
     getData() { 
+        
         if (this.props.userInfo) {
-            clearTimeout(this.timer);
-            this.props.dispatch(Fetch_HomeMyApp_Data(this.props.userInfo.sid))
+            if (this.props.userInfo.sid) {
+                this.props.dispatch(Fetch_HomeMyApp_Data(this.props.userInfo.sid))
+                this.props.dispatch(Fetch_Home_HelloWorld(this.props.userInfo.sid,this.props.userInfo.userId,this.props.userInfo.DATA_ID));
+                clearTimeout(this.timer);
+            } else { 
+                this.timer = setTimeout(() => { this.getData()});
+            }
         } else { 
             this.timer = setTimeout(() => { this.getData()});
         }
@@ -81,7 +85,6 @@ export default class Home extends React.Component{
                     key={app.iD} >{app.name}</NavLink>)
             ) : null;
         //右边模块
-         //初始化右边模块
         const rightArrs = [<HomeIntroduce />, <ApiManual />, <ConnectDefaultApp />, <NewAppList handleAppClick={this.handleAppClick} />, <ConnectCreateModal />, <ConnectAppContent />, <CodeContent/>];
         return (<Background  style={styles.background} height={this.state.wHeight} width={this.state.wWidth}>
             <div style={styles.left}>
@@ -109,7 +112,7 @@ export default class Home extends React.Component{
                     </Link>
                 </div>
                 <div style={styles.upload} onClick={() => { this.props.history.push('/home/ConnectCreateModal');this.handleClick(-1) }}>
-                     <label htmlFor="getfile" style={styles.contentFileMain}>
+                     <label htmlFor="getfile" >
                         <img src={require('./img/upload.png')} alt="" />
                     </label>
                     <input id='getfile' type="file" style={{ display: 'none' }} onChange={this.onFileChange} ref={input => {this.fileInput = input}} />

@@ -5,8 +5,17 @@ import {G} from  './../../ACommon/Api'
 export default class MyAppRow extends React.Component{
     constructor(props) {
         super(props)
+        this.state = {
+            innerNetwork: null,
+            outNetwork:null
+        }
+        this.getDomain = this.getDomain.bind(this);
     }
-
+    componentDidMount() { 
+        if (this.props.appInfo.name === 'HelloWorld') { 
+            this.getDomain();
+        }
+    }
    
     SectionToChinese(section) {
         const chnNumChar = ["零","一","二","三","四","五","六","七","八","九"];
@@ -33,6 +42,11 @@ export default class MyAppRow extends React.Component{
         }
         return chnStr;
     }
+    async getDomain() { 
+        const innerNetwork=await G.api.hGet(this.props.sid,this.props.DATAID,'INNERNETWORK',this.props.userId+'#'+this.props.appInfo.name);
+        const outNetwork =await G.api.hGet(this.propssid, this.props.DATAID, 'OUTNETWORK', this.props.userId + '#' + this.props.appInfo.name);
+        this.setState({innerNetwork,outNetwork});
+    }
 
     render() {
         const styles = MyAppRow.styles;
@@ -40,6 +54,19 @@ export default class MyAppRow extends React.Component{
         const appUri = `http://${G.ip}/entry?author=${appInfo.author}&app=${appInfo.name}&ver=last`;
          //阿拉伯转汉字
         const index = this.SectionToChinese(this.props.index);
+        let open = null;
+        if (this.props.appInfo.name === 'HelloWorld') {
+            if (this.state.outNetwork) {
+                open = <a className='MyAppPreview' href={this.state.outNetwork} target="_blank" >预览</a>
+              
+            } else if (this.state.innerNetwork) {
+                open = <a className='MyAppPreview' href={this.state.outNetwork} target="_blank" >预览</a>
+            } else {
+                open = <span onClick={() => alert('请设置域名')} className='MyAppPreview' >预览</span>
+            }
+        } else { 
+            open = <a className='MyAppPreview' href={appUri} target="_blank" >预览</a>
+        }
         return (<div style={styles.background}>
             <div style={styles.left}>
                 应用{index}：
@@ -58,8 +85,8 @@ export default class MyAppRow extends React.Component{
                     <Button style={styles.buttonM} onClick={() => this.props.handleAppClick({appName: appInfo.name, appVer: 'last'})}>
                         <span>修改</span>
                     </Button>
-                    <Button  onClick={this.onClickCopy}>
-                        <a className='MyAppPreview' href={appUri} target="_blank">预览</a>
+                    <Button >
+                        {open}
                     </Button>
                 </div>
             </div>
@@ -136,6 +163,15 @@ const Button = styled.div`
     cursor:pointer;
     color:#019f57;
     background-color: #ffffff;
+    & > span.MyAppPreview{
+        display:block;
+        width:100%;
+        height:100%;
+        color:#019f57;
+        text-decoration:none;
+        color:#ffffff;
+        background-color: #019f57;
+    };
     & > a.MyAppPreview{
         display:block;
         width:100%;

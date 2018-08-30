@@ -7,6 +7,7 @@ import { G } from './../ACommon/Api';
 import AppView from './AppView.jsx'
 import {AppContentApp_Info,CodeContent_Data,Fetch_AppContentApp_File_List,Fetch_HomeMyApp_Data,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
 import Waiting from './../ACommon/Waiting/Waiting.jsx';
+import UpLoad from './upLoad.jsx';
 export default class AppContent extends React.Component {
     constructor(props) {
         super(props)
@@ -14,7 +15,8 @@ export default class AppContent extends React.Component {
             isSetDomain:false,//设置域名界面是否显示
             isShowView:false, //是否显示预览见面
             ip: null,  //预览的ip地址
-            isCover:false
+            isCover: false,
+            isUpLoad:false
 
         };
         this.onClickselectAppVer = this.onClickselectAppVer.bind(this);
@@ -25,6 +27,7 @@ export default class AppContent extends React.Component {
         this.onClickCloseView = this.onClickCloseView.bind(this);
         this.upDataDomain = this.upDataDomain.bind(this);
         this.onClickOpenCode = this.onClickOpenCode.bind(this);//进入CodeContent界面
+        this.upLoad = this.upLoad.bind(this);
        
     }
     componentDidMount() { 
@@ -67,6 +70,9 @@ export default class AppContent extends React.Component {
             this.setState({isCover:false});
             this.props.history.push('/home/NewAppList')
             this.props.dispatch(Fetch_HomeMyApp_Data(this.props.sid));
+            if (this.props.info.appName === "HelloWorld") { 
+                 G.api.hSet(sid, userId, 'HELLOWORLD', "HELLOWORLD","unInstall");
+            }
         } 
     }
    
@@ -75,7 +81,6 @@ export default class AppContent extends React.Component {
         this.setState({ip,isShowView});
      }
      onClickCloseView() {//关闭例子
-        
          const isShowView = false;
         this.setState({isShowView});
     }
@@ -84,7 +89,12 @@ export default class AppContent extends React.Component {
      }
     upDataDomain() { //更新域名
          this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.sid,this.props.info.appName, this.props.userId, this.props.DATA_ID));
-      }
+    }
+
+    upLoad() { //上传文件后更新文件列表
+        this.props.dispatch(Fetch_AppContentApp_File_List(this.props.sid,this.props.info.appName, this.props.info.appVer));
+    }
+   
      render() {
         const props = this.props;
         const styles = AppContent.styles
@@ -110,6 +120,7 @@ export default class AppContent extends React.Component {
              innerDomain = appDomain.inner ? <span onClick={() => this.onClickShowView(appDomain.inner)} style={{ marginLeft: '10px', cursor: 'pointer' }}>内网访问：{appDomain.inner}</span> : null;
              outDomain = appDomain.out ? <span onClick={() => this.onClickShowView(appDomain.out)} style={{ marginLeft: '10px', cursor: 'pointer' }}>外网访问：{appDomain.out}</span> : null;
          };
+         const MyUpLoad = this.state.isUpLoad ? <UpLoad sid={props.sid} appName={props.info.appName} upLoad={this.upLoad} onShow={() => this.setState({ isUpLoad: !this.state.isUpLoad })} /> : null;
          return (<div style={styles.background}>
              <div style={{ position:'relative',paddingBottom:'50px',minHeight:'100%'}}>
                 <div style={styles.header}>我的应用/<span style={{ color: '#019f57' }}>{props.info.appName}</span></div>
@@ -127,7 +138,8 @@ export default class AppContent extends React.Component {
                                 dataList={this.props.appVersionList}
                                 onClick={this.onClickselectAppVer}
                             />
-                            <div style={styles.appContentRelease} onClick={this.onClickRelease}>发布版本</div>
+                             <div style={styles.appContentRelease} onClick={this.onClickRelease}>发布版本</div>
+                             <div style={styles.appContentRelease} onClick={() => this.setState({ isUpLoad: !this.state.isUpLoad })}>上传文件</div>
                         </div>
                         
                         </div>
@@ -135,13 +147,14 @@ export default class AppContent extends React.Component {
                             <div style={styles.appContentMainitemTitle} >
                                 {props.info.appName}
                             </div>
-                            {appFileListDom}
+                         {appFileListDom}
                         </div>
                  </div>
-                 <img onClick={this.onClickDelete} style={styles.delet} src={require('./img/ico-del.png')} alt=""/>
+                 <img onClick={this.onClickDelete} style={styles.delet} src={require('./img/ico-del.png')} alt="" />
              </div>
              {setDomain}
              {appView}
+             {MyUpLoad}
              <div style={this.state.isCover ? { display: 'block' } : {display:'none'}}>
                  <Waiting/>
              </div>
@@ -246,7 +259,25 @@ AppContent.styles = {
         bottom: '0px',
         right:'0px',
         cursor: 'pointer'
-    }
+    },
+    file: {
+        margin:'30px 15%',
+    },
+    upload: {
+        display:'block',
+        width:'118px',
+        
+        height:'42px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#019f57',
+        cursor: 'pointer',
+        borderRadius: '2px',
+        backgroundColor: '#ffffff',
+        border: 'solid 1px #019f57',
+        boxShadow: '0px 7px 10px 0px rgba(34, 34, 34, 0.09)'
+    },
 }
 const MyLink = styled.div`
     cursor:pointer;

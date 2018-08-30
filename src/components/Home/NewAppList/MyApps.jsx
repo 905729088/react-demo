@@ -19,7 +19,7 @@ export default class MyApps extends React.Component {
         const appList = this.props.myApps;
         if (appList) {
             row = appList.map((app,i) => 
-                <MyAppRow key={app.iD} appInfo={app} index={i + 1} sid={this.props.sid} handleAppClick={this.handleAppClick}/>
+                <MyAppRow key={app.iD} appInfo={app} index={i + 1} sid={this.props.sid} DATAID={this.props.DATA_ID} userId={this.props.userId}  handleAppClick={this.handleAppClick}/>
             )
         }
         return (<div  style={styles.background}>

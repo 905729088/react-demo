@@ -4,6 +4,7 @@ const mapStateToProps = (state) => {
   return ({
     myApps: state.MyAppsData.myApps,
     sid: state.LoginData.userInfo.sid,
+    userId: state.LoginData.userInfo.userId,
     DATA_ID: state.LoginData.userInfo.DATA_ID,
   });
 }

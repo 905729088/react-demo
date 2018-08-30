@@ -5,6 +5,7 @@ export const LOGIN_ISLOGIN = 'LOGIN_ISLOGIN';//login 用户是否登录
 export const DAFAULTAPP_DATA = 'DAFAULTAPP_DATA';//应用库数据
 export const MYAPPS_DATA = 'MYAPPS_DATA';//我的应用数据
 export const HOME_MYAPP_DATA = 'HOME_MYAPP_DATA';//HOME左侧我的应用数据
+export const HOME_HELLOWORLD = 'HOME_HELLOWWORLD';//HOME左侧我的helloword
 export const CREATEMODAL_FILE_DATA = 'CREATEMODAL_FILE_DATA';//ConnectCreateModal上传的文件
 export const APPCONTENT_APP_INFO = 'APPCONTENT_APP_INFO';//AppContent 所需要的文件信息
 export const APPCONTENT_APP_FILE_LIST = "APPCONTENT_APP_FILE_LIST";//AppContent 的应用文件列表
@@ -32,10 +33,13 @@ export const MyApps_Data = (myApps) => ({
     type: MYAPPS_DATA,
     myApps
 });
-
 export const HomeMyApp_Data = (myApps) => ({
     type: HOME_MYAPP_DATA,
     myApps
+});
+export const Home_HelloWorld = (helloWorld) => ({
+    type: HOME_HELLOWORLD,
+    helloWorld
 });
 
 export const CreateModelFile_DATA = (file) => ({
@@ -129,23 +133,66 @@ export const Fetch_DefaultApp_Data = (DATA_ID) => async (dispatch) => {//请求�
       appList
     })
 }
+
+export const Fetch_Home_HelloWorld = (sid,userId,DATA_ID) => async (dispatch) => {//请求获取Hellow
+   //请求应用库中是否有hellow
+    const strArr = await G.api.hGetAll('', DATA_ID, '__H_File_ID__');
+    const expReg = /^HelloWorld\./;
+    let HelloWorld = null;
+   for (let val of strArr) { 
+       let obj = JSON.parse(val.value);
+       let name = obj.name;
+       if (expReg.test(name)) { 
+            HelloWorld=obj
+       }
+    }
+    
+    //用户是否已经删除过Hellow
+    const isInstall = await G.api.hGet(sid, userId, 'HELLOWORLD', "HELLOWORLD");
+    HelloWorld = isInstall ? undefined : HelloWorld;
+    console.log('=======================>',isInstall);
+    if (isInstall === null) { //安装hellow
+        await G.api.hSet(sid, userId, 'HELLOWORLD', "HELLOWORLD", "Install");
+        const aArr = HelloWorld.name.split('.');
+        const type=aArr[aArr.length-1]
+        await G.api.uploadApp(sid, HelloWorld.fileId, type);
+    }
+    dispatch({
+        type: HOME_HELLOWORLD,
+        helloWorld:HelloWorld
+      })
+
+}
   
 export const Fetch_HomeMyApp_Data = (sid) => async (dispatch) => {//请求home中我的应用数据
     const AppArr = await G.api.getVar(sid, "appinfos");
+    const HelloWorld= AppArr.find((value) => { 
+        return value.name == 'HelloWorld';
+    });
+    
+   
     let myApps =null;
     if (AppArr.length >= 4) {
-        myApps = AppArr.slice(0, 4);
+        if (HelloWorld) {
+            myApps = AppArr.slice(0, 3);
+            myApps.unshift(HelloWorld);
+        } else { 
+            myApps = AppArr.slice(0, 4);
+        }
+        
     } else { 
-        myApps = AppArr;
+        
+        myApps = AppArr.filter(v=>v.name!=='HelloWorld')
+        myApps.unshift(HelloWorld);
     }
-    dispatch({
-      type: HOME_MYAPP_DATA,
-      myApps
-    })
     dispatch({
         type: MYAPPS_DATA,
         myApps:AppArr
       })
+    dispatch({
+      type: HOME_MYAPP_DATA,
+      myApps
+    })
 }
   
 export const Fetch_AppContentApp_File_List = (sid,appName,appVer = 'last') => async (dispatch) => {//请求获取应用文件信息列表
