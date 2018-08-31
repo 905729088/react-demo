@@ -20,7 +20,7 @@ export default class DefaultApps extends React.Component {
             )
         }
         return (<div style={styles.background}>
-            <div style={styles.header}>应用库</div>
+            <div style={styles.header}>开源库</div>
             <div style={styles.line}></div>
             <div style={styles.defaultAppsMain}>
                 {row}
