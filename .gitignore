@@ -1,0 +1,9 @@
+node_modules
+.idea
+dist
+.vscode
+*.log
+.cache-loader
+chrome
+package-lock.json
+

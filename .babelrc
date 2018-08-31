@@ -1,0 +1,12 @@
+{
+    "presets": [
+      ["@babel/preset-env", {"targets": {
+        "chrome": "55"
+      }}],
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      "babel-plugin-kotlish-also",
+      "@babel/plugin-syntax-dynamic-import"
+    ]
+  }
