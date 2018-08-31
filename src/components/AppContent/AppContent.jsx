@@ -65,7 +65,7 @@ export default class AppContent extends React.Component {
     }
 
     async onClickRelease() {//发布版本 
-        const istrue=window.confirm('您确定要发布新的版本 ？');
+        const istrue=window.confirm('您确定要发布新的版本？');
         if (istrue) {
             const sid = this.props.sid;
             const appName = this.props.info.appName
