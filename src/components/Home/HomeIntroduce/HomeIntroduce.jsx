@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import {AppContentApp_Info,Home_Active} from './../../ACommon/action/index.js'
 export default class HomeIntroduce extends React.Component { 
     render() { 
         const styles = HomeIntroduce.styles;
@@ -19,7 +20,7 @@ export default class HomeIntroduce extends React.Component {
                         </div>
                         <div style={styles.conentMainItem}>
                             1 、代码编辑
-                            <p style={styles.care}>请点击查看<Link to='/home/AppContent/HelloWorld' style={{color:'red'}}>HelloWorld</Link>示例</p> 
+                            <p style={styles.care}>请点击查看<Link to='/home/AppContent/HelloWorld' onClick={() => { this.props.dispatch(AppContentApp_Info({ appName:'HelloWorld', appVer: 'last'})),this.props.dispatch(Home_Active(0));}} style={{color:'red'}}>HelloWorld</Link>示例</p> 
                         </div>
                         <div style={styles.conentMainItem}>
                             2 、代码打包

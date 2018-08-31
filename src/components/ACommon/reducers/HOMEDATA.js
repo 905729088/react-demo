@@ -1,6 +1,6 @@
-import { HOME_MYAPP_DATA,HOME_HELLOWORLD } from '../action';
+import { HOME_MYAPP_DATA,HOME_HELLOWORLD,HOME_ACTIVE } from '../action';
 
-const HomeData = (state=[],action) => { 
+const HomeData = (state = {active: 1}, action) => { 
     switch (action.type) { 
         case HOME_MYAPP_DATA:
             return {
@@ -11,6 +11,11 @@ const HomeData = (state=[],action) => {
             return {
                 ...state,
                 helloWorld: action.helloWorld,
+            }
+        case HOME_ACTIVE:
+            return {
+                ...state,
+                active: action.active,
             }
         default:
             return state

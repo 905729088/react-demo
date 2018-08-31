@@ -12,6 +12,7 @@ export default class AppContent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            appName:this.props.info.appName,
             isSetDomain:false,//设置域名界面是否显示
             isShowView:false, //是否显示预览见面
             ip: null,  //预览的ip地址
@@ -35,6 +36,19 @@ export default class AppContent extends React.Component {
         this.props.dispatch(Fetch_AppContentApp_File_List(this.props.sid,this.props.info.appName, this.props.info.appVer));
         this.props.dispatch(Fetch_AppContentApp_Version_List(this.props.sid,this.props.info.appName));
         this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.sid,this.props.info.appName,this.props.userId,this.props.DATA_ID));
+    }
+    static getDerivedStateFromProps(nextProps, prevState) { 
+        if (nextProps.info.appName !== prevState.appName) {
+            const appName = nextProps.info.appName;
+            nextProps.dispatch(Fetch_AppContentApp_File_List(nextProps.sid,nextProps.info.appName,nextProps.info.appVer));
+            nextProps.dispatch(Fetch_AppContentApp_Version_List(nextProps.sid,nextProps.info.appName));
+            nextProps.dispatch(Fetch_AppContentApp_Doamin(nextProps.sid,nextProps.info.appName,nextProps.userId,nextProps.DATA_ID));
+            return {appName};
+        } else { 
+            return null;
+        }
+       
+       
     }
     onClickOpenCode(name, packageid) { 
         this.props.dispatch(CodeContent_Data( { appName: this.props.info.appName, appVer: this.props.info.appVer, packageid: packageid,packageName:name==="main"?name+'.html':name }));

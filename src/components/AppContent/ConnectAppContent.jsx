@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import AppContent from './AppContent.jsx';
 const mapStateToProps = (state) => {
-  console.log("++++++++++++++++++++++>",state);
   return ({
     sid: state.LoginData.userInfo.sid,
     userId: state.LoginData.userInfo.userId,

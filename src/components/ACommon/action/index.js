@@ -4,6 +4,7 @@ export const LOGIN_ISLOGIN = 'LOGIN_ISLOGIN';//login 用户是否登录
 
 export const DAFAULTAPP_DATA = 'DAFAULTAPP_DATA';//应用库数据
 export const MYAPPS_DATA = 'MYAPPS_DATA';//我的应用数据
+export const HOME_ACTIVE = 'HOME_ACTIVE';//按钮状态
 export const HOME_MYAPP_DATA = 'HOME_MYAPP_DATA';//HOME左侧我的应用数据
 export const HOME_HELLOWORLD = 'HOME_HELLOWWORLD';//HOME左侧我的helloword
 export const CREATEMODAL_FILE_DATA = 'CREATEMODAL_FILE_DATA';//ConnectCreateModal上传的文件
@@ -22,6 +23,10 @@ export const Login_IsLogin = (isLogin) => ({
 export const LoginUser_Info = (userInfo) => ({//用户登录信息
     type: LOGIN_USER_INFO,
     userInfo
+});
+export const Home_Active = (active) => ({
+    type: HOME_ACTIVE,
+    active
 });
 
 export const DefaultApp_Data = (appList) => ({

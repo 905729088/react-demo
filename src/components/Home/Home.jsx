@@ -2,14 +2,14 @@ import React from 'react'
 import NewAppList from './NewAppList/NewAppList.jsx'
  import ConnectDefaultApp from './DefaultApps/ConnectDefaultApp.jsx';
 import ConnectCreateModal from './CreateModal/ConnectCreateModal.jsx';
-import HomeIntroduce from './HomeIntroduce/HomeIntroduce.jsx';
+import HomeIntroduce from './HomeIntroduce/ConnectHomeIntroduce.jsx';
 import Guide from './Guide/Guide.jsx';
 import Demo from './Demo/Demo.jsx';
 import ApiManual from './ApiManual/ApiManual.jsx';
 import ConnectAppContent from './../AppContent/ConnectAppContent.jsx';
 import CodeContent from './../CodeContent/ConnectCodeContent.jsx';
 import styled from 'styled-components';
-import {CreateModelFile_DATA,Fetch_Home_HelloWorld,Fetch_HomeMyApp_Data,AppContentApp_Info,Fetch_AppContentApp_File_List,Fetch_AppContentApp_Version_List,Fetch_AppContentApp_Doamin} from './../ACommon/action/index.js'
+import {Home_Active,CreateModelFile_DATA,Fetch_Home_HelloWorld,Fetch_HomeMyApp_Data,AppContentApp_Info} from './../ACommon/action/index.js'
 
 import { Route, Redirect, Switch } from 'react-router-dom'
 import {Link,NavLink} from 'react-router-dom'
@@ -19,7 +19,6 @@ export default class Home extends React.Component{
         this.state = {
             wHeight: 0,
             wWidth:0,
-            active: 1,
         }
         this.getData = this.getData.bind(this);//我的应用数据请求
         this.handleClick = this.handleClick.bind(this);
@@ -29,7 +28,6 @@ export default class Home extends React.Component{
     async componentDidMount() { 
         //获取我的应用数据
         this.getData();
-       // console.log('000000000000000000=====>',this.props);
         //让第一个界面充满屏幕
         this.setState({ wHeight: window.innerHeight,wWidth:window.innerWidth})
          //获取屏幕高度
@@ -56,15 +54,13 @@ export default class Home extends React.Component{
         clearTimeout(this.timer);
     }
     handleClick(index) {//切换页面
-         this.setState({ active: index });
+        this.props.dispatch(Home_Active(index));
     }
 
     async handleAppClick(info) {//切换页面  //打开文件列表即进入ApppContent
-        this.setState({ active: 0 });
         this.props.dispatch(AppContentApp_Info(info));
-        this.props.dispatch(Fetch_AppContentApp_File_List(this.props.userInfo.sid,info.appName, info.appVer));
-        this.props.dispatch(Fetch_AppContentApp_Version_List(this.props.userInfo.sid,info.appName));
-        this.props.dispatch(Fetch_AppContentApp_Doamin(this.props.userInfo.sid,info.appName,this.props.userInfo.userId,this.props.userInfo.DATA_ID));
+        this.props.dispatch(Home_Active(0));
+       
     }
     
     //上传文件
@@ -76,7 +72,7 @@ export default class Home extends React.Component{
     
     render() {
         const styles = Home.styles;
-        const active = this.state.active;
+        const active = this.props.active;
         //左边模块
         const myApps = this.props.myApps?
             this.props.myApps.map((app, i) => (
