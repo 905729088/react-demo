@@ -84,8 +84,7 @@ export default class Home extends React.Component{
                     onClick={() => { this.handleAppClick({ appName: app.name, appVer: 'last' }) }}
                     key={app.iD} >{app.name}</NavLink>)
             ) : null;
-        //右边模块
-        const rightArrs = [<HomeIntroduce />, <ApiManual />, <ConnectDefaultApp />, <NewAppList handleAppClick={this.handleAppClick} />, <ConnectCreateModal />, <ConnectAppContent />, <CodeContent/>];
+       
         return (<Background  style={styles.background} height={this.state.wHeight} width={this.state.wWidth}>
             <div style={styles.left}>
                 <div style={styles.leftHeader}>

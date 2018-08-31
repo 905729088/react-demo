@@ -148,9 +148,8 @@ export const Fetch_Home_HelloWorld = (sid,userId,DATA_ID) => async (dispatch) =>
     }
     
     //用户是否已经删除过Hellow
-    const isInstall = await G.api.hGet(sid, userId, 'HELLOWORLD', "HELLOWORLD");
+    const isInstall = await G.api.hGet(sid, userId, 'HELLOWORLD', "HELLOWORLD");//判断用户是否是第一次安装  null 第一次  Install 安装中  unInstall已经卸载过
     HelloWorld = isInstall ? undefined : HelloWorld;
-    console.log('=======================>',isInstall);
     if (isInstall === null) { //安装hellow
         await G.api.hSet(sid, userId, 'HELLOWORLD', "HELLOWORLD", "Install");
         const aArr = HelloWorld.name.split('.');
