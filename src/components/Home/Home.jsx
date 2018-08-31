@@ -3,6 +3,8 @@ import NewAppList from './NewAppList/NewAppList.jsx'
  import ConnectDefaultApp from './DefaultApps/ConnectDefaultApp.jsx';
 import ConnectCreateModal from './CreateModal/ConnectCreateModal.jsx';
 import HomeIntroduce from './HomeIntroduce/HomeIntroduce.jsx';
+import Guide from './Guide/Guide.jsx';
+import Demo from './Demo/Demo.jsx';
 import ApiManual from './ApiManual/ApiManual.jsx';
 import ConnectAppContent from './../AppContent/ConnectAppContent.jsx';
 import CodeContent from './../CodeContent/ConnectCodeContent.jsx';
@@ -84,21 +86,29 @@ export default class Home extends React.Component{
                     onClick={() => { this.handleAppClick({ appName: app.name, appVer: 'last' }) }}
                     key={app.iD} >{app.name}</NavLink>)
             ) : null;
-       
+    
         return (<Background  style={styles.background} height={this.state.wHeight} width={this.state.wWidth}>
             <div style={styles.left}>
                 <div style={styles.leftHeader}>
-                    <NavLink to="/home/Introduce" style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(1)}}  >
+                    <NavLink to="/home/Introduce" style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(1)}}>
                         <img style={{ marginRight: '15px' }} src={active ==1?require('./img/ico-home-active.png'):require('./img/ico-home.png')}  alt="" />
                         <span>首页</span>
                     </NavLink>
-                    <NavLink to="/home/ApiManual"  style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(2)}} >
+                    <NavLink to="/home/Guide"  style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(2)}} >
                         <img style={{ marginRight: '15px' }} src={active ==2?require('./img/ico-text-active.png'):require('./img/ico-text.png')} alt="" />
+                        <span>开发指南</span>
+                    </NavLink>
+                    <NavLink to="/home/ApiManual"  style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(3)}} >
+                        <img style={{ marginRight: '15px' }} src={active ==3?require('./img/ico-text-active.png'):require('./img/ico-text.png')} alt="" />
                         <span>API手册</span>
                     </NavLink>
-                    <NavLink to="/home/ConnectDefaultApp" style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(3)}} >
-                        <img style={{ marginRight: '15px' }} src={active ==3?require('./img/ico-app-active.png'):require('./img/ico-app.png')} alt="" />
-                        <span>应用库</span>
+                    <NavLink to="/home/Demo"  style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(4)}} >
+                        <img style={{ marginRight: '15px' }} src={active ==4?require('./img/ico-text-active.png'):require('./img/ico-text.png')} alt="" />
+                        <span>示例DEMO</span>
+                    </NavLink>
+                    <NavLink to="/home/ConnectDefaultApp" style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(5)}} >
+                        <img style={{ marginRight: '15px' }} src={active ==5?require('./img/ico-app-active.png'):require('./img/ico-app.png')} alt="" />
+                        <span>开源库</span>
                     </NavLink>
                 </div>
                 <div style={styles.leftApps}>
@@ -126,6 +136,8 @@ export default class Home extends React.Component{
                     <Route path="/home/ConnectCreateModal" component={ConnectCreateModal} />
                     <Route path="/home/AppContent" component={ConnectAppContent} />
                     <Route path="/home/CodeContent" component={CodeContent} />
+                    <Route path="/home/Guide" component={Guide} />
+                    <Route path="/home/Demo" component={Demo} />
                     <Redirect from='/home' to='/home/Introduce' />
                 </Switch>
             </div>
