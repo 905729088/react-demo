@@ -102,6 +102,7 @@ export default class Home extends React.Component{
                         <img style={{ marginRight: '15px' }} src={active ==4?require('./img/ico-text-active.png'):require('./img/ico-text.png')} alt="" />
                         <span>示例DEMO</span>
                     </NavLink>
+
                     <NavLink to="/home/ConnectDefaultApp" style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(5)}} >
                         <img style={{ marginRight: '15px' }} src={active ==5?require('./img/ico-app-active.png'):require('./img/ico-app.png')} alt="" />
                         <span>开源库</span>
@@ -124,6 +125,7 @@ export default class Home extends React.Component{
                 </div>
             </div>
             <div  style={styles.right}>
+
                 <Switch>
                     <Route exact path="/home/Introduce" component={HomeIntroduce} />
                     <Route path="/home/ApiManual" component={ApiManual} />
@@ -220,7 +222,7 @@ Home.styles = {
     },
     right: {
         paddingTop: '1px',
-        maxWidth:'1500px',
+        maxWidth:'1800px',
         flex: '4',
     }
 }
