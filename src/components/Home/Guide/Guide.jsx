@@ -1,20 +1,19 @@
 import React from 'react'
-export default class Guide extends React.Component{
-    render(){
+import GSider from './GSider.jsx'
+export default class Guide extends React.Component {
+    render() {
         const styles = Guide.styles;
-        return(
+        return (
             <div style={styles.background}>
-                <div style={styles.header}>开发指南</div>
-                <div style={styles.line}></div>
+                <GSider></GSider>
             </div>
         )
     }
 }
-Guide.styles={
+Guide.styles = {
     background: {
         overflow: 'hidden',
-        overflowY:'auto',
-        padding:'33px 0px 33px 50px',
+        overflowY: 'auto',
         width: '100%',
         height: '100%',
         background: '#fff',
@@ -23,12 +22,12 @@ Guide.styles={
         fontSize: '28px',
         fontWeight: 'normal',
         color: '#222222',
-        fontFamily:'SimSun'
+        fontFamily: 'SimSun'
     },
     line: {
-        marginTop:'20px',
+        marginTop: '20px',
         width: '100%',
-        height:'1px',
-        backgroundColor:'#E7E8EC'
+        height: '1px',
+        backgroundColor: '#E7E8EC'
     }
 }
