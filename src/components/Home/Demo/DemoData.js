@@ -4,7 +4,7 @@ const data = [{
         type: 'user',
         list: [{
                 key: '1',
-                name: 'getVarByContext'
+            name: 'getVarByContext',
             },
             {
                 key: '2',
