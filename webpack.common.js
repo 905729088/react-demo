@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-
 module.exports = {
     entry: {
         main: [path.join(__dirname, './src/main.js')]
@@ -28,6 +27,7 @@ module.exports = {
                 use: 'url-loader?limit=8000000',
             },
 
+
         ]
     },
     optimization: {
@@ -37,7 +37,7 @@ module.exports = {
                 vendors: {
                     filename: 'vendor.[chunkhash:8].js',
                     chunks: 'initial',
-                    test: /(react|react-dom|styled-components|react-router|react-router-dom|react-codemirror|react-redux|redux)/,
+                    test: /(react|react-dom|styled-components|react-router|react-router-dom|react-codemirror|react-redux|redux|antd)/,
                 }
             }
         },

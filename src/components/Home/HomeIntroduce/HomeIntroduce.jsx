@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { AppContentApp_Info, Home_Active } from './../../ACommon/action/index.js'
+import { Tooltip } from 'antd'
 export default class HomeIntroduce extends React.Component {
     render() {
         const styles = HomeIntroduce.styles;
@@ -10,7 +11,7 @@ export default class HomeIntroduce extends React.Component {
                 <div style={styles.line}></div>
                 <div style={styles.conent}>
                     <div style={styles.conentHeader}>
-                        <p style={{ marginBottom: '10px',paddingRight:'50px' }}>&emsp;&emsp;LeirherOS致力于服务前端程序员，使前端人员快速掌握后端完成全栈开发,旨在解决传统开发方式开发成本高、周期长、复杂度高、难维护、前后端配合难的难题，实现以简单、高效、廉价、快捷的单人开发模式开发整个网站！只需花上三个小时来学完以下三个步骤的学习即可独立编写大型商业应用！</p>
+                        <p style={{ marginBottom: '10px', paddingRight: '50px' }}>&emsp;&emsp;LeirherOS致力于服务前端程序员，使前端人员快速掌握后端完成全栈开发,旨在解决传统开发方式开发成本高、周期长、复杂度高、难维护、前后端配合难的难题，实现以简单、高效、廉价、快捷的单人开发模式开发整个网站！只需花上三个小时来学完以下三个步骤的学习即可独立编写大型商业应用！</p>
                         <p>&emsp;&emsp;<b style={{ color: 'red' }}>注：</b>开发过程所需的API接口可前往<Link to='/home/ApiManual' style={{ color: 'red' }}>API文档</Link>查询，如需了解详细用法演示请前往<Link to='/home/Demo' style={{ color: 'red' }}>示例DEMO</Link>查看。</p>
                     </div>
                     <div style={styles.conentMain} >
@@ -58,13 +59,19 @@ export default class HomeIntroduce extends React.Component {
                             现在体验氢协作Saas系统：数百家中小企业使用的OA、协作管理系统
                         </div>
                         <div style={styles.conentMainItem}>
-                            1 、云盘
+                            <Tooltip title="请前往开源库克隆netDist.tar体验">
+                                <Link to='/home/ConnectDefaultApp' onClick={() => this.props.dispatch(Home_Active(5))} style={{ color: 'red' }}>1 、云盘</Link>
+                            </Tooltip>
                         </div>
                         <div style={styles.conentMainItem}>
-                            2 、文档
+                            <Tooltip title="请前往开源库克隆Markdown.tar体验">
+                                <Link to='/home/ConnectDefaultApp' onClick={() => this.props.dispatch(Home_Active(5))} style={{ color: 'red' }}>2 、文档</Link>
+                            </Tooltip>
                         </div>
                         <div style={styles.conentMainItem}>
-                            3 、脑图
+                            <Tooltip title="请前往开源库克隆mind.tar体验">
+                                <Link to='/home/ConnectDefaultApp' onClick={() => this.props.dispatch(Home_Active(5))} style={{ color: 'red' }}>3 、脑图</Link>
+                            </Tooltip>
                         </div>
                     </div>
                     <div style={styles.conentMain} >
