@@ -1,6 +1,5 @@
 import React from 'react'
-import { Menu, Icon, Switch } from 'antd';
-import 'antd/dist/antd.css'
+import { Menu, Icon } from 'antd';
 const { SubMenu } = Menu;
 import Data from './DemoData.js'
 

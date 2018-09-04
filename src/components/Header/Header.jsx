@@ -154,7 +154,7 @@ Header.styles = {
     }
 }
 const MyLogin = styled.div`
-    background:##555;
+    background: #555;
     &:hover{
         background:#333;
     }
