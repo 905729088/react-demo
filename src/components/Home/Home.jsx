@@ -91,7 +91,7 @@ export default class Home extends React.Component{
                         <span>首页</span>
                     </NavLink>
                     <NavLink to="/home/Guide"  style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(2)}} >
-                        <img style={{ marginRight: '15px' }} src={active ==2?require('./img/ico-text-active.png'):require('./img/ico-text.png')} alt="" />
+                        <img style={{ marginRight: '15px' }} src={active ==2?require('./img/guide2.png'):require('./img/guide.png')} alt="" />
                         <span>开发指南</span>
                     </NavLink>
                     <NavLink to="/home/ApiManual"  style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(3)}} >
@@ -99,7 +99,7 @@ export default class Home extends React.Component{
                         <span>API手册</span>
                     </NavLink>
                     <NavLink to="/home/Demo"  style={styles.leftItem} activeStyle={styles.leftItemActive} onClick={() => { this.handleClick(4)}} >
-                        <img style={{ marginRight: '15px' }} src={active ==4?require('./img/ico-text-active.png'):require('./img/ico-text.png')} alt="" />
+                        <img style={{ marginRight: '15px' }} src={active ==4?require('./img/demo2.png'):require('./img/demo.png')} alt="" />
                         <span>示例DEMO</span>
                     </NavLink>
 

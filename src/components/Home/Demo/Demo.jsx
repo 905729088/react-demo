@@ -27,35 +27,35 @@ Demo.styles={
         width: '100%',
         height: '100%',
         background: '#fff',
-    },
-    header: {
-        fontSize: '28px',
-        fontWeight: 'normal',
-        color: '#222222',
-        fontFamily:'SimSun'
-    },
-    line: {
-        marginTop:'20px',
-        width: '100%',
-        height:'1px',
-        backgroundColor:'#E7E8EC'
-    },
-    deleft:{
-        width:'15%',
-        backgroundColor:'white',
-        float:'left',
-    },
-    deright:{
-        width:'85%',
-        height:'500px',
-        backgroundColor:'skyblue',
-        float:'right'
-    },
-    leli:{
-        // height:'40px',
-        // backgroundColor:'blue',
-        lineHeight:'40px',
-        borderBottom:'1px solid #e7e8ec',
-        textAlign:'center'
-    }
+   },
+    // header: {
+    //     fontSize: '28px',
+    //     fontWeight: 'normal',
+    //     color: '#222222',
+    //     fontFamily:'SimSun'
+    // },
+    // line: {
+    //     marginTop:'20px',
+    //     width: '100%',
+    //     height:'1px',
+    //     backgroundColor:'#E7E8EC'
+    // },
+    // deleft:{
+    //     width:'15%',
+    //     backgroundColor:'white',
+    //     float:'left',
+    // },
+    // deright:{
+    //     width:'85%',
+    //     height:'500px',
+    //     backgroundColor:'skyblue',
+    //     float:'right'
+    // },
+    // leli:{
+    //     // height:'40px',
+    //     // backgroundColor:'blue',
+    //     lineHeight:'40px',
+    //     borderBottom:'1px solid #e7e8ec',
+    //     textAlign:'center'
+    // }
 }
