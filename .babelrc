@@ -1,12 +1,27 @@
 {
-    "presets": [
-      ["@babel/preset-env", {"targets": {
-        "chrome": "55"
-      }}],
-      "@babel/preset-react"
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "chrome": "55"
+        },
+        "modules": false
+      }
     ],
-    "plugins": [
-      "babel-plugin-kotlish-also",
-      "@babel/plugin-syntax-dynamic-import"
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "babel-plugin-kotlish-also",
+    "@babel/plugin-syntax-dynamic-import",
+    "babel-plugin-styled-components",
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "libraryDirectory": "es",
+        "style": true
+      }
     ]
-  }
+  ]
+}

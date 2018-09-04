@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import HomeIntroduce from './HomeIntroduce.jsx';
 const mapStateToProps = (state) => {
   return {
-    sid: state.LoginData.userInfo.sid,
+    userInfo: state.LoginData.userInfo,
   }
 }
   
