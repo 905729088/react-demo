@@ -14,6 +14,6 @@ Decon.styles={
         width:'100%',
         height:'100%',
         marginLeft: '230px',
-        backgroundColor:'pink'
+        // backgroundColor:'pink'
     }
 }
