@@ -59,17 +59,17 @@ export default class HomeIntroduce extends React.Component {
                             现在体验氢协作Saas系统：数百家中小企业使用的OA、协作管理系统
                         </div>
                         <div style={styles.conentMainItem}>
-                            <Tooltip title="请前往开源库克隆netDist.tar体验">
+                            <Tooltip placement="topLeft" title="请前往开源库克隆netDist.tar体验">
                                 <Link to='/home/ConnectDefaultApp' onClick={() => this.props.dispatch(Home_Active(5))} style={{ color: 'red' }}>1 、云盘</Link>
                             </Tooltip>
                         </div>
                         <div style={styles.conentMainItem}>
-                            <Tooltip title="请前往开源库克隆Markdown.tar体验">
+                            <Tooltip placement="topLeft" title="请前往开源库克隆Markdown.tar体验">
                                 <Link to='/home/ConnectDefaultApp' onClick={() => this.props.dispatch(Home_Active(5))} style={{ color: 'red' }}>2 、文档</Link>
                             </Tooltip>
                         </div>
                         <div style={styles.conentMainItem}>
-                            <Tooltip title="请前往开源库克隆mind.tar体验">
+                            <Tooltip placement="topLeft" title="请前往开源库克隆mind.tar体验">
                                 <Link to='/home/ConnectDefaultApp' onClick={() => this.props.dispatch(Home_Active(5))} style={{ color: 'red' }}>3 、脑图</Link>
                             </Tooltip>
                         </div>
