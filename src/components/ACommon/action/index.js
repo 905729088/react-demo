@@ -42,11 +42,6 @@ export const HomeMyApp_Data = (myApps) => ({
     type: HOME_MYAPP_DATA,
     myApps
 });
-export const Home_HelloWorld = (helloWorld) => ({
-    type: HOME_HELLOWORLD,
-    helloWorld
-});
-
 export const CreateModelFile_DATA = (file) => ({
     type: CREATEMODAL_FILE_DATA,
     file
@@ -158,14 +153,11 @@ export const Fetch_Home_HelloWorld = (sid,userId,DATA_ID) => async (dispatch) =>
     if (isInstall === null) { //安装hellow
         await G.api.hSet(sid, userId, 'HELLOWORLD', "HELLOWORLD", "Install");
         const aArr = HelloWorld.name.split('.');
-        const type=aArr[aArr.length-1]
+        const type = aArr[aArr.length - 1]
         await G.api.uploadApp(sid, HelloWorld.fileId, type);
+    } else { 
+        console.log('不能安装');
     }
-    dispatch({
-        type: HOME_HELLOWORLD,
-        helloWorld:HelloWorld
-      })
-
 }
   
 export const Fetch_HomeMyApp_Data = (sid) => async (dispatch) => {//请求home中我的应用数据
@@ -173,19 +165,17 @@ export const Fetch_HomeMyApp_Data = (sid) => async (dispatch) => {//请求home�
     const HelloWorld= AppArr.find((value) => { 
         return value.name == 'HelloWorld';
     });
-    
-   
     let myApps =null;
-    if (AppArr.length >= 4) {
+    if (AppArr.length > 4) {
         if (HelloWorld) {
+            AppArr = AppArr.filter(v => v.name !== 'HelloWorld')
+            console.log('删选后',myApps);
             myApps = AppArr.slice(0, 3);
             myApps.unshift(HelloWorld);
         } else { 
             myApps = AppArr.slice(0, 4);
         }
-        
     } else { 
-        
         myApps = AppArr.filter(v=>v.name!=='HelloWorld')
         myApps.unshift(HelloWorld);
     }

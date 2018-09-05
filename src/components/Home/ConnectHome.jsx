@@ -6,7 +6,6 @@ const mapStateToProps = (state) => {
     myApps: state.HomeData.myApps,
     userInfo: state.LoginData.userInfo,
     selectApp: state.AppContentData.info,
-    HelloWorld: state.HomeData.HelloWorld,
     active:state.HomeData.active,
   }}
   
