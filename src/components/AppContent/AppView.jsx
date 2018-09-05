@@ -11,7 +11,6 @@ export default class AppView extends React.Component{
     
     render(){
         const styles = AppView.styles;
-        console.log('===>',this.state.ip);
         return (<div style={styles.background}>
             <div style={{ position: 'relative' }}>
                 <img onClick={this.props.onClickCloseView} style={{position:'absolute',right:'0px',top:'0px',cursor:'pointer'}} src={require('./img/close.png')} alt=""/>

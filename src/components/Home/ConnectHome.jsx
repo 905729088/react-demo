@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import Home from './Home.jsx';
 const mapStateToProps = (state) => {
-  console.log("=====>",state);
   return {
     myApps: state.HomeData.myApps,
     userInfo: state.LoginData.userInfo,

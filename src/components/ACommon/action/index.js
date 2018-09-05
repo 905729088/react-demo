@@ -168,9 +168,9 @@ export const Fetch_HomeMyApp_Data = (sid) => async (dispatch) => {//请求home�
     let myApps =null;
     if (AppArr.length > 4) {
         if (HelloWorld) {
-            AppArr = AppArr.filter(v => v.name !== 'HelloWorld')
-            console.log('删选后',myApps);
-            myApps = AppArr.slice(0, 3);
+            let newArr = AppArr.filter(v => v.name !== 'HelloWorld')
+            console.log('删选后',newArr);
+            myApps = newArr.slice(0, 3);
             myApps.unshift(HelloWorld);
         } else { 
             myApps = AppArr.slice(0, 4);

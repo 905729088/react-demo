@@ -51,7 +51,9 @@ export default class MyAppRow extends React.Component{
     render() {
         const styles = MyAppRow.styles;
         const appInfo = this.props.appInfo
-        const appUri = `http://${G.ip}/entry?author=${appInfo.author}&app=${appInfo.name}&ver=last`;
+        const header = location.protocol;
+        const http = location.origin;
+        const appUri = `${http}/entry?author=${appInfo.author}&app=${appInfo.name}&ver=last`;
          //阿拉伯转汉字
         const index = this.SectionToChinese(this.props.index);
         let open = null;
@@ -60,7 +62,8 @@ export default class MyAppRow extends React.Component{
                 open = <a className='MyAppPreview out' href={this.state.outNetwork} target="_blank" >预览</a>
               
             } else if (this.state.innerNetwork) {
-                open = <a className='MyAppPreview inner' href={this.state.outNetwork} target="_blank" >预览</a>
+               
+                open = <a className='MyAppPreview inner' href={header+'//'+this.state.innerNetwork} target="_blank" >预览</a>
             } else {
                 open = <span onClick={() => alert('请设置域名')} className='MyAppPreview' >预览</span>
             }
