@@ -27,6 +27,21 @@ module.exports = {
             use: 'url-loader?limit=8000',
         },
         {
+            test: /\.svg?$/,
+            use: [
+                {
+                    loader: 'babel-loader',
+                },
+                {
+                    loader: '@svgr/webpack',
+                    options: {
+                        babel: false,
+                        icon: true,
+                    },
+                },
+            ],
+        },
+        {
             test: /\.less$/,
             use: [{
                 loader: 'style-loader',
