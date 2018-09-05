@@ -107,19 +107,22 @@ Login.styles = {
         minHeight:'800px'
     },
     loginHeader: {
+        height:'40px',
         fontSize: '28px',
-        textAlign:'center'
+        textAlign: 'center',
+        
     },
     loginForm: {
-        padding:'20px 45px',
+        padding: '20px 45px',
         width:' 484px',
         height: '464px',
         border:'1px solid #BBBBBB',
         boxShadow: '0px 3px 5px 0px rgba(13, 160, 86, 0.27)',
         boxSizing: 'border-box',
-        backgroundColor:'#ffffff'
+        backgroundColor: '#ffffff',
     },
     loginFormItem: {
+       
         position:'relative',
         marginTop: '30px',
         width:'100%',

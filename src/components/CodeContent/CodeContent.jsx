@@ -40,7 +40,6 @@ export default class CodeContent extends React.Component {
     async onSubmit() { 
         const content = this.editor.getCodeMirror().getValue();//获取编辑器的值
         if (this.lastCode === content) {
-            console.log('====>不更新');
             this.props.history.push('/home/AppContent/'+this.props.codeContentData.packageName)
            // this.props.history.push(`/tree/${this.props.match.params.appName}/${this.props.match.params.appVer}`)//重定向
         } else {
