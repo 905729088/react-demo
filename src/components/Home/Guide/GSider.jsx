@@ -59,7 +59,8 @@ export default class GSider extends React.Component {
           <TabPane tab="本地操作" key="2">
             <h1 style={styles.header}>本地操作有以下五点:</h1>
             <div style={styles.line}></div>
-            <div>
+            <div
+            >
                 <h3 style={styles.h3}>1、引入api包</h3>
             </div>
             <div> 
