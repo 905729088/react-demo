@@ -1,5 +1,17 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const fs = require('fs-extra');
+
+fs.copy(
+    path.resolve(__dirname, './api.html'),
+    path.resolve(__dirname, './dist/api.html')
+)
+
+fs.copy(
+    path.resolve(__dirname, './favicon.png'),
+    path.resolve(__dirname, './dist/favicon.png')
+);
+
 module.exports = {
     entry: {
         main: [path.join(__dirname, './src/main.js')]
@@ -7,7 +19,7 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, './dist'),
-        publicPath: '/',
+        //publicPath: '/',
     },
     module: {
         rules: [{
