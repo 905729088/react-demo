@@ -51,9 +51,15 @@ export default class GSider extends React.Component {
     return (
       <div style={{height:'100%'}}>
         <Tabs tabPosition={this.state.tabPosition} style={{height:'100%'}}>
-          <TabPane tab="开发环境配置" key="1">开发环境配置</TabPane>
-          <TabPane tab="本地操作" key="2">本地操作</TabPane>
-          <TabPane tab="平台操作" key="3">平台操作</TabPane>
+          <TabPane tab="开发环境配置" key="1">
+            开发环境配置
+          </TabPane>
+          <TabPane tab="本地操作" key="2">
+            本地操作
+          </TabPane>
+          <TabPane tab="平台操作" key="3">
+            平台操作
+          </TabPane>
         </Tabs>
       </div>
     );

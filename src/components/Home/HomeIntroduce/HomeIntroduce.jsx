@@ -40,9 +40,9 @@ export default class HomeIntroduce extends React.Component {
                     </div>
                     <div style={styles.conentMain} >
                         <div style={{ fontSize: '28px', color: '#8a8f99', fontFamily: 'SimSun' }}>后端学习:</div>
-                        <div style={styles.conentMainH}>
+                        {/* <div style={styles.conentMainH}>
                             现在学习Leither OS的后端功能
-                        </div>
+                        </div> */}
                         <div style={styles.conentMainItem}>
                             1 、用户鉴权
                         </div>
@@ -58,9 +58,9 @@ export default class HomeIntroduce extends React.Component {
                     </div>
                     <div style={styles.conentMain} >
                         <div style={{ fontSize: '28px', color: '#8a8f99', fontFamily: 'SimSun' }}>成站体验:</div>
-                        <div style={styles.conentMainH}>
+                        {/* <div style={styles.conentMainH}>
                             现在体验氢协作Saas系统：数百家中小企业使用的OA、协作管理系统
-                        </div>
+                        </div> */}
                         <div style={styles.conentMainItem}>
                             <Tooltip placement="topLeft" title="请前往开源库克隆netDist.tar
                             体验">
