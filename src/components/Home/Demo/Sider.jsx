@@ -1,7 +1,7 @@
 import React from 'react'
-import { Menu, Icon } from 'antd';
-// const { SubMenu } = Menu;
-const SubMenu = Menu.SubMenu;
+import { Menu } from 'antd';
+import Icon from '../../../_reset_antd/Icon/index.jsx';
+const { SubMenu } = Menu;
 import Data from './DemoData.js'
 
 export default class Sider extends React.Component {
