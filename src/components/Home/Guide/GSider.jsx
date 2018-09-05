@@ -113,7 +113,7 @@ GSider.styles = {
         // marginTop: '20px',
     },
     line: {
-        
+        marginBottom:'30px',
         width: '100%',
         height: '1px',
         backgroundColor: '#E7E8EC'
