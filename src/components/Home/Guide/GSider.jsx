@@ -48,20 +48,78 @@ export default class GSider extends React.Component {
                 }
             }
   render() {
+    const styles = GSider.styles;
     return (
-      <div style={{height:'100%'}}>
+      <div style={{height:'100%',padding: '20px 0px 33px 50px'}}>
         <Tabs tabPosition={this.state.tabPosition} style={{height:'100%'}}>
-          <TabPane tab="开发环境配置" key="1">
-            开发环境配置
+          <TabPane tab="环境配置" key="1">
+          <h1 style={styles.header}>开发环境配置:</h1>
+          <div style={styles.line}></div>
           </TabPane>
           <TabPane tab="本地操作" key="2">
-            本地操作
+            <h1 style={styles.header}>本地操作有以下五点:</h1>
+            <div style={styles.line}></div>
+            <div>
+                <h3 style={styles.h3}>1、引入api包</h3>
+            </div>
+            <div> 
+                <h3 style={styles.h3}>2、代码编辑</h3> 
+            </div>
+            <div>
+                <h3 style={styles.h3}>3、接口调用</h3>   
+            </div>
+            <div>
+                <h3 style={styles.h3}> 4、代码打包</h3>                 
+            </div>
+            <div>
+                <h3 style={styles.h3}>5、代码压缩</h3>   
+            </div>
           </TabPane>
           <TabPane tab="平台操作" key="3">
-            平台操作
+            <h1 style={styles.header}>平台操作有以下五点:</h1>
+            <div style={styles.line}></div>
+            <div>
+                <h3 style={styles.h3}>1、代码上传</h3>   
+                
+            </div>
+            <div>
+                <h3 style={styles.h3}>2、设置域名</h3>   
+                
+            </div>
+            <div>
+                <h3 style={styles.h3}>3、网站预览</h3>   
+                
+            </div>
+            <div>
+                <h3 style={styles.h3}>4、我的应用</h3>   
+                
+            </div>
+            <div>
+                <h3 style={styles.h3}>5、开源库</h3>   
+                
+            </div>
           </TabPane>
         </Tabs>
       </div>
     );
   }
+}
+GSider.styles = {
+    header: {
+        fontSize: '28px',
+        fontWeight: 'normal',
+        color: '#222222',
+        fontFamily: 'SimSun',
+        // marginTop: '20px',
+    },
+    line: {
+        
+        width: '100%',
+        height: '1px',
+        backgroundColor: '#E7E8EC'
+    },
+    h3:{
+        color: '#8a8f99', 
+        fontFamily: 'SimSun'
+    }
 }
