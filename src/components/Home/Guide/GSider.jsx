@@ -66,7 +66,7 @@ export default class GSider extends React.Component {
                     <li>
                         1、项目中用到Angular、React、Vue框架的使用以下方式导入：
                         <p style={{fontSize: '14px',marginLeft:'20px',marginTop:'20px'}}>①、使用npm载入API接口包</p>
-                        <p style={{fontSize: '14px',backgroundColor:'black',color:'white',width:'180px',textAlign:'center',marginLeft:'20px'}}>npm install @leither/l-api</p>
+                        <p style={{fontSize: '14px',marginLeft:'20px',marginTop:'20px'}}>$npm install @leither/l-api</p>
                         <p style={{fontSize: '14px',marginLeft:'20px'}}>②、初始化API接口包</p>
                         <p style={{fontSize: '14px',marginLeft:'20px'}}>initLAPI( 'http://+url+/webapi/');</p> 
                         <p style={{fontSize: '14px',marginLeft:'20px'}}>参数说明：url：leither所在服务器的ip地址，类型String；</p> 
@@ -160,11 +160,9 @@ GSider.styles = {
         height:'100%',
         fontSize: '18px',
         marginBottom:'20px'
-        // backgroundColor:'pink'
     },
     ul:{
         paddingLeft: '60px',
         color: '#8a8f99',
-        // fontSize: '14px',
     }
 }
