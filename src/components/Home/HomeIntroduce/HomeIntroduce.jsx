@@ -222,7 +222,7 @@ HomeIntroduce.styles = {
         height: '1px',
         backgroundColor: '#E7E8EC'
     }, conentHeader: {
-        width: '70%',
+        width: '90%',
         marginLeft: '25px',
         marginTop: '30px',
         fontSize: '16px',
