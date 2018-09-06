@@ -1,61 +1,49 @@
 import React from 'react'
 import Sider from './Sider.jsx';
 import Decon from './Decon.jsx'
-export default class Demo extends React.Component{
-    constructor(props) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-      }
-    handleClick(){
+import styled from 'styled-components';
+import Data from './DemoData.js';
 
+const Layout = styled.div`
+    width: 100%;
+    height: 100%;
+    > ul{
+        white-space: pre-wrap;
+        height: 48px;
+        box-shadow: 2px 2px 2px #ccc;
+        margin-top: 2px;
+    }
+    > .context{
+        margin-top: 10px;
+        height: 100%;
+        background: #fff;
+        padding: 20px;
+    }
+`
+
+export default class Demo extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            type: null,
+            name: 'Hello Word',
+            list: []
+        }
+        this.handleClick = this.handleClick.bind(this)
+    }
+    handleClick(key){
+        this.setState(Data[key])
     }
     render(){
-        const styles = Demo.styles;
         return(
-            <div style={styles.background}>
-                   <Sider></Sider>
-                   <Decon></Decon>
-            </div>
+            <Layout>
+                <Sider callback={ this.handleClick }></Sider>
+                <div className="context">
+                    <h1>{this.state.name}</h1>
+                    <p>{this.state.list.join("，")}</p>
+                    <Decon { ...this.state }></Decon>
+                </div>
+            </Layout>
         )
     }
-}
-Demo.styles={
-    background: {
-        overflow: 'hidden',
-        overflowY:'auto',
-        // padding:'33px 0px 33px 50px',
-        width: '100%',
-        height: '100%',
-        background: '#fff',
-   },
-    // header: {
-    //     fontSize: '28px',
-    //     fontWeight: 'normal',
-    //     color: '#222222',
-    //     fontFamily:'SimSun'
-    // },
-    // line: {
-    //     marginTop:'20px',
-    //     width: '100%',
-    //     height:'1px',
-    //     backgroundColor:'#E7E8EC'
-    // },
-    // deleft:{
-    //     width:'15%',
-    //     backgroundColor:'white',
-    //     float:'left',
-    // },
-    // deright:{
-    //     width:'85%',
-    //     height:'500px',
-    //     backgroundColor:'skyblue',
-    //     float:'right'
-    // },
-    // leli:{
-    //     // height:'40px',
-    //     // backgroundColor:'blue',
-    //     lineHeight:'40px',
-    //     borderBottom:'1px solid #e7e8ec',
-    //     textAlign:'center'
-    // }
 }
