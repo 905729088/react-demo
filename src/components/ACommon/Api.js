@@ -6,5 +6,6 @@ export const G = {api:null,ip:null};
 G.api = initLAPI('http://192.168.1.187' + '/webapi/');
 
 
+
 window.G = G;
 //G.currentIP
