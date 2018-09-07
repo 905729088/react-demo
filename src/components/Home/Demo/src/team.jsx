@@ -10,7 +10,9 @@ export default class Team extends React.Component{
     }
     render () {
         return <React.Fragment>
-            
+            <div className="all">
+
+            </div>
         </React.Fragment>
     }
 }

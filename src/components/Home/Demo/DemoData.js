@@ -21,8 +21,6 @@ const data = [{
         'hMGet',
         'hMClear',
         'hIncrBy',
-        'hScan',
-        'hRevScan',
     ]
 },
 {

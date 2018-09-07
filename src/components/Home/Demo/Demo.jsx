@@ -18,8 +18,8 @@ const Layout = styled.div`
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
+        flex: 1;
         margin: 10px 0;
-        height: 100%;
         background: #fff;
         padding: 15px 15px 60px;
         overflow-y: auto;

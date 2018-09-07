@@ -2,6 +2,8 @@ import React from 'react'
 
 const Com = {
     user: require('./src/user.jsx').default,
+    team: require('./src/team.jsx').default,
+    'folder-add': require('./src/folder-add.jsx').default,
 }
 
 const Decon = props => {
