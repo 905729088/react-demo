@@ -30,7 +30,7 @@ const Layout = styled.div`
             border-top: 1px double #ebedf0;
             height: 210px;
         }
-        > span{
+        > p{
             flex: 0 1 100%;
             padding-left: 2.7%;
         }
@@ -65,12 +65,12 @@ export default class Demo extends React.Component{
             <Layout>
                 <Sider callback={ this.handleClick }></Sider>
                 <div className="context">
-                    <span>
+                    <p>
                         <b>{ this.state.name }：</b>
                         { this.state.list.map( (v, i) => <Tag key={i} color={this.color[i % 7]}>
                                 { v }
                         </Tag>) }
-                    </span>
+                    </p>
                     <br/>
                     <Decon { ...this.state }></Decon>
                 </div>

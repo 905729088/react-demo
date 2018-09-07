@@ -17,7 +17,8 @@ export default class User extends React.Component {
             Success: '',
             Error: '',
             type: '',
-            sid: ''
+            sid: '',
+            name: '',
         }
         this.Pre = React.createRef()
         this.result = this.result.bind(this)
@@ -50,13 +51,11 @@ export default class User extends React.Component {
 
         if (typeof value === 'object') {
             state[key] = JSON.stringify(value, null, 2)
-            state['sid'] = value.sid
-            console.error(state);
+            state['name'] = value && value.name
+            state['sid'] = value && value.sid
         } else {
             state[key] = value
         }
-        console.error(state);
-        
         console.log(state);
         this.setState(state)
     }
@@ -77,14 +76,13 @@ export default class User extends React.Component {
         R.catch(this.error)
     }
     logout (sid) {
-        console.error(sid);
         let R = G.api.logout(sid, '')
         R.then(this.result)
         R.catch(this.error)
     }
     render () {
         return <React.Fragment>
-            <span>用户的sid：{ this.state.sid }</span>
+            <p>当前用户的sid：{ this.state.sid }</p>
             <div>
                 <span>
                     { this.state.type }返回值：
