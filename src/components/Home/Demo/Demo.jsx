@@ -23,17 +23,16 @@ const Layout = styled.div`
         background: #fff;
         padding: 15px 0 60px;
         overflow-y: auto;
-        & > div:first-child,
-        & > div:first-child + div{
-            height: 230px;
-        }
-        > form,
         > div{
             width: 45%;
             margin: 1%;
             padding: 10px;
             border-top: 1px double #ebedf0;
             height: 210px;
+        }
+        > span{
+            flex: 0 1 100%;
+            padding-left: 2.7%;
         }
         & pre{
             bottom: 0;
@@ -66,7 +65,7 @@ export default class Demo extends React.Component{
             <Layout>
                 <Sider callback={ this.handleClick }></Sider>
                 <div className="context">
-                    <span style={{ flex: '0 1 100%', paddingLeft: '2em' }}>
+                    <span>
                         <b>{ this.state.name }：</b>
                         { this.state.list.map( (v, i) => <Tag key={i} color={this.color[i % 7]}>
                                 { v }
