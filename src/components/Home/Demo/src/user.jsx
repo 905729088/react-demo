@@ -84,7 +84,7 @@ export default class User extends React.Component {
     }
     render () {
         return <React.Fragment>
-            <span>{ this.state.sid }</span>
+            <span>用户的sid：{ this.state.sid }</span>
             <div>
                 <span>
                     { this.state.type }返回值：
