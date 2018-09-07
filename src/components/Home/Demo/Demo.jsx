@@ -30,7 +30,7 @@ const Layout = styled.div`
             padding: 10px;
             float: left;
             border: 1px double #ebedf0;
-            height: 280px;
+            height: 250px;
             > span{
                 margin-bottom: 5px;
             }
@@ -40,7 +40,10 @@ const Layout = styled.div`
             margin-top: 1em;
             padding: 1em;
             background-color: #dfebf5;
-            height: 220px;
+            height: 200px;
+        }
+        & .ant-input-group-wrapper{
+            width: 50%;
         }
     }
 `

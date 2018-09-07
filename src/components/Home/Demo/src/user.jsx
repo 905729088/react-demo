@@ -18,29 +18,24 @@ export default class User extends React.Component {
             Error: '',
             type: '',
             style: {},
-            userdata: {},
         }
+        this.Pre = React.createRef()
         this.result = this.result.bind(this)
         this.error = this.error.bind(this)
         this.setUserData = this.setUserData.bind(this)
     }
-    addUserDate () {
-        const userdata = this.state.userdata;
-        userdata[this.addKey] = this.addValue
-        !this.addValue && delete userdata[this.addKey]
-        console.log(userdata);
-        this.setState({
-            userdata,
-        })
+    componentDidMount () {
+        this.Pre.current.innerHTML = `let userData = ${JSON.stringify({}, null, 2)}`
     }
     setUserData (event) {
         const target = event.target
-        const userdata = this.state.userdata;
-        target.name && (userdata[target.name] = target.value)
-        console.log(userdata);
-        this.setState({
-            userdata,
-        })
+        const userData = this.getUserData()
+        target.name && (userData[target.name] = target.value)
+        console.log(userData);
+        this.Pre.current.innerHTML = `let userData = ${JSON.stringify(userData, null, 2)}`
+    }
+    getUserData () {
+        return (new Function(this.Pre.current.innerHTML.replace(/let(\s+userData)/, 'return$1')))()
     }
     reset (key, value) {
         console.log({
@@ -64,18 +59,19 @@ export default class User extends React.Component {
     error (error) {
         this.reset('Error', error.message)
     }
-    register (userdata ) {
-        let R = G.api.register(JSON.stringify(userdata))
+    register (userData ) {
+        let R = G.api.register(JSON.stringify(userData))
         R.then(this.result)
         R.catch(this.error)
     }
-    login (userdata) {
-        let R = G.api.login(userdata.name, userdata.pass, 'byname')
+    login (userData) {
+        console.error(userData);
+        
+        let R = G.api.login(userData.name, userData.pass, 'byname')
         R.then(this.result)
         R.catch(this.error)
     }
     render () {
-        const userdata = this.state.userdata
         return <React.Fragment>
             <div>
                 <span style={{  }}>
@@ -91,24 +87,19 @@ export default class User extends React.Component {
                     onChange={ this.setUserData } addonBefore="用户名" />
                 <Input type="password" name="pass" 
                     onChange={ this.setUserData } addonBefore="密 码" />
-                    
-                <Input style={{ width: '50%' }} type="text" 
-                    onChange={ e => this.addKey = e.target.value} addonBefore="key" />
-                <Input style={{ width: '50%' }} type="text" 
-                    onChange={ e => this.addValue = e.target.value } addonBefore="value" 
-                    addonAfter={ <Button onClick={ () => this.addUserDate() } >添加</Button> } />
-                <pre style={{ height: '140px' }}>
-                    let userdata = { JSON.stringify(userdata, null, 2) }
+                <pre 
+                    contentEditable="plaintext-only" 
+                    ref={ this.Pre } >
                 </pre>
             </div>
             <div>
-                <Button onClick={ () => this.register(userdata) }>注册</Button>
+                <Button onClick={ () => this.register(this.getUserData()) }>注册</Button>
                 <pre>
                     { this.register.toLocaleString() }
                 </pre>
             </div>
             <div>
-                <Button onClick={ () => this.login(userdata) } type="primary">登陆</Button>
+                <Button onClick={ () => this.login(this.getUserData()) } type="primary">登陆</Button>
                 <pre>
                     { this.login.toLocaleString() }
                 </pre>
