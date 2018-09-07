@@ -35,7 +35,7 @@ export default class User extends React.Component {
         this.Pre.current.innerHTML = `let userData = ${JSON.stringify(userData, null, 2)}`
     }
     getUserData () {
-        return (new Function(this.Pre.current.innerHTML.replace(/let(\s+userData)/, 'return$1')))()
+        return (new Function(this.Pre.current.innerHTML.replace(/let(\s*userData)/, 'return$1')))()
     }
     reset (key, value) {
         console.log({
