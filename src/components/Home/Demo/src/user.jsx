@@ -17,7 +17,7 @@ export default class User extends React.Component {
             Success: '',
             Error: '',
             type: '',
-            style: {},
+            sid: ''
         }
         this.Pre = React.createRef()
         this.result = this.result.bind(this)
@@ -25,7 +25,10 @@ export default class User extends React.Component {
         this.setUserData = this.setUserData.bind(this)
     }
     componentDidMount () {
-        this.Pre.current.innerHTML = `let userData = ${JSON.stringify({}, null, 2)}`
+        this.Pre.current.innerHTML = `let userData = ${JSON.stringify({
+            name: 'test',
+            pass: '123',
+        }, null, 2)}`
     }
     setUserData (event) {
         const target = event.target
@@ -38,20 +41,24 @@ export default class User extends React.Component {
         return (new Function(this.Pre.current.innerHTML.replace(/let(\s+userData)/, 'return$1')))()
     }
     reset (key, value) {
-        console.log({
-            [key]: value,
-        });
         const state = {
+            key,
             Success: '',
             Error: '',
-            type: '',
-        }
-        this.setState({
-            ...state,
-            [key]: typeof value === 'object' ? JSON.stringify(value, null, 2) : value,
             type: this.status[key],
-            key,
-        })
+        }
+
+        if (typeof value === 'object') {
+            state[key] = JSON.stringify(value, null, 2)
+            state['sid'] = value.sid
+            console.error(state);
+        } else {
+            state[key] = value
+        }
+        console.error(state);
+        
+        console.log(state);
+        this.setState(state)
     }
     result (result){
         this.reset('Success', result)
@@ -65,16 +72,21 @@ export default class User extends React.Component {
         R.catch(this.error)
     }
     login (userData) {
-        console.error(userData);
-        
         let R = G.api.login(userData.name, userData.pass, 'byname')
+        R.then(this.result)
+        R.catch(this.error)
+    }
+    logout (sid) {
+        console.error(sid);
+        let R = G.api.logout(sid, '')
         R.then(this.result)
         R.catch(this.error)
     }
     render () {
         return <React.Fragment>
+            <span>{ this.state.sid }</span>
             <div>
-                <span style={{  }}>
+                <span>
                     { this.state.type }返回值：
                 </span>
                 <pre style={{ height: '180px' }}>
@@ -83,12 +95,12 @@ export default class User extends React.Component {
                 </pre>
             </div>
             <div>
-                <Input type="text" name="name" 
-                    onChange={ this.setUserData } addonBefore="用户名" />
-                <Input type="password" name="pass" 
-                    onChange={ this.setUserData } addonBefore="密 码" />
+                <Input type="text" name="name"
+                    onChange={ this.setUserData } defaultValue="test" addonBefore="用户名" />
+                <Input type="password" name="pass"
+                    onChange={ this.setUserData } defaultValue="123" addonBefore="密 码" />
                 <pre 
-                    contentEditable="plaintext-only" 
+                    contentEditable="plaintext-only"
                     ref={ this.Pre } >
                 </pre>
             </div>
@@ -105,7 +117,10 @@ export default class User extends React.Component {
                 </pre>
             </div>
             <div>
-                <Button type="danger">登出</Button>
+                <Button onClick={ () => this.logout(this.state.sid) } type="danger">登出</Button>
+                <pre>
+                    { this.logout.toLocaleString() }
+                </pre>
             </div>
             <div>
                 <h1>到底了</h1>

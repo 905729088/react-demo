@@ -3,6 +3,7 @@ import Sider from './Sider.jsx';
 import Decon from './Decon.jsx'
 import styled from 'styled-components';
 import Data from './DemoData.js';
+import { Tag } from 'antd';
 
 const Layout = styled.div`
     width: 100%;
@@ -14,10 +15,13 @@ const Layout = styled.div`
         margin-top: 2px;
     }
     > .context{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
         margin: 10px 0;
         height: 100%;
         background: #fff;
-        padding: 15px;
+        padding: 15px 0 60px;
         overflow-y: auto;
         & > div:first-child,
         & > div:first-child + div{
@@ -28,19 +32,14 @@ const Layout = styled.div`
             width: 45%;
             margin: 1%;
             padding: 10px;
-            float: left;
-            border: 1px double #ebedf0;
-            height: 250px;
-            > span{
-                margin-bottom: 5px;
-            }
+            border-top: 1px double #ebedf0;
+            height: 210px;
         }
         & pre{
             bottom: 0;
-            margin-top: 1em;
             padding: 1em;
             background-color: #dfebf5;
-            height: 200px;
+            height: 160px;
         }
         & .ant-input-group-wrapper{
             width: 50%;
@@ -57,6 +56,7 @@ export default class Demo extends React.Component{
             list: []
         }
         this.handleClick = this.handleClick.bind(this)
+        this.color = ['red', 'orange', 'violet', 'green', 'blue', 'indigo', 'purple']
     }
     handleClick(key){
         this.setState(Data[key])
@@ -66,10 +66,13 @@ export default class Demo extends React.Component{
             <Layout>
                 <Sider callback={ this.handleClick }></Sider>
                 <div className="context">
-                    <div>
-                        <h1>{this.state.name}</h1>
-                        <p>{this.state.list.join("，")}</p>
-                    </div>
+                    <span style={{ flex: '0 1 100%', paddingLeft: '2em' }}>
+                        <b>{ this.state.name }：</b>
+                        { this.state.list.map( (v, i) => <Tag key={i} color={this.color[i % 7]}>
+                                { v }
+                        </Tag>) }
+                    </span>
+                    <br/>
                     <Decon { ...this.state }></Decon>
                 </div>
             </Layout>
