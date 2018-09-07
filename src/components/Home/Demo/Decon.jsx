@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Com = {
-    user: require('./src/User.jsx').default,
+    user: require('./src/user.jsx').default,
 }
 
 const Decon = props => {

@@ -82,8 +82,8 @@ export default class User extends React.Component {
     }
     render () {
         return <React.Fragment>
-            <p>当前用户的sid：{ this.state.sid }</p>
-            <div>
+            <div className="all">当前用户的sid：{ this.state.sid }</div>
+            <div className="item">
                 <span>
                     { this.state.type }返回值：
                 </span>
@@ -92,7 +92,7 @@ export default class User extends React.Component {
                     {this.state.Error}
                 </pre>
             </div>
-            <div>
+            <div className="item">
                 <Input type="text" name="name"
                     onChange={ this.setUserData } defaultValue="test" addonBefore="用户名" />
                 <Input type="password" name="pass"
@@ -102,25 +102,25 @@ export default class User extends React.Component {
                     ref={ this.Pre } >
                 </pre>
             </div>
-            <div>
+            <div className="item">
                 <Button onClick={ () => this.register(this.getUserData()) }>注册</Button>
                 <pre>
                     { this.register.toLocaleString() }
                 </pre>
             </div>
-            <div>
+            <div className="item">
                 <Button onClick={ () => this.login(this.getUserData()) } type="primary">登陆</Button>
                 <pre>
                     { this.login.toLocaleString() }
                 </pre>
             </div>
-            <div>
+            <div className="item">
                 <Button onClick={ () => this.logout(this.state.sid) } type="danger">登出</Button>
                 <pre>
                     { this.logout.toLocaleString() }
                 </pre>
             </div>
-            <div>
+            <div className="all">
                 <h1>到底了</h1>
             </div>
         </React.Fragment>

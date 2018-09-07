@@ -17,22 +17,23 @@ const Layout = styled.div`
     > .context{
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-around;
+        justify-content: space-between;
         margin: 10px 0;
         height: 100%;
         background: #fff;
-        padding: 15px 0 60px;
+        padding: 15px 15px 60px;
         overflow-y: auto;
         > div{
+            padding: 10px;
+        }
+        > .item{
             width: 45%;
             margin: 1%;
-            padding: 10px;
             border-top: 1px double #ebedf0;
             height: 210px;
         }
-        > p{
+        > .all{
             flex: 0 1 100%;
-            padding-left: 2.7%;
         }
         & pre{
             bottom: 0;
@@ -65,12 +66,12 @@ export default class Demo extends React.Component{
             <Layout>
                 <Sider callback={ this.handleClick }></Sider>
                 <div className="context">
-                    <p>
+                    <div className="all">
                         <b>{ this.state.name }：</b>
                         { this.state.list.map( (v, i) => <Tag key={i} color={this.color[i % 7]}>
                                 { v }
                         </Tag>) }
-                    </p>
+                    </div>
                     <br/>
                     <Decon { ...this.state }></Decon>
                 </div>
