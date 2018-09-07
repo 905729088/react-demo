@@ -76,15 +76,15 @@ export default class HashRoute extends React.Component {
         return (
             <Provider store={store}>
                 <AuthContext.Provider value={this.state} >
-                    <Router >
-                        <div> 
+                    <Router>
+                        <React.Fragment> 
                             <Header />
                             <Container />
                             <Footer />
-                        </div>
+                        </React.Fragment>
                     </Router>
                 </AuthContext.Provider>
             </Provider>
-             )
-        }
+        )
+    }
 }
