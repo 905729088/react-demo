@@ -74,6 +74,7 @@ export default class Home extends React.Component{
         const styles = Home.styles;
         const active = this.props.active;
         //左边模块
+        
         const myApps = this.props.myApps?
             this.props.myApps.map((app, i) => (
                 <NavLink
