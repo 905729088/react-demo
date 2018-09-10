@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button, Input } from 'antd'
-import * as api from '../../../ACommon/Api'
-
-const G = api.G
+import { G } from '../../../ACommon/Api'
 
 export default class User extends React.Component {
     constructor(props){
@@ -19,31 +17,49 @@ export default class User extends React.Component {
             type: '',
             sid: '',
             name: '',
+            value: '',
         }
-        this.Pre = React.createRef()
+        this.G = G.api
+        const Pre = React.createRef
+        this.Pre = {
+            userdata: Pre(),
+            register: Pre(),
+            login: Pre(),
+            logout: Pre(),
+        }
         this.result = this.result.bind(this)
         this.error = this.error.bind(this)
         this.setUserData = this.setUserData.bind(this)
     }
     componentDidMount () {
-        this.Pre.current.innerHTML = `let userData = ${JSON.stringify({
+        this.Pre.userdata.current.innerHTML = `let userData = ${JSON.stringify({
             name: 'test',
             pass: '123',
         }, null, 2)}`
+
+        this.Pre.register.current.innerHTML = `let R = G.api.register(JSON.stringify(userData))\n
+        return R`
+
+        this.Pre.login.current.innerHTML = `let R = G.api.login(userData.name, userData.pass, 'byname')\n
+        return R`
+
+        this.Pre.logout.current.innerHTML = `let R = G.api.logout(Result.sid, '')\n
+        return R`
     }
     setUserData (event) {
         const target = event.target
         const userData = this.getUserData()
         target.name && (userData[target.name] = target.value)
         console.log(userData);
-        this.Pre.current.innerHTML = `let userData = ${JSON.stringify(userData, null, 2)}`
+        this.Pre.userdata.current.innerHTML = `let userData = ${JSON.stringify(userData, null, 2)}`
     }
     getUserData () {
-        return (new Function(this.Pre.current.innerHTML.replace(/let(\s+userData)/, 'return$1')))()
+        return (new Function(this.Pre.userdata.current.innerHTML.replace(/let(\s+userData)/, 'return$1')))()
     }
     reset (key, value) {
         const state = {
             key,
+            value,
             Success: '',
             Error: '',
             type: this.status[key],
@@ -65,18 +81,11 @@ export default class User extends React.Component {
     error (error) {
         this.reset('Error', error.message)
     }
-    register (userData ) {
-        let R = G.api.register(JSON.stringify(userData))
-        R.then(this.result)
-        R.catch(this.error)
-    }
-    login (userData) {
-        let R = G.api.login(userData.name, userData.pass, 'byname')
-        R.then(this.result)
-        R.catch(this.error)
-    }
-    logout (sid) {
-        let R = G.api.logout(sid, '')
+    runlApi (api) {
+        const userData = this.getUserData()
+        let fnCode = this.Pre[api].current.innerText.replace(/G\.api/g, 'G')
+        const fn = new Function('G' , 'userData', 'Result', fnCode)
+        const R = fn(this.G, userData, this.state.value)
         R.then(this.result)
         R.catch(this.error)
     }
@@ -88,7 +97,7 @@ export default class User extends React.Component {
                     { this.state.type }返回值：
                 </span>
                 <pre style={{ height: '180px' }}>
-                    {this.state.Success}
+                    {'let Result =' + this.state.Success}
                     {this.state.Error}
                 </pre>
             </div>
@@ -99,25 +108,22 @@ export default class User extends React.Component {
                     onChange={ this.setUserData } defaultValue="123" addonBefore="密 码" />
                 <pre 
                     contentEditable="plaintext-only"
-                    ref={ this.Pre } >
+                    ref={ this.Pre.userdata } >
                 </pre>
             </div>
             <div className="item">
-                <Button onClick={ () => this.register(this.getUserData()) }>注册</Button>
-                <pre>
-                    { this.register.toLocaleString() }
+                <Button onClick={ () => this.runlApi('register') }>注册</Button>
+                <pre ref={ this.Pre.register } contentEditable="plaintext-only">
                 </pre>
             </div>
             <div className="item">
-                <Button onClick={ () => this.login(this.getUserData()) } type="primary">登陆</Button>
-                <pre>
-                    { this.login.toLocaleString() }
+                <Button onClick={ () => this.runlApi('login') } type="primary">登陆</Button>
+                <pre contentEditable="plaintext-only" ref={ this.Pre.login } contentEditable="plaintext-only">
                 </pre>
             </div>
             <div className="item">
-                <Button onClick={ () => this.logout(this.state.sid) } type="danger">登出</Button>
-                <pre>
-                    { this.logout.toLocaleString() }
+                <Button onClick={ () => this.runlApi('logout') } type="danger">登出</Button>
+                <pre contentEditable="plaintext-only" ref={ this.Pre.logout } contentEditable="plaintext-only">
                 </pre>
             </div>
             <div className="all">
