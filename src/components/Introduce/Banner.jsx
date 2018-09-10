@@ -67,11 +67,11 @@ export default class Banner extends React.Component {
         return (<div style={styles.background}>
             <div style={mainStyle[tagState-1]}>
                 <div style={styles.mainItem}>
-                    <h3 style={{ fontSize: '90px' }}>Leither OS</h3>
+                    <h3 style={{ fontSize: '90px',color:'#ffffff'}}>Leither OS</h3>
                     <p style={{ fontSize: '66px' }}>用前端的方式搞定后端</p>
                 </div>
                 <div style={styles.mainItem}>
-                    <h3 style={{ fontSize: '90px' }}>Leither OS</h3>
+                    <h3 style={{ fontSize: '90px' ,color:'#ffffff'}}>Leither OS</h3>
                     <p style={{ fontSize: '66px' }}>让前端人员独立的完成各种应用开发</p>
                     <ul style={styles.mainItemUL}>
                         <li style={styles.mainItemLi}>网站</li>
@@ -81,7 +81,7 @@ export default class Banner extends React.Component {
                     </ul>
                 </div>
                 <div style={styles.mainItem}>
-                    <h3 style={{ fontSize: '90px' }}>Leither OS</h3>
+                    <h3 style={{ fontSize: '90px',color:'#ffffff' }}>Leither OS</h3>
                     <p style={{ fontSize: '66px' }}>一个高效的云服务平台</p>
                     <ul style={styles.mainItemUL}>
                         <li style={styles.mainItemLi}>鉴权</li>
