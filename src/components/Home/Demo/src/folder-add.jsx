@@ -14,26 +14,28 @@ export default class Team extends React.Component{
     }
     componentDidMount(){
         this.Pre.current.innerHTML = `
-        const fileReader = new FileReader()\n
-        fileReader.onloadend = async e => {\n
-            let tempId = await G.api.openTempFile('')\n
-            // 获取临时 id\n
-            let fileSize = await G.api.setLFileData('', tempId, 0, e.target.result)\n
-            // 上传文件\n
-            let fileId = await G.api.temp2LFile('', tempId)\n
-            // 获取文件的正式 id\n
-            data.onSuccess({\n
-                fileSize,\n
-                fileId,\n
-            })\n
-        }\n
-        fileReader.readAsArrayBuffer(data.file)\n
-        // 上传文件的二进制格式\n
-        fileReader.onerror = data.onError\n`
+        function upload(data) {\n
+            const fileReader = new FileReader()\n
+            fileReader.onloadend = async e => {\n
+                let tempId = await G.api.openTempFile('')\n
+                // 获取临时 id\n
+                let fileSize = await G.api.setLFileData('', tempId, 0, e.target.result)\n
+                // 上传文件\n
+                let fileId = await G.api.temp2LFile('', tempId)\n
+                // 获取文件的正式 id\n
+                data.onSuccess({\n
+                    fileSize,\n
+                    fileId,\n
+                })\n
+            }\n
+            fileReader.readAsArrayBuffer(data.file)\n
+            // 上传文件的二进制格式\n
+            fileReader.onerror = data.onError\n
+        }`
     }
     upload (data) {
         console.log(data);
-        let fnCode = this.Pre.current.innerText.replace(/G\.api/g, 'G')
+        let fnCode = this.Pre.current.innerText.replace(/G\.api/g, 'G') + '\nupload(data)'
         const fn = new Function('G' , 'data', fnCode)
         fn(this.G, data)
     }
