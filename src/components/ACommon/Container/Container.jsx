@@ -7,8 +7,9 @@ import {Route,Redirect,Switch} from 'react-router-dom'
 import AuthContext from '../../../auth-context.js'
 import asyncComponent from './../async-component.js'
 
-const Home = asyncComponent(() =>
-    import(/* webpackChunkName: "page-home" */'./../../Home/ConnectHome.jsx'))
+const HomeAsync = import(/* webpackChunkName: "page-home" */'./../../Home/ConnectHome.jsx')
+
+const Home = asyncComponent(() => HomeAsync)
   
 const Login = asyncComponent(() =>
     import(/* webpackChunkName: "page-login" */'./../../Login/ConnectLogin.jsx'))
