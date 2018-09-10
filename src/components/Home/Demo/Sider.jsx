@@ -1,6 +1,5 @@
 import React from 'react'
-import { Menu } from 'antd';
-import Icon from '../../../_reset_antd/Icon/index.jsx';
+import { Menu, Icon } from 'antd';
 import Data from './DemoData.js'
 
 export default class Sider extends React.Component {
