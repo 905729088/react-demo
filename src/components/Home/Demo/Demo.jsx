@@ -8,6 +8,7 @@ import { Tag } from 'antd';
 const Layout = styled.div`
     width: 100%;
     height: 100%;
+    overflow-y: scroll;
     > ul{
         white-space: pre-wrap;
         height: 48px;
@@ -22,7 +23,7 @@ const Layout = styled.div`
         margin: 10px 0;
         background: #fff;
         padding: 15px 15px 60px;
-        overflow-y: auto;
+        
         > div{
             padding: 10px;
         }
