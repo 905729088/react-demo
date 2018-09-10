@@ -7,5 +7,6 @@ G.ip = '192.168.1.187'
 G.api = initLAPI(`http://${G.ip}/webapi/`);
 
 
+
 window.G = G;
 //G.currentIP
