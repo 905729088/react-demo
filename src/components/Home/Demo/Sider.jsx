@@ -13,10 +13,11 @@ export default class Sider extends React.Component {
         this.state = {
             listItems,
         }
+        props.callback(0)
     }
     render() {
         return (
-                <Menu mode="horizontal">
+                <Menu mode="horizontal" defaultSelectedKeys={["0"]}>
                     { this.state.listItems }
                 </Menu>
         );
