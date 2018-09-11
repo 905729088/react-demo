@@ -115,7 +115,10 @@ GSider.styles = {
     h3:{
          
         fontFamily: 'SimSun',
-        marginLeft: '30px',
+        marginLeft: '-24px',
+        backgroundColor: '#019f57',
+        color:'#fff',
+        textIndent:'2em'
     },
     box1:{
         width:'100%',
