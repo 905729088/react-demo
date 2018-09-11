@@ -1,6 +1,5 @@
 import React from 'react'
-import { Menu } from 'antd';
-import Icon from '../../../_reset_antd/Icon/index.jsx';
+import { Menu, Icon } from 'antd';
 import Data from './DemoData.js'
 
 export default class Sider extends React.Component {
@@ -14,10 +13,11 @@ export default class Sider extends React.Component {
         this.state = {
             listItems,
         }
+        props.callback(0)
     }
     render() {
         return (
-                <Menu mode="horizontal">
+                <Menu mode="horizontal" defaultSelectedKeys={["0"]}>
                     { this.state.listItems }
                 </Menu>
         );
