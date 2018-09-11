@@ -78,4 +78,16 @@ module.exports = {
             template: 'index.html'
         }),
     ],
+    resolve: {
+        alias: {
+            '@ant-design/icons/lib/dist$': path.resolve(
+                __dirname,
+                './src/ant-design-reset/icons.js'
+            ),
+            '@ant-design/icons/lib': path.resolve(
+                __dirname,
+                'node_modules/@ant-design/icons/lib'
+            )
+        }
+    }
 }

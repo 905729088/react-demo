@@ -53,7 +53,6 @@ export default class MyAppRow extends React.Component{
         const appInfo = this.props.appInfo
         const header = location.protocol;
         const appUri = `${header}//${G.ip}/entry?author=${appInfo.author}&app=${appInfo.name}&ver=last`;
-        console.log('我的ip',appUri);
          //阿拉伯转汉字
         const index = this.SectionToChinese(this.props.index);
         let open = null;

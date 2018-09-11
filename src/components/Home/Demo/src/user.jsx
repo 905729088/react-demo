@@ -15,8 +15,6 @@ export default class User extends React.Component {
             Success: '',
             Error: '',
             type: '',
-            sid: '',
-            name: '',
             value: '',
         }
         this.G = G.api
@@ -67,8 +65,6 @@ export default class User extends React.Component {
 
         if (typeof value === 'object') {
             state[key] = JSON.stringify(value, null, 2)
-            state['name'] = value && value.name
-            state['sid'] = value && value.sid
         } else {
             state[key] = value
         }
@@ -91,7 +87,7 @@ export default class User extends React.Component {
     }
     render () {
         return <React.Fragment>
-            <div className="all">当前用户的sid：{ this.state.sid }</div>
+            <div className="all">当前用户的sid：{ this.state.value && this.state.value.sid }</div>
             <div className="item">
                 <span>
                     { this.state.type }返回值：
