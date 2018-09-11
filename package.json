@@ -14,7 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "@leither/l-api": "^1.0.8-beta.5",
-    "antd": "^3.8.2",
+    "antd": "^3.9.2",
     "fs-extra": "^7.0.0",
     "react": "^16.5.0",
     "react-codemirror": "^1.0.0",
