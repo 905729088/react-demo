@@ -42,7 +42,7 @@ export default class HomeIntroduce extends React.Component {
                         </div>
                         <div style={styles.conentMainItem}>
                             4 、设置域名
-                            <p style={styles.care}>1、内网设置格式为:自定义子域名(不少于7位)+vzhan.cn</p>
+                            <p style={styles.care}>1、内网设置格式为:自定义子域名(不少于7位).vzhan.cn</p>
                             <p style={styles.care}>2、外网可自行定义</p>
                         </div>
                     </div>
@@ -73,19 +73,19 @@ export default class HomeIntroduce extends React.Component {
                             <Tooltip placement="topLeft" title="请前往开源库克隆netDist.tar体验">
                                 <Link to='/home/ConnectDefaultApp' onClick={() => this.props.dispatch(Home_Active(5))} style={{ color: 'red' }}>1 、云盘</Link>
                             </Tooltip>
-                            <p style={{ color: 'black', textIndent: '6em', marginTop: '8px' }}>github源码地址:</p>
+                            <p style={{ color: 'black', textIndent: '6em', marginTop: '8px' }}>github源码地址:<a href="https://github.com/freeneth/netDist" style={{ color: '#0088cc' }} target="_blank">git@github.com:freeneth/netDist.git</a></p>
                         </div>
                         <div style={styles.conentMainItem}>
                             <Tooltip placement="topLeft" title="请前往开源库克隆Markdown.tar体验">
                                 <Link to='/home/ConnectDefaultApp' onClick={() => this.props.dispatch(Home_Active(5))} style={{ color: 'red' }}>2 、文档</Link>
                             </Tooltip>
-                            <p style={{ color: 'black', textIndent: '6em', marginTop: '8px' }}>github源码地址: <a href="https://github.com/freeneth/Markdown" style={{ color: '#0088cc' }}>git@github.com:freeneth/Markdown.git</a></p>
+                            <p style={{ color: 'black', textIndent: '6em', marginTop: '8px' }}>github源码地址: <a href="https://github.com/freeneth/Markdown" style={{ color: '#0088cc' }} target="_blank">git@github.com:freeneth/Markdown.git</a></p>
                         </div>
                         <div style={styles.conentMainItem}>
                             <Tooltip placement="topLeft" title="请前往开源库克隆mind.tar体验">
                                 <Link to='/home/ConnectDefaultApp' onClick={() => this.props.dispatch(Home_Active(5))} style={{ color: 'red' }}>3 、脑图</Link>
                             </Tooltip>
-                            <p style={{ color: 'black', textIndent: '6em', marginTop: '8px' }}>github源码地址:</p>
+                            <p style={{ color: 'black', textIndent: '6em', marginTop: '8px' }}>github源码地址:<a href="https://github.com/freeneth/mind" style={{ color: '#0088cc' }} target="_blank">git@github.com:freeneth/mind.git</a></p>
                         </div>
                     </div >
                     <div style={styles.conentMain} >
