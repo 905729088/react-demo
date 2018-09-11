@@ -35,14 +35,11 @@ export default class User extends React.Component {
             pass: '123',
         }, null, 2)}`
 
-        this.Pre.register.current.innerHTML = `let R = G.api.register(JSON.stringify(userData))\n
-        return R`
+        this.Pre.register.current.innerHTML = `let R = G.api.register(JSON.stringify(userData))\nreturn R`
 
-        this.Pre.login.current.innerHTML = `let R = G.api.login(userData.name, userData.pass, 'byname')\n
-        return R`
+        this.Pre.login.current.innerHTML = `let R = G.api.login(userData.name, userData.pass, 'byname')\nreturn R`
 
-        this.Pre.logout.current.innerHTML = `let R = G.api.logout(Result.sid, '')\n
-        return R`
+        this.Pre.logout.current.innerHTML = `let R = G.api.logout(Result.sid, '')\nreturn R`
     }
     setUserData (event) {
         const target = event.target

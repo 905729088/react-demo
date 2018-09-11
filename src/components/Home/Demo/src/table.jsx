@@ -1,25 +1,7 @@
 import React from 'react';
 import { Tag, Button, Collapse } from 'antd'
 import { G } from '../../../ACommon/Api'
-
-async function getTestUser(){
-    let user = localStorage.getItem('testUser')
-    if (user) {
-        return JSON.parse(user)
-    }
-    const name = 'test-table'
-    const pass = 'QONSLADJKA'
-    user = await G.api.login(name, pass, 'byname').catch(console.error)
-    if (!user) {
-        await G.api.register(JSON.stringify({
-            name,
-            pass,
-        }))
-        user = await G.api.login(name, pass, 'byname')
-    }
-    localStorage.setItem('testUser', JSON.stringify(user))
-    return user
-}
+import { getTestUser } from './TestlApi.js'
 
 export default class Table extends React.Component{
     constructor(props){
@@ -37,33 +19,29 @@ export default class Table extends React.Component{
         {
             tit: 'add',
             pre: `
-            let info = {\n
-                id: '001',\n
-                name: '杯子',\n
-                parice: 12.00,\n
-            }\n
-            let R = G.api.hSet(userData.sid, '', '__TEST_TABLE_DATA__', info.id, JSON.stringify(info))\n
-            return R`
+let info = {
+    id: '001',
+    name: '杯子',
+    parice: 12.00,
+}
+let R = G.api.hSet(userData.sid, '', '__TEST_TABLE_DATA__', info.id, JSON.stringify(info))
+return R`
         }, {
             tit: 'del',
-            pre: `
-            let R = G.api.hDel(userData.sid, '', '__TEST_TABLE_DATA__', '001')\n
-            return R`
+            pre: `let R = G.api.hDel(userData.sid, '', '__TEST_TABLE_DATA__', '001')\nreturn R`
         }, {
             tit: 'set',
             pre: `
-            let info = {\n
-                id: '001',\n
-                name: '杯子',\n
-                parice: 15.00,\n
-            }\n
-            let R = G.api.hSet(userData.sid, '', '__TEST_TABLE_DATA__', info.id, JSON.stringify(info))\n
-            return R`
+let info = {
+    id: '001',
+    name: '杯子',
+    parice: 15.00,
+}
+let R = G.api.hSet(userData.sid, '', '__TEST_TABLE_DATA__', info.id, JSON.stringify(info))
+return R`
         }, {
             tit: 'get',
-            pre: `
-            let R = G.api.hGetAll(userData.sid, '', '__TEST_TABLE_DATA__')\n
-            return R`
+            pre: `let R = G.api.hGetAll(userData.sid, '', '__TEST_TABLE_DATA__')\nreturn R`
         }]
         const listText = ['增', '删', '改', '查']
         const listItems = list.map((v, i) => <Collapse.Panel key={ i }
